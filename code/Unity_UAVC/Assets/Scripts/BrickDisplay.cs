@@ -4,9 +4,14 @@
 public class BrickDisplay : MonoBehaviour
 {
     public BrickManager _brickManager;
+    private string _json;
 
-    private void Awake()
+    private void Update()
     {
-        _brickManager.InitBlocks(transform, !Application.isPlaying);
+        var json = _brickManager.GetJSON();
+        if (json.Equals(_json))
+            return;
+        _json = json;
+        _brickManager.InitBlocks(_json, transform, !Application.isPlaying);
     }
 }
