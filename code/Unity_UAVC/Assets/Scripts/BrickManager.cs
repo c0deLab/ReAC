@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
-using UnityEditor;
 
 public class BrickManager : MonoBehaviour
 {
-    private List<Brick> _bricks = new List<Brick>();
+    private List<Brick> _bricks;
     private const string _jsonPath = "Assets/Scripts/blueprint.json";
 
     public List<Brick> UnAssigned
@@ -17,22 +14,20 @@ public class BrickManager : MonoBehaviour
         get { return _bricks.Where(b => !b.Assigned).ToList(); }
     }
 
-    public void InitBlocks(Transform parent, bool setActive)
+    public List<Brick> InitBlocks(Transform parent, bool setActive)
     {
-        foreach (Transform child in parent) {
-            DestroyImmediate(child.gameObject);
-        }
-        int childCount = parent.childCount;
-        for (int i = childCount - 1; i>=0; i--)
+        for (int i = parent.childCount - 1; i >= 0; i--)
             DestroyImmediate(parent.transform.GetChild(i).gameObject);
-                
+
+        List<Brick> bricks = new List<Brick>();
         using (StreamReader r = new StreamReader(_jsonPath))
         {
             string json = r.ReadToEnd();
             var d = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(json);
             foreach (var dict in d)
             {
-                var targetPos = new Vector3(float.Parse(dict["transX"]), float.Parse(dict["transY"]), float.Parse(dict["transZ"]));
+                var targetPos = new Vector3(float.Parse(dict["transX"]), float.Parse(dict["transY"]),
+                    float.Parse(dict["transZ"]));
                 var targetRot = new Vector3(0, float.Parse(dict["rotY"]), 0);
                 var prefab = Resources.Load($"Prefabs/Blocks/{dict["tag"]}", typeof(GameObject)) as GameObject;
                 prefab.transform.position = targetPos;
@@ -40,15 +35,18 @@ public class BrickManager : MonoBehaviour
                 prefab.tag = dict["tag"];
                 var brickObj = Instantiate(prefab, parent);
                 var brick = brickObj.AddComponent<Brick>();
-                brick.InitAttribute(0,targetPos,targetRot, parent);  
+                brick.InitAttribute(0, targetPos, targetRot, parent);
                 brickObj.SetActive(setActive);
-                _bricks.Add(brick);
+                bricks.Add(brick);
             }
         }
+
+        return bricks;
     }
+
     private void Awake()
     {
-        InitBlocks(transform, false);
+        _bricks = InitBlocks(transform, false);
     }
 
     public List<string> GetTags()
@@ -58,6 +56,7 @@ public class BrickManager : MonoBehaviour
         {
             tags.Add(brick.tag);
         }
+
         return tags.ToList();
     }
 
@@ -65,5 +64,4 @@ public class BrickManager : MonoBehaviour
     {
         return UnAssigned[0];
     }
-
 }

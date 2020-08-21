@@ -7,6 +7,6 @@ public class BrickDisplay : MonoBehaviour
 
     private void Awake()
     {
-        _brickManager.InitBlocks(transform, true);
+        _brickManager.InitBlocks(transform, !Application.isPlaying);
     }
 }
