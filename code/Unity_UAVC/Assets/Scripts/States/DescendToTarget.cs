@@ -11,7 +11,7 @@ internal class DescendToTarget : IState
 
     public void Tick()
     {
-        _drone.GoToPos(_drone.target.transform.position);
+        _drone.GoToPos(_drone.target.TargetPosition);
     }
 
     public void OnEnter()
@@ -24,7 +24,8 @@ internal class DescendToTarget : IState
     {
         // _drone.GetComponent<Rigidbody>().useGravity = false;
         _drone.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        _drone.target.SetActive(true);
+        _drone.target.ResetParent();
+        _drone.target.gameObject.SetActive(true);
         _drone.target = null;
     }
 }

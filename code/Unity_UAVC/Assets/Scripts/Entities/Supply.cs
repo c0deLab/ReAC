@@ -84,15 +84,9 @@ public class Supply : MonoBehaviour
                 .FirstOrDefault();
         }
 
-        if (supply != null)
-        {
-            supply.AssignDrone(drone);
-            drone.supply = supply;
-        }
-        else
-        {
-            // All supplies are full
-        }
+        if (supply == null) return;
+        supply.AssignDrone(drone);
+        drone.supply = supply;
     }
 
     public bool IsDroneCurrent(Drone drone)

@@ -21,6 +21,6 @@ internal class DescendToSupply: IState
 
     public void OnExit()
     {
-        _drone.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        // _drone.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 }

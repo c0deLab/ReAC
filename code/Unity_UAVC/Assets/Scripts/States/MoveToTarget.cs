@@ -11,7 +11,7 @@ internal class MoveToTarget: IState
 
     public void Tick()
     {
-        _drone.GoToPos(new Vector3(_drone.target.transform.position.x, _drone.transHeight, _drone.target.transform.position.z));
+        _drone.GoToPos(new Vector3(_drone.target.TargetPosition.x, _drone.transHeight, _drone.target.TargetPosition.z));
     }
 
     public void OnEnter()

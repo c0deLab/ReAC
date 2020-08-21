@@ -4,7 +4,7 @@ using Random = UnityEngine.Random;
 
 public class Drone : MonoBehaviour
 {
-    [HideInInspector] public GameObject target;
+    [HideInInspector] public Brick target;
     [HideInInspector] public Supply supply;
     [HideInInspector] public Transform dock;
     [HideInInspector] public Manager manager;

@@ -3,52 +3,59 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 public class Manager : MonoBehaviour
 {
-    // public GameObject prefabDrone;
-    // public GameObject supply;
-    // public GameObject target;
     [SerializeField] private Transform Supplies;
     [SerializeField] private Transform Drones;
-    [SerializeField] private Transform Blocks;
+    [SerializeField] private Transform Bricks;
 
-    private List<Transform> unbuilt = new List<Transform>();
-    private List<Drone> drones = new List<Drone>();
+    // private List<Transform> unbuilt = new List<Transform>();
+    private BrickManager _brickManager;
+    private List<Drone> _drones = new List<Drone>();
     private Dictionary<string, List<Supply>> supplyTags = new Dictionary<string, List<Supply>>();
 
     private void Awake()
     {
-        foreach (Transform block in Blocks)
-        {
-            unbuilt.Add(block);
-            block.gameObject.SetActive(false);
-            if (!supplyTags.ContainsKey(block.tag))
-                supplyTags.Add(block.tag, new List<Supply>());
-        }
+        // foreach (Transform block in Blocks)
+        // {
+        //     unbuilt.Add(block);
+        //     block.gameObject.SetActive(false);
+        //     if (!supplyTags.ContainsKey(block.tag))
+        //         supplyTags.Add(block.tag, new List<Supply>());
+        // }
+        //
+        // Debug.Log($"Initialized {unbuilt.Count} block(s) in {supplyTags.Count} type(s)");
 
-        Debug.Log($"Initialized {unbuilt.Count} block(s) in {supplyTags.Count} type(s)");
+        _brickManager = Bricks.GetComponent<BrickManager>();
+        // foreach (var t in _brickManager.GetTags())
+        // {
+            // supplyTags.Add(t, new List<Supply>());
+        // }
 
         foreach (Transform drone in Drones)
         {
             var droneScript = drone.gameObject.GetComponent<Drone>();
             droneScript.manager = this;
-            drones.Add(droneScript);
+            _drones.Add(droneScript);
         }
 
-        Debug.Log($"Initialized {drones.Count} drone(s)");
+        Debug.Log($"Initialized {_drones.Count} drone(s)");
 
         foreach (Transform supplyTrans in Supplies)
         {
-            var t = (from Transform supplyChild in supplyTrans where supplyTags.ContainsKey(supplyChild.tag) select supplyChild.tag).FirstOrDefault();
+            var t = (from Transform supplyChild in supplyTrans where _brickManager.GetTags().Contains(supplyChild.tag) select supplyChild.tag).FirstOrDefault();
             if (t == null)
             {
-                Debug.LogWarning($"There is no corresponding brick tag in Supply: {supplyTrans.gameObject}");
+                Debug.LogWarning($"There is no corresponding brick tag in Supply: {supplyTrans.name}");
                 continue;
             }
             var supply = supplyTrans.GetComponent<Supply>();
             supply.type = t;
+            if (!supplyTags.ContainsKey(t))
+                supplyTags.Add(t, new List<Supply>());
             supplyTags[t].Add(supply);
             Debug.Log($"Initialized {supply.name}, type: {supply.type}, waitings: {supply.CountAvailable()-1}");
         }
@@ -60,7 +67,11 @@ public class Manager : MonoBehaviour
 
     private void Start()
     {
-        foreach (var drone in drones)
+        foreach (var brick in _brickManager.UnAssigned)
+        {
+            brick.gameObject.SetActive(false);
+        }
+        foreach (var drone in _drones)
         {
             drone.running = true;
         }
@@ -68,17 +79,22 @@ public class Manager : MonoBehaviour
 
     public void AssignTarget(Drone drone)
     {
-        if (unbuilt.Count == 0)
+        if (_brickManager.UnAssigned.Count == 0)
         {
             drone.target = null;
             return;
         }
 
-        drone.target = unbuilt[0].gameObject;
-        Supply.AssignSupply(drone, supplyTags[drone.target.tag]);
+        var brick = _brickManager.GetNextBrick();
+        // drone.target = brick;
+        Debug.Assert(drone.target == null);
+        Supply.AssignSupply(drone, supplyTags[brick.tag]);
         if (drone.supply != null)
-            unbuilt.RemoveAt(0);
-        else
-            drone.target = null;
+        {
+            brick.Assigned = true;
+            drone.target = brick;
+        }
+        // else
+            // drone.target = null;
     }
 }
