@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class PIDController
 {
@@ -6,11 +7,13 @@ public class PIDController
     private float Kp;
     private float Ki;
     private float Kd;
-    
-    private Vector3 totalPosError = new Vector3( 0, 0, 0 );
-    private Vector3 lastPosError = new Vector3( 0, 0, 0 );
-    private Vector3 totalVelError = new Vector3( 0, 0, 0 );
-    private Vector3 lastVelError = new Vector3( 0, 0, 0 );
+
+    private Vector3 totalPosError;
+    private Vector3 lastPosError;
+    private Vector3 totalVelError;
+    private Vector3 lastVelError;
+    private Vector3 totalRotError;
+    private Vector3 lastRotError;
 
     public PIDController(Rigidbody rb, float kp, float ki, float kd)
     {
@@ -37,6 +40,18 @@ public class PIDController
         rb.AddForce( force + gravity, ForceMode.Acceleration);
     }
 
+    public void TurnToRot(float targetRotY)
+    {
+        var dif = targetRotY - rb.transform.rotation.eulerAngles.y;
+        if (Mathf.Abs(dif) > 360 - Mathf.Abs(dif))
+        {
+            if (dif > 0)
+                dif = Mathf.Abs(dif) - 360;
+            else
+                dif = 360 - Mathf.Abs(dif);
+        }
+    }
+
     private Vector3 PIDUpdate(Vector3 error, float clampVal, ref Vector3 lastError, ref Vector3 totalError)
     {
         totalError += error * Time.deltaTime;
@@ -44,16 +59,16 @@ public class PIDController
         var cd = Kd * (error - lastPosError) / Time.fixedDeltaTime;
         var ci = totalPosError * Ki;
         lastError = error;
-        // Debug.Log($"before clamp {cp+cd+ci},");
-        // Debug.Log($"after clamp {Vector3.ClampMagnitude(cp+cd+ci, clampVal)},");
         return Vector3.ClampMagnitude(cp+cd+ci, clampVal);
     }
 
     public void ResetError()
     {
-        totalPosError = new Vector3( 0, 0, 0 );
-        lastPosError = new Vector3( 0, 0, 0 );
-        totalVelError = new Vector3( 0, 0, 0 );
-        lastVelError = new Vector3( 0, 0, 0 );
+        totalPosError = new Vector3();
+        lastPosError = new Vector3();
+        totalVelError = new Vector3();
+        lastVelError = new Vector3();
+        totalRotError = new Vector3();
+        lastRotError = new Vector3();
     }
 }

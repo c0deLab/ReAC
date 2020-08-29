@@ -7,6 +7,7 @@ TagManager:
   - Waiting
   - Brick1
   - Brick2
+  - Drone
   layers:
   - Default
   - TransparentFX

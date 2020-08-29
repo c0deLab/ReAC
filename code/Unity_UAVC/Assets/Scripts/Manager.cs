@@ -12,28 +12,13 @@ public class Manager : MonoBehaviour
     [SerializeField] private Transform Drones;
     [SerializeField] private Transform Bricks;
 
-    // private List<Transform> unbuilt = new List<Transform>();
     private BrickManager _brickManager;
     private List<Drone> _drones = new List<Drone>();
     private Dictionary<string, List<Supply>> supplyTags = new Dictionary<string, List<Supply>>();
 
     private void Awake()
     {
-        // foreach (Transform block in Blocks)
-        // {
-        //     unbuilt.Add(block);
-        //     block.gameObject.SetActive(false);
-        //     if (!supplyTags.ContainsKey(block.tag))
-        //         supplyTags.Add(block.tag, new List<Supply>());
-        // }
-        //
-        // Debug.Log($"Initialized {unbuilt.Count} block(s) in {supplyTags.Count} type(s)");
-
         _brickManager = Bricks.GetComponent<BrickManager>();
-        // foreach (var t in _brickManager.GetTags())
-        // {
-            // supplyTags.Add(t, new List<Supply>());
-        // }
 
         foreach (Transform drone in Drones)
         {
@@ -86,7 +71,6 @@ public class Manager : MonoBehaviour
         }
 
         var brick = _brickManager.GetNextBrick();
-        // drone.target = brick;
         Debug.Assert(drone.target == null);
         Supply.AssignSupply(drone, supplyTags[brick.tag]);
         if (drone.supply != null)
@@ -94,7 +78,5 @@ public class Manager : MonoBehaviour
             brick.Assigned = true;
             drone.target = brick;
         }
-        // else
-            // drone.target = null;
     }
 }

@@ -32,7 +32,6 @@ public class Drone : MonoBehaviour
         dock = new GameObject($"Dock {name}").transform;
         dock.position = transform.position;
         dock.rotation = transform.rotation;
-        // dock.parent = transform;
     }
 
     private void Start()
