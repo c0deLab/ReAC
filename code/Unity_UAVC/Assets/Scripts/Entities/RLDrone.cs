@@ -1,11 +1,8 @@
-﻿using System;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Sensors.Reflection;
-using UnityEngine.Assertions;
 
 public class RLDrone : Agent
 {
@@ -20,13 +17,19 @@ public class RLDrone : Agent
 
     private float _tiltSmoothTime = 1.0f;
     private Vector2 _tiltVelocity;
-    
-    public float ColliderRangeMin = 0.25f;
-    public float ColliderRangeMax = 0.40f;
 
-    
-    [Observable]
-    public float ColliderRadius => _collider.radius;
+    [Range(0.2f, 0.5f)] public float colliderRangeMin = 0.25f;
+    [Range(0.2f, 0.5f)] public float colliderRangeMax = 0.40f;
+    public float maxTranslateVelocity = 1.0f;
+    public float maxRotateVelocity = 1.0f;
+    public float rewardDistScalar = 2.5f;
+    public float rewardReach = 10.0f;
+    public float rewardCollide = -15.0f;
+
+    private Vector3 _lastObsPos;
+    private bool _collided;
+
+    [Observable] public float ColliderRadius => _collider.radius;
 
     private void Awake()
     {
@@ -48,9 +51,9 @@ public class RLDrone : Agent
             if (collider.bounds.Intersects(child.GetComponent<Collider>().bounds)) return true;
             var childTarget = child.Find("Target");
             if (childTarget != null && Vector3.Distance(collider.transform.position, childTarget.position) <=
-                ColliderRangeMax * 2) return true;
+                colliderRangeMax * 2) return true;
         }
-        
+
         return false;
     }
 
@@ -60,61 +63,76 @@ public class RLDrone : Agent
         var respawnRange = _envConfig.RespawnDistance;
         var targetDist = _envConfig.TargetDistance;
         _rigidbody.velocity = new Vector3();
-        _collider.radius = Random.Range(ColliderRangeMin, ColliderRangeMax);
+        _collider.radius = Random.Range(colliderRangeMin, colliderRangeMax);
 
-        bool CheckInit() => Vector3.Distance(transform.position, Vector3.zero) <= _envConfig.RespawnDistance && !IsCollided(_collider);
+        bool CheckInit() => Vector3.Distance(transform.position, Vector3.zero) <= _envConfig.RespawnDistance &&
+                            !IsCollided(_collider);
+
         do
         {
-            transform.position = new Vector3(Random.Range(-respawnRange, respawnRange), 0, Random.Range(-respawnRange, respawnRange));
+            transform.position = new Vector3(Random.Range(-respawnRange, respawnRange), 0,
+                Random.Range(-respawnRange, respawnRange));
             Physics.SyncTransforms();
         } while (!CheckInit());
 
         var targetCollider = _target.gameObject.AddComponent<SphereCollider>();
-        targetCollider.radius = ColliderRangeMax;
+        targetCollider.radius = colliderRangeMax;
         targetCollider.isTrigger = true;
 
         bool CheckTargetInit()
         {
             var distOrigin = Vector3.Distance(Vector3.zero, _target.position);
             var distDrone = Vector3.Distance(transform.position, _target.position);
-            return (distOrigin <= respawnRange) && (distDrone > targetDist - 1) && (distDrone < targetDist + 1) && !IsCollided(targetCollider);
+            return (distOrigin <= respawnRange) && (distDrone > targetDist - 1) && (distDrone < targetDist + 1) &&
+                   !IsCollided(targetCollider);
         }
 
         do
         {
-            _target.position = new Vector3(Random.Range(-respawnRange, respawnRange), 0, Random.Range(-respawnRange, respawnRange));
+            _target.position = new Vector3(Random.Range(-respawnRange, respawnRange), 0,
+                Random.Range(-respawnRange, respawnRange));
             Physics.SyncTransforms();
         } while (!CheckTargetInit());
+
         DestroyImmediate(targetCollider);
 
+        _lastObsPos = transform.position;
+        _collided = false;
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        sensor.AddObservation(transform.position);
-        sensor.AddObservation(_rigidbody.velocity);
+        CalcAward();
+        sensor.AddObservation(Vector3.Distance(_target.position, transform.position));
+        sensor.AddObservation(CalcTargetAngle() / 180f);
+        sensor.AddObservation(transform.InverseTransformDirection(_rigidbody.velocity).z);
+        sensor.AddObservation(_rigidbody.angularVelocity.y);
     }
 
     public override void OnActionReceived(float[] vectorAction)
     {
-        GoAtVel(new Vector3(vectorAction[0], vectorAction[1], vectorAction[2]));
+        _rigidbody.velocity = transform.forward * vectorAction[0] * maxTranslateVelocity;
+        _rigidbody.angularVelocity = new Vector3(0, vectorAction[1] * maxRotateVelocity, 0);
     }
 
-    private void FixedUpdate()
+    private void CalcAward()
     {
-        HandleTilt();
-    }
-
-    public void GoToPos(Vector3 targetPos)
-    {
-        if (_lastGoToPos != targetPos)
+        if (_collided)
         {
-            _controller.ResetError();
-            _lastGoToPos = targetPos;
+            SetReward(rewardCollide);
+            Debug.Log($"{name} terminated");
+            EndEpisode();
+            return;
         }
 
-        _naviTarget.position = targetPos;
-        _controller.GoToPos(targetPos, 1.5f);
+        var lastDist = Vector3.Distance(_lastObsPos, _target.position);
+        var curDist = Vector3.Distance(transform.position, _target.position);
+        AddReward(rewardDistScalar * (lastDist - curDist));
+        _lastObsPos = transform.position;
+
+        if (Vector3.Distance(transform.position, _target.position) <= _envConfig.ReachTargetTolerance)
+            AddReward(rewardReach);
+
     }
 
     public void GoAtVel(Vector3 targetVel)
@@ -128,16 +146,14 @@ public class RLDrone : Agent
         _controller.GoAtVel(targetVel);
     }
 
-    private void HandleTilt()
+    private float CalcTargetAngle()
     {
-        var pitch = -_rigidbody.velocity.x * 10;
-        var roll = _rigidbody.velocity.z * 10;
-
-        _tiltVelocity.x = Mathf.Lerp(_tiltVelocity.x, pitch, Time.deltaTime * 10);
-        _tiltVelocity.y = Mathf.Lerp(_tiltVelocity.y, roll, Time.deltaTime * 10);
-
-        var rot = Quaternion.Euler(_tiltVelocity.y, 0, _tiltVelocity.x);
-        _rigidbody.MoveRotation(rot);
+        var targetLocal = transform.InverseTransformPoint(_target.position);
+        return Mathf.Atan2(targetLocal.x, targetLocal.z) * Mathf.Rad2Deg;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        _collided = true;
+    }
 }
