@@ -15,7 +15,6 @@ internal class Idle: IState
 
     public void OnEnter()
     {
-        Debug.Log("idle");
         _drone.Stop();
         _drone.GetComponent<Animator>().SetBool("isFlying", false);
     }

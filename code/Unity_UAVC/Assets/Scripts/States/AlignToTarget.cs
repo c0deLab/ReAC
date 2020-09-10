@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-internal class AlignSupply: IState
+internal class AlignToTarget: IState
 {
     private readonly Drone _drone;
 
-    public AlignSupply(Drone drone)
+    public AlignToTarget(Drone drone)
     {
         _drone = drone;
     }
@@ -15,10 +15,11 @@ internal class AlignSupply: IState
 
     public void OnEnter()
     {
-        Debug.Log("align supply");
+        _drone.TurnToRot(_drone.target.TargetRotation.y);
     }
 
     public void OnExit()
     {
+        _drone.Stop();
     }
 }

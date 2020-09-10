@@ -15,7 +15,6 @@ internal class WaitAtSupply: IState
 
     public void OnEnter()
     {
-        Debug.Log("wait at supply");
         _drone.Stop();
     }
 

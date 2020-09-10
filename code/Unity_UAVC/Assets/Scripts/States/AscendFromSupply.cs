@@ -16,16 +16,14 @@ internal class AscendFromSupply: IState
 
     public void OnEnter()
     {
-        Debug.Log("ascend from supply");
         var brick = _drone.target;
-        brick.transform.position = _drone.transform.position;
         brick.transform.parent = _drone.transform;
         brick.gameObject.SetActive(true);
     }
 
     public void OnExit()
     {
-        // _drone.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        _drone.Stop();
         _drone.supply.ExitCurrentDrone();
         _drone.supply = null;
     }

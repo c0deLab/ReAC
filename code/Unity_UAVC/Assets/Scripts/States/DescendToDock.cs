@@ -11,16 +11,15 @@ internal class DescendToDock: IState
 
     public void Tick()
     {
-        _drone.GoToPos(_drone.dock.transform.position);
     }
 
     public void OnEnter()
     {
-        Debug.Log("descend to dock");
+        _drone.GoToPos(_drone.dock.position);
     }
 
     public void OnExit()
     {
-        // _drone.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        _drone.Stop();
     }
 }

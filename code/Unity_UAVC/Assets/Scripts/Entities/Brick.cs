@@ -20,8 +20,11 @@ public class Brick : MonoBehaviour
         _parent = parent;
     }
 
-    public void ResetParent()
+    public void Build()
     {
         transform.parent = _parent;
+        transform.position = TargetPosition;
+        transform.rotation = Quaternion.Euler(TargetRotation);
+        gameObject.SetActive(true);
     }
 }

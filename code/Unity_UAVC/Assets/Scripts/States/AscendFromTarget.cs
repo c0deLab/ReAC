@@ -16,11 +16,10 @@ internal class AscendFromTarget: IState
 
     public void OnEnter()
     {
-        Debug.Log("ascend from target");
     }
 
     public void OnExit()
     {
-        _drone.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        _drone.Stop();
     }
 }

@@ -76,6 +76,8 @@ public class Manager : MonoBehaviour
         if (drone.supply != null)
         {
             brick.Assigned = true;
+            brick.transform.position = drone.supply.transform.position;
+            brick.transform.rotation = drone.supply.transform.rotation;
             drone.target = brick;
         }
     }

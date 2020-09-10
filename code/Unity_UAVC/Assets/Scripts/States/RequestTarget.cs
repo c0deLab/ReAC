@@ -18,7 +18,6 @@ internal class RequestTarget: IState
 
     public void OnEnter()
     {
-        Debug.Log("request target");
     }
 
     public void OnExit()

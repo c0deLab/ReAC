@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-internal class DescendToTarget : IState
+internal class AlignToSupply: IState
 {
     private readonly Drone _drone;
 
-    public DescendToTarget(Drone drone)
+    public AlignToSupply(Drone drone)
     {
         _drone = drone;
     }
@@ -15,13 +15,11 @@ internal class DescendToTarget : IState
 
     public void OnEnter()
     {
-        _drone.GoToPos(_drone.target.TargetPosition);
+        _drone.TurnToRot(_drone.supply.GetDroneAssignedTransform(_drone).rotation.y);
     }
 
     public void OnExit()
     {
         _drone.Stop();
-        _drone.target.Build();
-        _drone.target = null;
     }
 }

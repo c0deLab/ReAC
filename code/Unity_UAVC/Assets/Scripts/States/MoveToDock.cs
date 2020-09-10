@@ -11,17 +11,16 @@ internal class MoveToDock: IState
 
     public void Tick()
     {
-        var pos = _drone.dock.transform.position;
-        _drone.GoToPos(new Vector3(pos.x, _drone.transHeight, pos.z));
     }
 
     public void OnEnter()
     {
-        Debug.Log("move to dock");
+        var pos = _drone.dock.position;
+        _drone.GoToPos(new Vector3(pos.x, _drone.transHeight, pos.z));
     }
 
     public void OnExit()
     {
-        _drone.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        _drone.Stop();
     }
 }

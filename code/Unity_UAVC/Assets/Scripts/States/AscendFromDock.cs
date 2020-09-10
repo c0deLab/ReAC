@@ -11,16 +11,15 @@ internal class AscendFromDock: IState
 
     public void Tick()
     {
-        _drone.GoToPos(new Vector3(_drone.dock.transform.position.x, _drone.transHeight, _drone.dock.transform.position.z));
     }
 
     public void OnEnter()
     {
-        Debug.Log("ascend from dock");
+        _drone.GoToPos(new Vector3(_drone.dock.position.x, _drone.transHeight, _drone.dock.position.z));
     }
 
     public void OnExit()
     {
-        _drone.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        _drone.Stop();
     }
 }

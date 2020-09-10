@@ -6,7 +6,7 @@ using UnityEngine;
 public class BrickManager : MonoBehaviour
 {
     private List<Brick> _bricks;
-    private const string _jsonPath = "Assets/Scripts/blueprint.json";
+    private const string _jsonPath = "Models/blueprint";
 
     public List<Brick> UnAssigned
     {
@@ -15,7 +15,7 @@ public class BrickManager : MonoBehaviour
 
     public string GetJSON()
     {
-        return Resources.Load<TextAsset>("Models/blueprint").text;
+        return Resources.Load<TextAsset>(_jsonPath).text;
     }
 
     public List<Brick> InitBlocks(string json, Transform parent, bool setActive)
