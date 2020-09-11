@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-internal class WaitAtSupply: IState
+﻿internal class WaitAtSupply: IState
 {
     private readonly Drone _drone;
 

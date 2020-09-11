@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-internal class Idle: IState
+internal class Resupply: IState
 {
     private readonly Drone _drone;
 
-    public Idle(Drone drone)
+    public Resupply(Drone drone)
     {
         _drone = drone;
     }
@@ -15,8 +15,9 @@ internal class Idle: IState
 
     public void OnEnter()
     {
-        _drone.Stop();
-        _drone.GetComponent<Animator>().SetBool("isFlying", false);
+        var brick = _drone.target;
+        brick.transform.parent = _drone.transform;
+        brick.gameObject.SetActive(true);
     }
 
     public void OnExit()

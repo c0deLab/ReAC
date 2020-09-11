@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-internal class AlignToTarget: IState
+﻿internal class AlignToTarget: IState
 {
     private readonly Drone _drone;
 

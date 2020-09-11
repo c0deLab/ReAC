@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-internal class AlignToSupply: IState
+﻿internal class AlignToSupply: IState
 {
     private readonly Drone _drone;
 

@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-internal class AscendFromDock: IState
+internal class AscendToTransHeight: IState
 {
     private readonly Drone _drone;
 
-    public AscendFromDock(Drone drone)
+    public AscendToTransHeight(Drone drone)
     {
         _drone = drone;
     }
@@ -15,7 +15,7 @@ internal class AscendFromDock: IState
 
     public void OnEnter()
     {
-        _drone.GoToPos(new Vector3(_drone.dock.position.x, _drone.transHeight, _drone.dock.position.z));
+        _drone.GoToPos(new Vector3(_drone.transform.position.x, _drone.transHeight, _drone.transform.position.z));
     }
 
     public void OnExit()

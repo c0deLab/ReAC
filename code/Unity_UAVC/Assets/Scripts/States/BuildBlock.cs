@@ -1,8 +1,8 @@
-﻿internal class DescendToTarget : IState
+﻿internal class BuildBlock: IState
 {
     private readonly Drone _drone;
 
-    public DescendToTarget(Drone drone)
+    public BuildBlock(Drone drone)
     {
         _drone = drone;
     }
@@ -13,11 +13,11 @@
 
     public void OnEnter()
     {
-        _drone.GoToPos(_drone.target.TargetPosition);
+        _drone.target.Build();
+        _drone.target = null;
     }
 
     public void OnExit()
     {
-        _drone.Stop();
     }
 }

@@ -15,9 +15,8 @@ public class Drone : MonoBehaviour
     private PIDController _controller;
     private PositionRotation _naviTarget;
 
-    private float _posTolerance = 0.01f;
-    private float _rotTolerance = 0.05f;
-    private float _tiltSmoothTime = 1.0f;
+    private const float PosTolerance = 0.01f;
+    private const float RotTolerance = 0.05f;
     private Vector3 _tiltVelocity;
 
     private void Awake()
@@ -33,34 +32,46 @@ public class Drone : MonoBehaviour
     {
         var idle = new Idle(this);
         var moveToSupply = new MoveToSupply(this);
+        var moveToSupplyWait = new MoveToSupplyWait(this);
         var moveToTarget = new MoveToTarget(this);
         var moveToDock = new MoveToDock(this);
         var requestTarget = new RequestTarget(this, manager);
         var descendToTarget = new DescendToTarget(this);
         var ascendFromTarget = new AscendFromTarget(this);
         var descendToSupply = new DescendToSupply(this);
+        var descendToSupplyWait = new DescendToSupplyWait(this);
         var ascendFromSupply = new AscendFromSupply(this);
         var descendToDock = new DescendToDock(this);
-        var ascendFromDock = new AscendFromDock(this);
+        var ascendToTransHeight = new AscendToTransHeight(this);
         var waitAtSupply = new WaitAtSupply(this);
         var alignToSupply = new AlignToSupply(this);
+        var alignToSupplyWait = new AlignToSupplyWait(this);
         var alignToTarget = new AlignToTarget(this);
+        var resupply = new Resupply(this);
+        var buildBlock = new BuildBlock(this);
 
         _stateMachine.AddTransition(idle, requestTarget, IsRunning());
-        _stateMachine.AddTransition(requestTarget, ascendFromDock, AssignedTarget());
-        _stateMachine.AddTransition(ascendFromDock, moveToSupply, ReachedTransHeight());
+        _stateMachine.AddTransition(requestTarget, ascendToTransHeight, AssignedTarget());
         _stateMachine.AddTransition(requestTarget, moveToDock, WaitForTarget());
         _stateMachine.AddTransition(moveToDock, descendToDock, ReachedDockXZ());
         _stateMachine.AddTransition(descendToDock, idle, ReachedDock());
+        _stateMachine.AddTransition(ascendToTransHeight, moveToSupply, ReachedNaviPosSupplyIsCurrent());
+        _stateMachine.AddTransition(ascendToTransHeight, moveToSupplyWait, ReachedNaviPosSupplyIsWait());
         _stateMachine.AddTransition(moveToSupply, alignToSupply, ReachedSupplyXZ());
+        _stateMachine.AddTransition(moveToSupplyWait, moveToSupply, ReachedNaviPosSupplyIsCurrent());
+        _stateMachine.AddTransition(moveToSupplyWait, alignToSupplyWait, ReachedNaviPosSupplyIsWait());
+        _stateMachine.AddTransition(alignToSupplyWait, moveToSupply, ReachedNaviRotSupplyIsCurrent());
+        _stateMachine.AddTransition(alignToSupplyWait, descendToSupplyWait, ReachedNaviRotSupplyIsWait());
         _stateMachine.AddTransition(alignToSupply, descendToSupply, ReachedSupplyRot());
-        _stateMachine.AddTransition(descendToSupply, waitAtSupply, ReachedSupplyWait());
+        _stateMachine.AddTransition(descendToSupplyWait, waitAtSupply, ReachedSupplyWait());
         _stateMachine.AddTransition(waitAtSupply, moveToSupply, WaitForSupplyFinished());
-        _stateMachine.AddTransition(descendToSupply, ascendFromSupply, ReachedSupplyPos());
+        _stateMachine.AddTransition(descendToSupply, resupply, ReachedSupplyPosIsCurrent());
+        _stateMachine.AddTransition(resupply, ascendFromSupply, ResupplyCompleted());
         _stateMachine.AddTransition(ascendFromSupply, moveToTarget, ReachedTransHeight());
         _stateMachine.AddTransition(moveToTarget, alignToTarget, ReachedTargetXZ());
         _stateMachine.AddTransition(alignToTarget, descendToTarget, ReachedTargetRot());
-        _stateMachine.AddTransition(descendToTarget, ascendFromTarget, ReachedTarget());
+        _stateMachine.AddTransition(descendToTarget, buildBlock, ReachedTarget());
+        _stateMachine.AddTransition(buildBlock, ascendFromTarget, BuildCompleted());
         _stateMachine.AddTransition(ascendFromTarget, requestTarget, ReachedTransHeight());
         _stateMachine.SetState(idle);
 
@@ -68,14 +79,13 @@ public class Drone : MonoBehaviour
         Func<bool> AssignedTarget() => () => target != null;
 
         Func<bool> WaitForTarget() => () =>
-            target == null && Vector3.Distance(transform.position, dock.position) > _posTolerance;
+            target == null && Vector3.Distance(transform.position, dock.position) > PosTolerance;
 
         Func<bool> ReachedSupplyXZ() => () => target != null && supply != null
                                                              && ReachedNaviTargetPos();
 
         Func<bool> ReachedSupplyWait() => () => target != null && supply != null
-                                                               && ReachedNaviTargetPos()
-                                                               && supply.IsDroneWaiting(this);
+                                                               && ReachedNaviTargetPos();
 
         Func<bool> WaitForSupplyFinished() => () => target != null && supply != null
                                                                    && supply.IsDroneCurrent(this);
@@ -84,10 +94,19 @@ public class Drone : MonoBehaviour
         Func<bool> ReachedTargetRot() => () => target != null && ReachedNaviTargetRot();
         Func<bool> ReachedDockXZ() => () => target == null && ReachedNaviTargetPos();
         Func<bool> ReachedTarget() => () => target != null && ReachedNaviTargetPos();
-        Func<bool> ReachedSupplyPos() => () => supply != null && ReachedNaviTargetPos();
+        Func<bool> ResupplyCompleted() => () => true;
+        Func<bool> BuildCompleted() => () => true;
+        Func<bool> ReachedSupplyPosIsCurrent() => () =>
+            supply != null && ReachedNaviTargetPos() && supply.IsDroneCurrent(this) &&
+            Vector3.Distance(transform.position, supply.GetDroneAssignedTransform(this).position) <= PosTolerance;
+
         Func<bool> ReachedSupplyRot() => () => supply != null && ReachedNaviTargetRot();
-        Func<bool> ReachedDock() => () => ReachedNaviTargetPos();
-        Func<bool> ReachedTransHeight() => () => Mathf.Abs(transform.position.y - transHeight) < _posTolerance;
+        Func<bool> ReachedDock() => ReachedNaviTargetPos;
+        Func<bool> ReachedTransHeight() => () => Mathf.Abs(transform.position.y - transHeight) < PosTolerance;
+        Func<bool> ReachedNaviPosSupplyIsCurrent() => () => supply.IsDroneCurrent(this) && ReachedNaviTargetPos();
+        Func<bool> ReachedNaviPosSupplyIsWait() => () => supply.IsDroneWaiting(this) && ReachedNaviTargetPos();
+        Func<bool> ReachedNaviRotSupplyIsCurrent() => () => supply.IsDroneCurrent(this) && ReachedNaviTargetRot();
+        Func<bool> ReachedNaviRotSupplyIsWait() => () => supply.IsDroneWaiting(this) && ReachedNaviTargetRot();
     }
 
 
@@ -131,12 +150,12 @@ public class Drone : MonoBehaviour
 
     private bool ReachedNaviTargetPos()
     {
-        return Vector3.Distance(transform.position, _naviTarget.position) <= _posTolerance;
+        return Vector3.Distance(transform.position, _naviTarget.position) <= PosTolerance;
     }
 
     private bool ReachedNaviTargetRot()
     {
-        return Mathf.Abs(transform.eulerAngles.y - _naviTarget.rotation.eulerAngles.y) <= _rotTolerance;
+        return Mathf.Abs(transform.eulerAngles.y - _naviTarget.rotation.eulerAngles.y) <= RotTolerance;
     }
 
     public struct PositionRotation

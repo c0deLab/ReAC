@@ -15,7 +15,6 @@ internal class MoveToSupply : IState
 
     public void OnEnter()
     {
-        Debug.Log("move to supply");
         var pos = _drone.supply.GetDroneAssignedTransform(_drone).position;
         _drone.GoToPos(new Vector3(pos.x, _drone.transform.position.y, pos.z));
     }

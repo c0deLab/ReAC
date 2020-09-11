@@ -22,5 +22,9 @@ internal class RequestTarget: IState
 
     public void OnExit()
     {
+        if (_drone.target != null)
+        {
+            _drone.GetComponent<Animator>().SetBool("isFlying",true);
+        }
     }
 }

@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-internal class DescendToDock: IState
+﻿internal class DescendToDock: IState
 {
     private readonly Drone _drone;
 

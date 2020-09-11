@@ -1,21 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
-using Object = System.Object;
-
-// Notes
-// 1. What a finite state machine is
-// 2. Examples where you'd use one
-//     AI, Animation, Game State
-// 3. Parts of a State Machine
-//     States & Transitions
-// 4. States - 3 Parts
-//     Tick - Why it's not Update()
-//     OnEnter / OnExit (setup & cleanup)
-// 5. Transitions
-//     Separated from states so they can be re-used
-//     Easy transitions from any state
 
 public class StateMachine
 {
@@ -91,4 +75,6 @@ public class StateMachine
 
       return null;
    }
+
+   public IState CurrentState => _currentState;
 }

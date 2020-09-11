@@ -8,6 +8,7 @@ TagManager:
   - Brick1
   - Brick2
   - Drone
+  - Brick3
   layers:
   - Default
   - TransparentFX

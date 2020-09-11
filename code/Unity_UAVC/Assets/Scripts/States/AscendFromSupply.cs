@@ -16,9 +16,6 @@ internal class AscendFromSupply: IState
 
     public void OnEnter()
     {
-        var brick = _drone.target;
-        brick.transform.parent = _drone.transform;
-        brick.gameObject.SetActive(true);
     }
 
     public void OnExit()
