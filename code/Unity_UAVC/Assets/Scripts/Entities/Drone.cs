@@ -50,6 +50,7 @@ public class Drone : MonoBehaviour
         var waitAtSupply = new WaitAtSupply(this);
         var alignToSupply = new AlignToSupply(this);
         var alignToSupplyWait = new AlignToSupplyWait(this);
+        var alignToDock = new AlignToDock(this);
         var alignToTarget = new AlignToTarget(this);
         var resupply = new Resupply(this);
         var buildBlock = new BuildBlock(this);
@@ -57,7 +58,8 @@ public class Drone : MonoBehaviour
         _stateMachine.AddTransition(idle, requestTarget, IsRunning());
         _stateMachine.AddTransition(requestTarget, ascendToTransHeight, AssignedTarget());
         _stateMachine.AddTransition(requestTarget, moveToDock, WaitForTarget());
-        _stateMachine.AddTransition(moveToDock, descendToDock, ReachedDockXZ());
+        _stateMachine.AddTransition(moveToDock, alignToDock, ReachedDockXZ());
+        _stateMachine.AddTransition(alignToDock, descendToDock, ReachedDockRot());
         _stateMachine.AddTransition(descendToDock, idle, ReachedDock());
         _stateMachine.AddTransition(ascendToTransHeight, moveToSupply, ReachedNaviPosSupplyIsCurrent());
         _stateMachine.AddTransition(ascendToTransHeight, moveToSupplyWait, ReachedNaviPosSupplyIsWait());
@@ -101,10 +103,12 @@ public class Drone : MonoBehaviour
         Func<bool> ReachedTarget() => () => target != null && ReachedNaviTargetPos();
         Func<bool> ResupplyCompleted() => () => true;
         Func<bool> BuildCompleted() => () => true;
+
         Func<bool> ReachedSupplyPosIsCurrent() => () =>
             supply != null && ReachedNaviTargetPos() && supply.IsDroneCurrent(this) &&
             Vector3.Distance(transform.position, supply.GetDroneAssignedTransform(this).position) <= PosTolerance;
 
+        Func<bool> ReachedDockRot() => () => ReachedNaviTargetRot();
         Func<bool> ReachedSupplyRot() => () => supply != null && ReachedNaviTargetRot();
         Func<bool> ReachedDock() => ReachedNaviTargetPos;
         Func<bool> ReachedTransHeight() => () => Mathf.Abs(transform.position.y - TransHeight) < PosTolerance;

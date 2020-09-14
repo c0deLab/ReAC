@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-internal class AscendFromSupply: IState
+internal class AscendFromSupply : IState
 {
     private readonly Drone _drone;
 
@@ -11,7 +11,8 @@ internal class AscendFromSupply: IState
 
     public void Tick()
     {
-        _drone.GoToPos(new Vector3(_drone.supply.transform.position.x, Drone.TransHeight, _drone.supply.transform.position.z));
+        _drone.GoToPos(new Vector3(_drone.supply.transform.position.x, Drone.TransHeight,
+            _drone.supply.transform.position.z));
         _drone.ConsumeBattery();
     }
 

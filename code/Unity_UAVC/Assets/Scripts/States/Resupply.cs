@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-internal class Resupply: IState
+internal class Resupply : IState
 {
     private readonly Drone _drone;
 

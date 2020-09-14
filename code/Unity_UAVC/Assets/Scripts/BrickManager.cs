@@ -76,7 +76,7 @@ public class BrickManager : MonoBehaviour
 
     public Brick GetNextBrick()
     {
-        return UnAssigned.FirstOrDefault(b=>b.IsBuildable());
+        return UnAssigned.FirstOrDefault(b => b.IsBuildable());
     }
 }
 

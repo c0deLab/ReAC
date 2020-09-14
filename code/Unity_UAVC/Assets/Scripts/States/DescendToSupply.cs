@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-internal class DescendToSupply: IState
+internal class DescendToSupply : IState
 {
     private readonly Drone _drone;
 

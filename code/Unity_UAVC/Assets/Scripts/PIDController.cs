@@ -31,7 +31,7 @@ public class PIDController
             this.maxVal = maxVal;
         }
     }
-    
+
     internal struct PID
     {
         public float kp;
@@ -45,13 +45,13 @@ public class PIDController
             this.kd = kd;
         }
     }
-    
+
 
     public PIDController(Rigidbody rb)
     {
         this.rb = rb;
-        _posPID = new PID(1.5f, 0.0f,0.1f);
-        _rotPID = new PID(0.08f, 0.0f,0.005f);
+        _posPID = new PID(1.5f, 0.0f, 0.1f);
+        _rotPID = new PID(0.08f, 0.0f, 0.005f);
     }
 
     public void Tick()
@@ -71,16 +71,16 @@ public class PIDController
         var error = param.target - rb.position;
         var targetVel = PIDUpdate(error, param.maxVal, _posPID, ref lastError, ref totalError);
         var force = (targetVel - rb.velocity) / Time.fixedDeltaTime;
-        var gravity = rb.useGravity ? (Physics.gravity * -1) : new Vector3( 0, 0, 0 );
-        rb.AddForce( force + gravity, ForceMode.Acceleration);
+        var gravity = rb.useGravity ? (Physics.gravity * -1) : new Vector3(0, 0, 0);
+        rb.AddForce(force + gravity, ForceMode.Acceleration);
     }
 
     private void GoAtVelUpdate(Vector3 targetVel)
     {
         var error = targetVel - rb.velocity;
         var force = PIDUpdate(error, Mathf.Infinity, _posPID, ref lastError, ref totalError);
-        var gravity = rb.useGravity ? (Physics.gravity * -1) : new Vector3( 0, 0, 0 );
-        rb.AddForce( force + gravity, ForceMode.Acceleration);
+        var gravity = rb.useGravity ? (Physics.gravity * -1) : new Vector3(0, 0, 0);
+        rb.AddForce(force + gravity, ForceMode.Acceleration);
     }
 
     public void TurnToRot(float targetRotY, float maxSpeed)
@@ -112,7 +112,7 @@ public class PIDController
         var cd = pid.kd * (error - lastError) / Time.fixedDeltaTime;
         var ci = totalError * pid.ki;
         lastError = error;
-        return Vector3.ClampMagnitude(cp+cd+ci, clampVal);
+        return Vector3.ClampMagnitude(cp + cd + ci, clampVal);
     }
 
     private void ResetError()

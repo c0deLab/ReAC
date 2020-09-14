@@ -1,4 +1,4 @@
-﻿internal class BuildBlock: IState
+﻿internal class BuildBlock : IState
 {
     private readonly Drone _drone;
 

@@ -1,8 +1,8 @@
-﻿internal class DescendToDock : IState
+﻿internal class AlignToDock : IState
 {
     private readonly Drone _drone;
 
-    public DescendToDock(Drone drone)
+    public AlignToDock(Drone drone)
     {
         _drone = drone;
     }
@@ -14,7 +14,7 @@
 
     public void OnEnter()
     {
-        _drone.GoToPos(_drone.dock.position);
+        _drone.TurnToRot(_drone.dock.rotation.eulerAngles.y);
     }
 
     public void OnExit()

@@ -1,4 +1,4 @@
-﻿internal class AlignToSupply: IState
+﻿internal class AlignToSupply : IState
 {
     private readonly Drone _drone;
 
@@ -14,7 +14,7 @@
 
     public void OnEnter()
     {
-        _drone.TurnToRot(_drone.supply.GetDroneAssignedTransform(_drone).rotation.y);
+        _drone.TurnToRot(_drone.supply.GetDroneAssignedTransform(_drone).rotation.eulerAngles.y);
     }
 
     public void OnExit()

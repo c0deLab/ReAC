@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-internal class MoveToTarget: IState
+internal class MoveToTarget : IState
 {
     private readonly Drone _drone;
 

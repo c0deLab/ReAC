@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-internal class Idle: IState
+internal class Idle : IState
 {
     private readonly Drone _drone;
 

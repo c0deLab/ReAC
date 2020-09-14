@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-internal class AscendFromTarget: IState
+internal class AscendFromTarget : IState
 {
     private readonly Drone _drone;
 
