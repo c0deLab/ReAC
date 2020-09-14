@@ -22,19 +22,19 @@ public class RLDrone : Agent
     [Range(0.2f, 0.5f)] public float colliderRangeMax = 0.40f;
     public float maxTranslateVelocity = 1.0f;
     public float maxRotateVelocity = 1.0f;
-    public float rewardDistScalar = 2.5f;
-    public float rewardReach = 10.0f;
+    public float rewardReach = 15.0f;
     public float rewardCollide = -15.0f;
 
     private Vector3 _lastObsPos;
     private bool _collided;
 
     [Observable] public float ColliderRadius => _collider.radius;
+    public float rewardDistScalar = 2.5f;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _controller = new PIDController(_rigidbody, 1.5f, 0.0f, 0.1f);
+        // _controller = new PIDController(_rigidbody, 1.5f, 0.0f, 0.1f);
         _naviTarget = new GameObject("NaviTarget").transform;
         _naviTarget.parent = transform;
         _target = new GameObject("Target").transform;
@@ -135,16 +135,16 @@ public class RLDrone : Agent
 
     }
 
-    public void GoAtVel(Vector3 targetVel)
-    {
-        if (_lastGoAtVel != targetVel)
-        {
-            _controller.ResetError();
-            _lastGoAtVel = targetVel;
-        }
-
-        _controller.GoAtVel(targetVel);
-    }
+    // public void GoAtVel(Vector3 targetVel)
+    // {
+    //     if (_lastGoAtVel != targetVel)
+    //     {
+    //         _controller.ResetError();
+    //         _lastGoAtVel = targetVel;
+    //     }
+    //
+    //     _controller.GoAtVel(targetVel);
+    // }
 
     private float CalcTargetAngle()
     {

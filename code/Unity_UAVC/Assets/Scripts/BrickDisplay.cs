@@ -8,10 +8,10 @@ public class BrickDisplay : MonoBehaviour
 
     private void Update()
     {
-        var json = _brickManager.GetJSON();
+        var json = BrickManager.GetJSON();
         if (json.Equals(_json))
             return;
         _json = json;
-        _brickManager.InitBlocks(_json, transform, !Application.isPlaying);
+        BrickManager.InitBlocks(_json, transform, !Application.isPlaying);
     }
 }

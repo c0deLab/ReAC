@@ -1,21 +1,21 @@
-﻿using UnityEngine;
-
-internal class AlignSupply: IState
+﻿internal class BuildBlock : IState
 {
     private readonly Drone _drone;
 
-    public AlignSupply(Drone drone)
+    public BuildBlock(Drone drone)
     {
         _drone = drone;
     }
 
     public void Tick()
     {
+        _drone.ConsumeBattery();
     }
 
     public void OnEnter()
     {
-        Debug.Log("align supply");
+        _drone.target.Build();
+        _drone.target = null;
     }
 
     public void OnExit()

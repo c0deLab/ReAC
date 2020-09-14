@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-internal class DescendToTarget : IState
+﻿internal class DescendToTarget : IState
 {
     private readonly Drone _drone;
 
@@ -11,21 +9,16 @@ internal class DescendToTarget : IState
 
     public void Tick()
     {
-        _drone.GoToPos(_drone.target.TargetPosition);
+        _drone.ConsumeBattery();
     }
 
     public void OnEnter()
     {
-        Debug.Log("descend to target");
-        // _drone.GetComponent<Rigidbody>().useGravity = true;
+        _drone.GoToPos(_drone.target.TargetPosition);
     }
 
     public void OnExit()
     {
-        // _drone.GetComponent<Rigidbody>().useGravity = false;
-        _drone.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        _drone.target.ResetParent();
-        _drone.target.gameObject.SetActive(true);
-        _drone.target = null;
+        _drone.Stop();
     }
 }

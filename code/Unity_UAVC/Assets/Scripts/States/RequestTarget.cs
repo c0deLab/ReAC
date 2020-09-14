@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-internal class RequestTarget: IState
+internal class RequestTarget : IState
 {
     private readonly Drone _drone;
     private readonly Manager _manager;
@@ -18,10 +18,13 @@ internal class RequestTarget: IState
 
     public void OnEnter()
     {
-        Debug.Log("request target");
     }
 
     public void OnExit()
     {
+        if (_drone.target != null)
+        {
+            _drone.GetComponent<Animator>().SetBool("isFlying", true);
+        }
     }
 }

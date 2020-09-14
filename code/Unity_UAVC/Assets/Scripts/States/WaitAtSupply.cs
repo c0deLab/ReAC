@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-internal class WaitAtSupply: IState
+﻿internal class WaitAtSupply : IState
 {
     private readonly Drone _drone;
 
@@ -11,11 +9,11 @@ internal class WaitAtSupply: IState
 
     public void Tick()
     {
+        _drone.ConsumeBattery();
     }
 
     public void OnEnter()
     {
-        Debug.Log("wait at supply");
         _drone.Stop();
     }
 

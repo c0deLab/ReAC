@@ -1,8 +1,10 @@
-﻿internal class DescendToDock : IState
+﻿using UnityEngine;
+
+internal class Resupply : IState
 {
     private readonly Drone _drone;
 
-    public DescendToDock(Drone drone)
+    public Resupply(Drone drone)
     {
         _drone = drone;
     }
@@ -14,11 +16,12 @@
 
     public void OnEnter()
     {
-        _drone.GoToPos(_drone.dock.position);
+        var brick = _drone.target;
+        brick.transform.parent = _drone.transform;
+        brick.gameObject.SetActive(true);
     }
 
     public void OnExit()
     {
-        _drone.Stop();
     }
 }

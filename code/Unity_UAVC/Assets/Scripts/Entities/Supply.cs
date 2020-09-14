@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class Supply : MonoBehaviour
 {
@@ -105,7 +103,6 @@ public class Supply : MonoBehaviour
             return transform;
         if (IsDroneWaiting(drone))
             return waitQueue.Where(t => t.Item1 == drone).Select(t => t.Item2).First();
-        // return waitList.Where(x => x.Value == drone).Select(x => x.Key).First();
         throw new Exception("Drone is not assigned to this supply");
     }
 

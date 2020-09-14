@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-internal class Idle: IState
+internal class Idle : IState
 {
     private readonly Drone _drone;
 
@@ -11,17 +12,16 @@ internal class Idle: IState
 
     public void Tick()
     {
+        _drone.ChargeBattery();
     }
 
     public void OnEnter()
     {
-        Debug.Log("idle");
         _drone.Stop();
         _drone.GetComponent<Animator>().SetBool("isFlying", false);
     }
 
     public void OnExit()
     {
-        _drone.GetComponent<Animator>().SetBool("isFlying",true);
     }
 }

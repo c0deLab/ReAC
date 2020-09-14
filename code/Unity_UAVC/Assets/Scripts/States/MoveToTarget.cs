@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-internal class MoveToTarget: IState
+internal class MoveToTarget : IState
 {
     private readonly Drone _drone;
 
@@ -11,16 +11,16 @@ internal class MoveToTarget: IState
 
     public void Tick()
     {
-        _drone.GoToPos(new Vector3(_drone.target.TargetPosition.x, _drone.transHeight, _drone.target.TargetPosition.z));
+        _drone.ConsumeBattery();
     }
 
     public void OnEnter()
     {
-        Debug.Log("move to target");
+        _drone.GoToPos(new Vector3(_drone.target.TargetPosition.x, Drone.TransHeight, _drone.target.TargetPosition.z));
     }
 
     public void OnExit()
     {
-        _drone.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        _drone.Stop();
     }
 }
