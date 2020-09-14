@@ -7,14 +7,18 @@ public class Drone : MonoBehaviour
     [HideInInspector] public Supply supply;
     [HideInInspector] public Manager manager;
     [HideInInspector] public bool running;
-    [HideInInspector] public float transHeight = 2.5f;
     public PositionRotation dock;
+    private float _battery = 100f;
 
     private StateMachine _stateMachine;
     private Rigidbody _rigidbody;
     private PIDController _controller;
     private PositionRotation _naviTarget;
 
+    public const float TransHeight = 2.5f;
+    private const float BatteryConsume = 0.005f;
+    private const float BatteryCharge = 0.01f;
+    private const float BatteryThreshold = 30f;
     private const float PosTolerance = 0.01f;
     private const float RotTolerance = 0.05f;
     private Vector3 _tiltVelocity;
@@ -73,9 +77,10 @@ public class Drone : MonoBehaviour
         _stateMachine.AddTransition(descendToTarget, buildBlock, ReachedTarget());
         _stateMachine.AddTransition(buildBlock, ascendFromTarget, BuildCompleted());
         _stateMachine.AddTransition(ascendFromTarget, requestTarget, ReachedTransHeight());
+        _stateMachine.AddTransition(ascendFromTarget, moveToDock, BatteryLow());
         _stateMachine.SetState(idle);
 
-        Func<bool> IsRunning() => () => running;
+        Func<bool> IsRunning() => () => running && IsCharged();
         Func<bool> AssignedTarget() => () => target != null;
 
         Func<bool> WaitForTarget() => () =>
@@ -102,7 +107,8 @@ public class Drone : MonoBehaviour
 
         Func<bool> ReachedSupplyRot() => () => supply != null && ReachedNaviTargetRot();
         Func<bool> ReachedDock() => ReachedNaviTargetPos;
-        Func<bool> ReachedTransHeight() => () => Mathf.Abs(transform.position.y - transHeight) < PosTolerance;
+        Func<bool> ReachedTransHeight() => () => Mathf.Abs(transform.position.y - TransHeight) < PosTolerance;
+        Func<bool> BatteryLow() => () => ReachedTransHeight()() && _battery <= BatteryThreshold;
         Func<bool> ReachedNaviPosSupplyIsCurrent() => () => supply.IsDroneCurrent(this) && ReachedNaviTargetPos();
         Func<bool> ReachedNaviPosSupplyIsWait() => () => supply.IsDroneWaiting(this) && ReachedNaviTargetPos();
         Func<bool> ReachedNaviRotSupplyIsCurrent() => () => supply.IsDroneCurrent(this) && ReachedNaviTargetRot();
@@ -132,6 +138,21 @@ public class Drone : MonoBehaviour
     public void Stop()
     {
         _rigidbody.velocity = new Vector3();
+    }
+
+    public void ChargeBattery()
+    {
+        _battery = Mathf.Min(_battery + BatteryCharge, 100);
+    }
+
+    public void ConsumeBattery()
+    {
+        _battery = Mathf.Max(0, _battery - BatteryConsume);
+    }
+
+    private bool IsCharged()
+    {
+        return _battery > 99;
     }
 
     private void HandleTilt()

@@ -11,6 +11,7 @@ internal class DescendToSupply: IState
 
     public void Tick()
     {
+        _drone.ConsumeBattery();
     }
 
     public void OnEnter()

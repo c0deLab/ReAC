@@ -11,6 +11,7 @@ internal class MoveToSupply : IState
 
     public void Tick()
     {
+        _drone.ConsumeBattery();
     }
 
     public void OnEnter()

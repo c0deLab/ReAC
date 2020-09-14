@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 internal class Idle: IState
 {
@@ -11,6 +12,7 @@ internal class Idle: IState
 
     public void Tick()
     {
+        _drone.ChargeBattery();
     }
 
     public void OnEnter()

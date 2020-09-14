@@ -11,11 +11,12 @@ internal class AscendToTransHeight: IState
 
     public void Tick()
     {
+        _drone.ConsumeBattery();
     }
 
     public void OnEnter()
     {
-        _drone.GoToPos(new Vector3(_drone.transform.position.x, _drone.transHeight, _drone.transform.position.z));
+        _drone.GoToPos(new Vector3(_drone.transform.position.x, Drone.TransHeight, _drone.transform.position.z));
     }
 
     public void OnExit()
