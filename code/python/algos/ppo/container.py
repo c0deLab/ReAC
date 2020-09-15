@@ -1,4 +1,5 @@
-from typing import NamedTuple, List, Tuple
+import copy
+from typing import List, Tuple
 from dataclasses import dataclass
 import torch
 
@@ -48,6 +49,45 @@ class Memory:
     a_hc: Tuple[torch.tensor, torch.tensor] = None
     c_hc: Tuple[torch.tensor, torch.tensor] = None
 
+    @property
+    def L(self) -> List[str]:
+        return ['obs', 'a_hc', 'c_hc', 'action', 'logprob', 'target', 'adv']
+
+    @property
+    def L1(self) -> List[str]:
+        return ['action', 'logprob', 'target', 'adv']
+    
+    @property
+    def L2(self) -> List[str]:
+        return ['obs', 'a_hc', 'c_hc']
+    
+    @property
+    def length(self) -> int:
+        """Return dimension 0 of (each) attribute as length of memory
+
+        Returns:
+            int: number of timesteps
+        """
+        if not self.is_empty:
+            return self.target.shape[0]
+        else:
+            return 0
+    
+    @property
+    def is_empty(self) -> bool:        
+        result = True
+        for key in self.L1:
+            result = result and (getattr(self, key) is None)
+        return result
+    
+    @property
+    def is_flat(self) -> bool:
+        if (not self.is_empty) and (len(self.target.shape) == 1):
+            return True
+        else:
+            return False
+
+
     def extend(self, other_memory):
         """Append another Memory object to the current memory.
 
@@ -56,47 +96,69 @@ class Memory:
 
         Returns:
             Memory: The memory after append.
-        """        
-        
-        L1 = ['action', 'logprob', 'target', 'adv']
-        L2 = ['obs', 'a_hc', 'c_hc']
-
-        for key in L1:
-            if getattr(self, key) is not None and getattr(other_memory, key) is not None:
-                setattr(self, key, torch.cat((getattr(self, key), getattr(other_memory, key)), dim=0))
-            elif getattr(self, key) is None:
-                setattr(self, key, getattr(other_memory, key))
-            else:
-                pass
-
-        for key in L2:
-            if getattr(self, key) is not None and getattr(other_memory, key) is not None:
-                setattr(self, key, (torch.cat((getattr(self, key)[0], getattr(other_memory, key)[0]), dim=0),
-                                    torch.cat((getattr(self, key)[1], getattr(other_memory, key)[1]), dim=0)))
-            elif getattr(self, key) is None:
-                setattr(self, key, getattr(other_memory, key))
-            else:
-                pass
-
-
-    @property
-    def num_timesteps(self) -> int:
-        """Return number of timestep of this memory
-
-        Returns:
-            int: number of timesteps
         """
-        if self.target is not None:
-            return self.target.shape[0]
+        if (not self.is_empty) and (not other_memory.is_empty):
+            for key in self.L1:
+                setattr(self, key, torch.cat((getattr(self, key), getattr(other_memory, key)), dim=0))
+            for key in self.L2:
+                try:
+                    setattr(self, key, (torch.cat((getattr(self, key)[0], getattr(other_memory, key)[0]), dim=0),
+                                        torch.cat((getattr(self, key)[1], getattr(other_memory, key)[1]), dim=0)))
+                except TypeError:
+                    pass
+        elif self.is_empty:
+            for key in self.L:
+                setattr(self, key, getattr(other_memory, key))
         else:
-            return 0
+            pass
+
 
     def empty(self):
-        """Empty the memory
-
-        Returns:
-            Memory: an empty memory
         """
-        L = ['action', 'logprob', 'value', 'target', 'adv', 'obs', 'a_hc', 'c_hc']
-        for key in L:
+        Empty the memory
+        """
+        for key in self.L:
             setattr(self, key, None)
+    
+    def flatten(self):
+        """
+        Flatten the memory from T x N x dim to (T * N) x dim
+        """
+        if (not self.is_empty) and (not self.is_flat):
+            T, N = self.target.shape
+
+            for key in self.L1:
+                setattr(self, key, getattr(self, key).view(T * N, -1).squeeze())
+
+            for key in self.L2:
+                try:
+                    setattr(self, key, (getattr(self, key)[0].view(T * N, -1).squeeze(), 
+                                        getattr(self, key)[1].view(T * N, -1).squeeze()))
+                except TypeError:
+                    pass
+
+
+    def get_batch(self, idxs: List[int]):
+        """Retrieve items from a flattened memory
+
+        Args:
+            idxs (List[int]): indices to retrieve
+        """
+        if self.is_empty:
+            return None
+        if not self.is_flat:
+            self.flatten()
+        
+        if len(idxs) > self.length:
+            raise IndexError("Too many indices to retrieve.")
+        else:
+            retrieved = Memory()
+            for key in self.L1:
+                setattr(retrieved, key, getattr(self, key)[idxs].requires_grad_())
+            for key in self.L2:
+                try:
+                    setattr(retrieved, key, (getattr(self, key)[0][idxs].requires_grad_(), getattr(self, key)[1][idxs].requires_grad_()))
+                except TypeError:
+                    pass
+            return retrieved
+

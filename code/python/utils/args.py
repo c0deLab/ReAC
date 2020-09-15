@@ -9,7 +9,7 @@ def get_args():
 
     parser.add_argument("--env-mode", type=str, default="unity", help="mode of environment, 'real', 'unity', 'gym' or 'ros'")
     parser.add_argument("--algo", type=str, default="ppo", help="name of RL algorithm, 'ppo', 'maddpg' or 'ddpg'")
-    parser.add_argument("--policy-type", type=str, default="ppo-lstm", help="mode of policy")
+    parser.add_argument("--policy-type", type=str, default="ppo-fc", help="mode of policy, 'ppo-fc' or 'ppo-lstm'")
 
     parser.add_argument("--num-episodes", type=int, default=5000, help="(maximum) number of episodes")
     parser.add_argument("--rollout-size", type=int, default=128, help="rollout size")
@@ -33,7 +33,7 @@ def get_args():
     parser.add_argument("--inference-interval", type=int, default=100, help="inference evaluation interval")
 
     # Checkpointing
-    parser.add_argument("--model-save-interval", type=int, default=10, help="model save interval")
+    parser.add_argument("--model-save-interval", type=int, default=50, help="model save interval")
     parser.add_argument("--model-save-path", type=str, default="_model", help="path for saving model")
     parser.add_argument("--model-load-path", type=str, default=None, help="path for loading model, model name must be included")
 

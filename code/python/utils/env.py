@@ -29,11 +29,15 @@ def make_env(args):
 
     else:
         raise ValueError("Invalid environment mode.")
-
-    print(f"===> number of drones: {args.num_agents}")
-    print(f"===> action dim: {args.act_dim}")
-    print(f"===> observation lidar dim: {args.obs_lidar_dim}")
-    print(f"===> observation lidar frames: {args.obs_lidar_frames}")
-    print(f"===> observation other dim: {args.obs_other_dim}")
+    
+    print("-"*50)
+    print("PLEASE USE THE FOLLOWING FOR ENV SPEC SANITY CHECK")
+    print("-"*50)
+    print(f"number of drones:\t\t\t {args.num_agents}")
+    print(f"action dim:\t\t\t\t {args.act_dim}")
+    print(f"observation lidar dim:\t\t\t {args.obs_lidar_dim}")
+    print(f"observation lidar frames:\t\t {args.obs_lidar_frames}")
+    print(f"observation other dim:\t\t\t {args.obs_other_dim}")
+    print("-"*50)
 
     return env, args

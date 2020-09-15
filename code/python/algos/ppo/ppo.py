@@ -8,7 +8,7 @@ from torch.utils.data.sampler import BatchSampler, SubsetRandomSampler
 import numpy as np
 
 
-from .net import LSTMPolicy
+from .net import LSTMPolicy, FCPolicy
 from .container import Transition, Buffer, Memory
 
 class PPO(object):
@@ -28,7 +28,7 @@ class PPO(object):
         # model save
         self.model_save_path = args.model_save_path
         self.model_save_interval = args.model_save_interval
-        self.model_name = "ppo"
+        self.model_name = args.policy_type
         # model inference
         self.inference_interval = args.inference_interval
         # model load
@@ -42,6 +42,12 @@ class PPO(object):
         self.policy_type = args.policy_type
         if self.policy_type == "ppo-lstm":
             self.policy = LSTMPolicy(obs_lidar_frames=args.obs_lidar_dim,
+                                     obs_other_dim=args.obs_other_dim,
+                                     act_dim=args.act_dim,
+                                     encode_dim=args.encode_dim)
+            self.optim = Adam(self.policy.parameters(), lr=self.lr)
+        elif self.policy_type == "ppo-fc":
+            self.policy = FCPolicy(obs_lidar_frames=args.obs_lidar_dim,
                                      obs_other_dim=args.obs_other_dim,
                                      act_dim=args.act_dim,
                                      encode_dim=args.encode_dim)
@@ -71,11 +77,13 @@ class PPO(object):
             if self.policy_type == "ppo-lstm":
                 prev_a_hc = (torch.zeros(self.num_agents, self.encode_dim), torch.zeros(self.num_agents, self.encode_dim))
                 prev_c_hc = (torch.zeros(self.num_agents, self.encode_dim), torch.zeros(self.num_agents, self.encode_dim))
+            else:
+                prev_a_hc, prev_c_hc = None, None
 
             while not terminal:
                 global_step += 1
                 step += 1
-                transition = self._step(prev_a_hc, prev_c_hc)
+                transition = self._step(a_hc=prev_a_hc, c_hc=prev_c_hc)
                 buffer.append(transition)
 
                 prev_a_hc = transition.a_hc
@@ -91,7 +99,7 @@ class PPO(object):
                     global_update += 1
                     step = 0
 
-                    next_transition = self._step(prev_a_hc, prev_c_hc)
+                    next_transition = self._step(a_hc=prev_a_hc, c_hc=prev_c_hc)
                     next_value = next_transition.value
 
                     obs_arr, action_arr, reward_arr, done_arr, logprob_arr, value_arr, a_hc_arr, c_hc_arr = self._transform_buffer(buffer)
@@ -128,10 +136,12 @@ class PPO(object):
             if self.policy_type == "ppo-lstm":
                 prev_a_hc = (torch.zeros(self.num_agents, self.encode_dim), torch.zeros(self.num_agents, self.encode_dim))
                 prev_c_hc = (torch.zeros(self.num_agents, self.encode_dim), torch.zeros(self.num_agents, self.encode_dim))
+            else:
+                prev_a_hc, prev_c_hc = None, None
 
             while not terminal:
                 step += 1
-                transition = self._step(prev_a_hc, prev_c_hc)
+                transition = self._step(a_hc=prev_a_hc, c_hc=prev_c_hc)
                 prev_a_hc = transition.a_hc
                 prev_c_hc = transition.c_hc
                 reward += transition.reward
@@ -180,9 +190,7 @@ class PPO(object):
 
 
     # NOTE: DEBUGGED, need recheck
-    def _step(self,
-              prev_a_hc: Tuple[torch.tensor, torch.tensor] = None,
-              prev_c_hc: Tuple[torch.tensor, torch.tensor] = None) -> Transition:     
+    def _step(self, **kwargs) -> Transition:     
         """Step the env with action.
 
         Args:
@@ -212,13 +220,12 @@ class PPO(object):
             done: list = [True if i in terminated_agents else False for i in range(self.num_agents)]
             done: torch.tensor = torch.tensor(done)
 
-            # TODO: not sure if this is correct
             with torch.no_grad():
-                value, action, logprob, _, a_hc, c_hc = self._get_clipped_action(obs, [-1., 1.], prev_a_hc, prev_c_hc)
+                value, action, logprob, _, a_hc, c_hc = self._get_clipped_action(obs, [-1., 1.], **kwargs)
                     
             transition = Transition(obs, action, reward, done, logprob, value, a_hc, c_hc)
             # TODO: is the done here necessary? Avoid irregular respawn behavior
-            self.env.set_actions(self.behavior_name, action.numpy())
+            self.env.set_actions(self.behavior_name, action.detach().numpy())
             self.env.step()
             return transition
         else:
@@ -235,8 +242,7 @@ class PPO(object):
     def _get_clipped_action(self,
                             obs: Tuple[np.ndarray, np.ndarray],
                             action_bound: Tuple[int, int],
-                            a_hc: Tuple[torch.tensor, torch.tensor] = None,
-                            c_hc: Tuple[torch.tensor, torch.tensor] = None) -> Tuple[torch.tensor, ...]:
+                            **kwargs) -> Tuple[torch.tensor, ...]:
         """Get *clipped* action by step through policy network. 
 
         Args:
@@ -248,7 +254,7 @@ class PPO(object):
         Returns:
             Tuple[torch.tensor, ...]: same as forward output
         """
-        value, action, logprob, mean, a_hc, c_hc = self.policy(obs, a_hc, c_hc)
+        value, action, logprob, mean, a_hc, c_hc = self.policy(obs, **kwargs)
         clipped_action = torch.clamp(action, action_bound[0], action_bound[1])
         return value, clipped_action, logprob, mean, a_hc, c_hc
 
@@ -270,37 +276,24 @@ class PPO(object):
         adv_arr = target_arr - value_arr[:-1, :]
         return target_arr, adv_arr
 
-    def _update(self, memory):
-        obs, action, logprob, a_hc, c_hc, target, adv = memory.obs, memory.action, memory.logprob, memory.a_hc, memory.c_hc, memory.target, memory.adv
-        N = target.shape[0] * target.shape[1]
-        adv = (adv - adv.mean()) / adv.std()
-        obs_lidar, obs_other = obs
-        a_h, a_c = a_hc
-        c_h, c_c = c_hc
-
-        # reshape
-        obs_lidar, obs_other, action, a_h, a_c, c_h, c_c = map(lambda x: x.view(N, -1), [obs_lidar, obs_other, action, a_h, a_c, c_h, c_c])
-        logprob, target, adv = map(lambda x: x.view(-1, 1).squeeze(), [logprob, target, adv])
+    def _update(self, memory: Memory) -> Tuple[float, float, float, float]:
+        memory.flatten()
 
         info_p_loss, info_v_loss, info_entropy = 0., 0., 0.
         info_loss = 0.
         for _ in range(self.num_epochs):
-            sampler = BatchSampler(SubsetRandomSampler(list(range(N))),
+            sampler = BatchSampler(SubsetRandomSampler(list(range(memory.length))),
                                    batch_size=self.batch_size,
                                    drop_last=False)
             for idxs in sampler:
-                b_obs_lidar, b_obs_other, b_action, b_logprob, b_a_h, b_a_c, b_c_h, b_c_c, b_target, b_adv = \
-                    map(lambda x: x[idxs].requires_grad_(), [obs_lidar, obs_other, action, logprob, a_h, a_c, c_h, c_c, target, adv])
-                b_obs = (b_obs_lidar, b_obs_other)
-                b_a_hc = (b_a_h, b_a_c)
-                b_c_hc = (b_c_h, b_c_c)
+                batch = memory.get_batch(idxs)
                 # loss
-                new_value, new_logprob, entropy = self.policy.evaluate_actions(b_obs, b_a_hc, b_c_hc, b_action)
-                ratio = torch.exp(new_logprob - b_logprob)
-                surrogate_1 = ratio * b_adv
-                surrogate_2 = torch.clamp(ratio, 1-self.clip_value, 1+self.clip_value) * b_adv
+                new_value, new_logprob, entropy = self.policy.evaluate_actions(batch.obs, batch.action, a_hc=batch.a_hc, c_hc=batch.c_hc)
+                ratio = torch.exp(new_logprob - batch.logprob)
+                surrogate_1 = ratio * batch.adv
+                surrogate_2 = torch.clamp(ratio, 1-self.clip_value, 1+self.clip_value) * batch.adv
                 p_loss = - torch.min(surrogate_1, surrogate_2).mean()
-                v_loss = F.mse_loss(new_value, b_target)
+                v_loss = F.mse_loss(new_value, batch.target)
                 loss = p_loss + 20 * v_loss - self.coeff_entropy * entropy
 
                 self.optim.zero_grad()
@@ -325,7 +318,11 @@ class PPO(object):
             Tuple[torch.tensor]: Grouped categories, obs, action, reward, done, logprob, value, a_hc, c_hc
         """        
         L1 = ['action', 'reward', 'done', 'logprob', 'value']
-        L2 = ['obs', 'a_hc', 'c_hc']
+        L2 = ['obs', ]
+        L3 = ['a_hc', 'c_hc']
+
+        if buffer[0].a_hc is not None:
+            L2 = L2 + L3
 
         cpnt_1 = {key: getattr(buffer[0], key).unsqueeze(0) for key in L1}
         cpnt_2 = {key: (getattr(buffer[0], key)[0].unsqueeze(0),
@@ -340,4 +337,7 @@ class PPO(object):
         # sanity check of output dim
         assert cpnt_1['action'].shape[1] == self.num_agents
 
-        return cpnt_2['obs'], cpnt_1['action'], cpnt_1['reward'], cpnt_1['done'], cpnt_1['logprob'], cpnt_1['value'], cpnt_2['a_hc'], cpnt_2['c_hc']
+        try:
+            return cpnt_2['obs'], cpnt_1['action'], cpnt_1['reward'], cpnt_1['done'], cpnt_1['logprob'], cpnt_1['value'], cpnt_2['a_hc'], cpnt_2['c_hc']
+        except KeyError:
+            return cpnt_2['obs'], cpnt_1['action'], cpnt_1['reward'], cpnt_1['done'], cpnt_1['logprob'], cpnt_1['value'], None, None
