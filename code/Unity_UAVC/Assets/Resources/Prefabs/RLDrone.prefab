@@ -7984,12 +7984,16 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
-  ColliderRangeMin: 0.25
-  ColliderRangeMax: 0.4
+  MaxStep: 800
+  colliderRangeMin: 0.25
+  colliderRangeMax: 0.4
   maxTranslateVelocity: 1
   maxRotateVelocity: 1
+  safeRotateVelocity: 0.7
+  rewardReach: 15
+  rewardCollide: -15
   rewardDistScalar: 2.5
+  rewardRotScalar: -0.1
 --- !u!114 &4142280726135686910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8005,14 +8009,14 @@ MonoBehaviour:
   m_SensorName: RayPerceptionSensor
   m_DetectableTags:
   - Untagged
-  m_RaysPerDirection: 10
+  m_RaysPerDirection: 50
   m_MaxRayDegrees: 90
   m_SphereCastRadius: 0
   m_RayLength: 4
   m_RayLayerMask:
     serializedVersion: 2
     m_Bits: 4294967291
-  m_ObservationStacks: 1
+  m_ObservationStacks: 3
   rayHitColor: {r: 1, g: 0, b: 0, a: 1}
   rayMissColor: {r: 1, g: 1, b: 1, a: 1}
   m_StartVerticalOffset: 0.2

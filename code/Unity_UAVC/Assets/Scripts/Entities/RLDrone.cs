@@ -7,21 +7,15 @@ using Unity.MLAgents.Sensors.Reflection;
 public class RLDrone : Agent
 {
     private Rigidbody _rigidbody;
-    private PIDController _controller;
-    private Vector3 _lastGoToPos; // used to compare and reset PIDController
-    private Vector3 _lastGoAtVel; // used to compare and reset PIDController
-    private Transform _naviTarget;
     private Transform _target;
     private SphereCollider _collider;
     private RLConfig _envConfig;
-
-    private float _tiltSmoothTime = 1.0f;
-    private Vector2 _tiltVelocity;
 
     [Range(0.2f, 0.5f)] public float colliderRangeMin = 0.25f;
     [Range(0.2f, 0.5f)] public float colliderRangeMax = 0.40f;
     public float maxTranslateVelocity = 1.0f;
     public float maxRotateVelocity = 1.0f;
+    public float safeRotateVelocity = 0.7f;
     public float rewardReach = 15.0f;
     public float rewardCollide = -15.0f;
 
@@ -30,15 +24,12 @@ public class RLDrone : Agent
 
     [Observable] public float ColliderRadius => _collider.radius;
     public float rewardDistScalar = 2.5f;
+    public float rewardRotScalar = -0.1f;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        // _controller = new PIDController(_rigidbody, 1.5f, 0.0f, 0.1f);
-        _naviTarget = new GameObject("NaviTarget").transform;
-        _naviTarget.parent = transform;
-        _target = new GameObject("Target").transform;
-        _target.parent = transform;
+        _target = new GameObject($"{name} Target").transform;
         _collider = GetComponent<SphereCollider>();
         _envConfig = transform.parent.GetComponent<RLConfig>();
     }
@@ -111,8 +102,8 @@ public class RLDrone : Agent
 
     public override void OnActionReceived(float[] vectorAction)
     {
-        _rigidbody.velocity = transform.forward * vectorAction[0] * maxTranslateVelocity;
-        _rigidbody.angularVelocity = new Vector3(0, vectorAction[1] * maxRotateVelocity, 0);
+        _rigidbody.velocity = transform.forward * Mathf.Clamp01(vectorAction[0]) * maxTranslateVelocity;
+        _rigidbody.angularVelocity = new Vector3(0, Mathf.Clamp(vectorAction[1], -1.0f, 1.0f) * maxRotateVelocity, 0);
     }
 
     private void CalcAward()
@@ -131,20 +122,14 @@ public class RLDrone : Agent
         _lastObsPos = transform.position;
 
         if (Vector3.Distance(transform.position, _target.position) <= _envConfig.ReachTargetTolerance)
+        {
             AddReward(rewardReach);
+            EndEpisode();
+        }
 
+        if (_rigidbody.angularVelocity.y > safeRotateVelocity)
+            AddReward(rewardRotScalar * _rigidbody.angularVelocity.y);
     }
-
-    // public void GoAtVel(Vector3 targetVel)
-    // {
-    //     if (_lastGoAtVel != targetVel)
-    //     {
-    //         _controller.ResetError();
-    //         _lastGoAtVel = targetVel;
-    //     }
-    //
-    //     _controller.GoAtVel(targetVel);
-    // }
 
     private float CalcTargetAngle()
     {
