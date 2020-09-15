@@ -26,14 +26,14 @@ def get_args():
     parser.add_argument("--clip-value", type=float, default=0.1, help="PPO clip value")
 
     # Training
-    parser.add_argument("--batch-size", type=int, default=128, help="batch size at training")
+    parser.add_argument("--batch-size", type=int, default=1024, help="batch size at training")
     parser.add_argument("--num-epochs", type=int, default=2, help="training epochs")
 
     # Inference
     parser.add_argument("--inference-interval", type=int, default=100, help="inference evaluation interval")
 
     # Checkpointing
-    parser.add_argument("--model-save-interval", type=int, default=50, help="model save interval")
+    parser.add_argument("--model-save-interval", type=int, default=2, help="model save interval")
     parser.add_argument("--model-save-path", type=str, default="_model", help="path for saving model")
     parser.add_argument("--model-load-path", type=str, default=None, help="path for loading model, model name must be included")
 

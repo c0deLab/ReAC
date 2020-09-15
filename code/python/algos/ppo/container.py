@@ -17,14 +17,14 @@ class Transition:
     - (opt)a_hc: actor state    -- float    [ N x encode_dim, N x encode_dim ]
     - (opt)a_hc: critic state   -- float    [ N x encode_dim, N x encode_dim ]
     """
-    obs: Tuple[torch.tensor, torch.tensor]
+    obs: List[torch.tensor]
     action: torch.tensor
     reward: torch.tensor
     done: torch.tensor
     logprob: torch.tensor
     value: torch.tensor
-    a_hc: Tuple[torch.tensor, torch.tensor] = None
-    c_hc: Tuple[torch.tensor, torch.tensor] = None
+    a_hc: List[torch.tensor] = None
+    c_hc: List[torch.tensor] = None
 
 # A Buffer is an unordered list of transitions
 Buffer = List[Transition]
@@ -41,13 +41,13 @@ class Memory:
     - (opt)a_hc: actor state    -- float    [ T x N x encode_dim, T x N x encode_dim ]
     - (opt)a_hc: critic state   -- float    [ T x N x encode_dim, T x N x encode_dim ]
     """
-    obs: Tuple[torch.tensor, torch.tensor] = None
+    obs: List[torch.tensor] = None
     action: torch.tensor = None
     logprob: torch.tensor = None
     target: torch.tensor = None
     adv: torch.tensor = None
-    a_hc: Tuple[torch.tensor, torch.tensor] = None
-    c_hc: Tuple[torch.tensor, torch.tensor] = None
+    a_hc: List[torch.tensor] = None
+    c_hc: List[torch.tensor] = None
 
     @property
     def L(self) -> List[str]:
@@ -102,8 +102,8 @@ class Memory:
                 setattr(self, key, torch.cat((getattr(self, key), getattr(other_memory, key)), dim=0))
             for key in self.L2:
                 try:
-                    setattr(self, key, (torch.cat((getattr(self, key)[0], getattr(other_memory, key)[0]), dim=0),
-                                        torch.cat((getattr(self, key)[1], getattr(other_memory, key)[1]), dim=0)))
+                    setattr(self, key, [torch.cat((getattr(self, key)[0], getattr(other_memory, key)[0]), dim=0),
+                                        torch.cat((getattr(self, key)[1], getattr(other_memory, key)[1]), dim=0)])
                 except TypeError:
                     pass
         elif self.is_empty:
@@ -132,8 +132,8 @@ class Memory:
 
             for key in self.L2:
                 try:
-                    setattr(self, key, (getattr(self, key)[0].view(T * N, -1).squeeze(), 
-                                        getattr(self, key)[1].view(T * N, -1).squeeze()))
+                    setattr(self, key, [getattr(self, key)[0].view(T * N, -1).squeeze(),
+                                        getattr(self, key)[1].view(T * N, -1).squeeze()])
                 except TypeError:
                     pass
 
@@ -157,7 +157,7 @@ class Memory:
                 setattr(retrieved, key, getattr(self, key)[idxs].requires_grad_())
             for key in self.L2:
                 try:
-                    setattr(retrieved, key, (getattr(self, key)[0][idxs].requires_grad_(), getattr(self, key)[1][idxs].requires_grad_()))
+                    setattr(retrieved, key, [getattr(self, key)[0][idxs].requires_grad_(), getattr(self, key)[1][idxs].requires_grad_()])
                 except TypeError:
                     pass
             return retrieved

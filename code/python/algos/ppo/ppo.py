@@ -75,8 +75,8 @@ class PPO(object):
             mean_reward = 0.
             terminal = False
             if self.policy_type == "ppo-lstm":
-                prev_a_hc = (torch.zeros(self.num_agents, self.encode_dim), torch.zeros(self.num_agents, self.encode_dim))
-                prev_c_hc = (torch.zeros(self.num_agents, self.encode_dim), torch.zeros(self.num_agents, self.encode_dim))
+                prev_a_hc = [torch.zeros(self.num_agents, self.encode_dim), torch.zeros(self.num_agents, self.encode_dim)]
+                prev_c_hc = [torch.zeros(self.num_agents, self.encode_dim), torch.zeros(self.num_agents, self.encode_dim)]
             else:
                 prev_a_hc, prev_c_hc = None, None
 
@@ -221,9 +221,9 @@ class PPO(object):
             done: torch.tensor = torch.tensor(done)
 
             with torch.no_grad():
-                value, action, logprob, _, a_hc, c_hc = self._get_clipped_action(obs, [-1., 1.], **kwargs)
+                value, action, logprob, _ = self._get_clipped_action(obs, [[0., 1.], [-1., 1.]], **kwargs)
                     
-            transition = Transition(obs, action, reward, done, logprob, value, a_hc, c_hc)
+            transition = Transition(obs=obs, action=action, reward=reward, done=done, logprob=logprob, value=value, **kwargs)
             # TODO: is the done here necessary? Avoid irregular respawn behavior
             self.env.set_actions(self.behavior_name, action.detach().numpy())
             self.env.step()
@@ -231,17 +231,10 @@ class PPO(object):
         else:
             raise ValueError("Unsupported environment")
 
-    # NOTE: STALE
-    def _get_action(self,
-                    obs: Tuple[np.ndarray, np.ndarray],
-                    a_hc: Tuple[torch.tensor, torch.tensor] = None,
-                    c_hc: Tuple[torch.tensor, torch.tensor] = None) -> Tuple[torch.tensor, ...]:
-        return self.policy(obs, a_hc, c_hc)
-
     # NOTE: DEBUGGED
     def _get_clipped_action(self,
                             obs: Tuple[np.ndarray, np.ndarray],
-                            action_bound: Tuple[int, int],
+                            action_bound: Tuple[Tuple[int, int], Tuple[int, int]],
                             **kwargs) -> Tuple[torch.tensor, ...]:
         """Get *clipped* action by step through policy network. 
 
@@ -254,9 +247,15 @@ class PPO(object):
         Returns:
             Tuple[torch.tensor, ...]: same as forward output
         """
-        value, action, logprob, mean, a_hc, c_hc = self.policy(obs, **kwargs)
-        clipped_action = torch.clamp(action, action_bound[0], action_bound[1])
-        return value, clipped_action, logprob, mean, a_hc, c_hc
+        value, action, logprob, mean = self.policy(obs, **kwargs)
+
+        min_bound = torch.nn.Parameter(torch.tensor(action_bound[0])).expand_as(action)
+        max_bound = torch.nn.Parameter(torch.tensor(action_bound[1])).expand_as(action)
+
+        action = torch.where(action < min_bound, min_bound, action)
+        action = torch.where(action > max_bound, max_bound, action)
+
+        return value, action, logprob, mean
 
     # NOTE: DEBUGGED
     def _get_advantage(self, reward_arr, value_arr, next_value, done_arr):
@@ -325,14 +324,14 @@ class PPO(object):
             L2 = L2 + L3
 
         cpnt_1 = {key: getattr(buffer[0], key).unsqueeze(0) for key in L1}
-        cpnt_2 = {key: (getattr(buffer[0], key)[0].unsqueeze(0),
-                        getattr(buffer[0], key)[1].unsqueeze(0)) for key in L2}
+        cpnt_2 = {key: [getattr(buffer[0], key)[0].unsqueeze(0),
+                        getattr(buffer[0], key)[1].unsqueeze(0)] for key in L2}
 
         if len(buffer) > 1:
             for idx in range(1, len(buffer)):
                 cpnt_1 = {key: torch.cat((cpnt_1[key], getattr(buffer[idx], key).unsqueeze(0)), dim=0) for key in L1}
-                cpnt_2 = {key: (torch.cat((cpnt_2[key][0], getattr(buffer[idx], key)[0].unsqueeze(0)), dim=0),
-                                torch.cat((cpnt_2[key][1], getattr(buffer[idx], key)[1].unsqueeze(0)), dim=0)) for key in L2}
+                cpnt_2 = {key: [torch.cat((cpnt_2[key][0], getattr(buffer[idx], key)[0].unsqueeze(0)), dim=0),
+                                torch.cat((cpnt_2[key][1], getattr(buffer[idx], key)[1].unsqueeze(0)), dim=0)] for key in L2}
         
         # sanity check of output dim
         assert cpnt_1['action'].shape[1] == self.num_agents
