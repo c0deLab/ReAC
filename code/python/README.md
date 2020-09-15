@@ -36,52 +36,57 @@ python main.py --mode resume --model-load-path _model/ppo_10.pt
 ```
 
 ## Logging and inspection
-We use Tensorboard for logging the training process. After running the above training command, open up a new terminal window, go back to this directory (through `cd` commands) and type the following command. Please be patient and refresh your browser window if the plots do not show up.
-```
-tensorboard --logdir=_log
-```
+We use Tensorboard for logging and inspecting the training process. You can follow the following procedure if you are new to Tensorboard.
+* Run the above training command in terminal
+* Open up a new terminal window
+* Nav back to this directory through `cd` commands
+* Type the following command in the new window. 
+    ```
+    tensorboard --logdir=_log
+    ```
 
-You can then go to `http://localhost:6006` to inspect the training. Logging data files (e.g. CSV files) can also be downloaded from Tensorboard.
+* You can then go to `http://localhost:6006` to inspect the training. Please be patient and refresh your browser window if the plots do not show up.
+* Logging data files (e.g. CSV files) can also be downloaded from Tensorboard.
 
 
 ## Available parameters
 Here are all possible options for tuning your usage.
 ```
---mode", type=str, default="train", help="mode of running, 'train', 'resume' or 'infer'"
+"--mode", type=str, default="train", help="mode of running, 'train', 'resume' or 'infer'"
 
---env-mode", type=str, default="unity", help="mode of environment, 'real', 'unity', 'gym' or 'ros'"
---algo", type=str, default="ppo", help="name of RL algorithm, 'ppo', 'maddpg' or 'ddpg'"
---policy-type", type=str, default="ppo-lstm", help="mode of policy"
+"--env-mode", type=str, default="unity", help="mode of environment, 'real', 'unity', 'gym' or 'ros'"
+"--algo", type=str, default="ppo", help="name of RL algorithm, 'ppo', 'maddpg' or 'ddpg'"
+"--policy-type", type=str, default="ppo-lstm", help="mode of policy"
 
---num-episodes", type=int, default=5000, help="(maximum) number of episodes"
---rollout-size", type=int, default=128, help="rollout size"
---encode-dim", type=int, default=128, help="encode dimension of LSTM cell"
+"--num-episodes", type=int, default=5000, help="(maximum) number of episodes"
+"--rollout-size", type=int, default=128, help="rollout size"
+"--encode-dim", type=int, default=128, help="encode dimension of LSTM cell"
 
 # Network config
---obs-lidar-frames", type=int, default=3, help="number of lidar frames to cache for LSTM"
+"--obs-lidar-frames", type=int, default=3, help="number of lidar frames to cache for LSTM"
 
 # PPO stuff
---gamma", type=float, default=0.99, help="discount factor gamma"
---lam", type=float, default=0.95, help="lineage rate lambda"
---lr", type=float, default=1e-3, help="learning rate"
---coeff-entropy", type=float, default=5e-4, help="coefficient of entropy"
---clip-value", type=float, default=0.1, help="PPO clip value"
+"--gamma", type=float, default=0.99, help="discount factor gamma"
+"--lam", type=float, default=0.95, help="lineage rate lambda"
+"--lr", type=float, default=1e-3, help="learning rate"
+"--coeff-entropy", type=float, default=5e-4, help="coefficient of entropy"
+"--clip-value", type=float, default=0.1, help="PPO clip value"
 
 # Training
---batch-size", type=int, default=128, help="batch size at training"
---num-epochs", type=int, default=2, help="training epochs"
+"--batch-size", type=int, default=128, help="batch size at training"
+"--num-epochs", type=int, default=2, help="training epochs"
 
 # Inference
---inference-interval", type=int, default=100, help="inference evaluation interval"
+"--inference-interval", type=int, default=100, help="inference evaluation interval"
 
 # Checkpointing
---model-save-interval", type=int, default=10, help="model save interval"
---model-save-path", type=str, default="_model", help="path for saving model"
---model-load-path", type=str, default=None, help="path for loading model, model name must be included"
+"--model-save-interval", type=int, default=10, help="model save interval"
+"--model-save-path", type=str, default="_model", help="path for saving model"
+"--model-load-path", type=str, default=None, help="path for loading model, model name must be included"
 
 # Logging
---log-save-path", type=str, default="_log", help="path for saving log"
+"--log-save-path", type=str, default="_log", help="path for saving log"
 
 # Device
---device", type=str, default="gpu", help="Whether use GPU, 'gpu' or 'cpu'"
+"--device", type=str, default="gpu", help="Whether use GPU, 'gpu' or 'cpu'"
 ```
