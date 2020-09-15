@@ -1,4 +1,5 @@
-from typing import Tuple
+import pathlib
+from typing import Tuple, Union
 import torch
 from torch.optim import Adam
 from torch.autograd import Variable
@@ -8,14 +9,12 @@ import numpy as np
 
 
 from .net import LSTMPolicy
-from .transition import Transition, Buffer
-
+from .container import Transition, Buffer, Memory
 
 class PPO(object):
-    def __init__(self, env, args, writer):
+    def __init__(self, env, args, writer, model_path=None):
         self.num_epochs = args.num_epochs
         self.num_episodes = args.num_episodes
-        self.max_global_step = args.max_global_step
         self.rollout_size = args.rollout_size
         self.num_agents = args.num_agents
         self.encode_dim = args.encode_dim
@@ -26,9 +25,19 @@ class PPO(object):
         self.clip_value = args.clip_value
         self.batch_size = args.batch_size
 
+        # model save
+        self.model_save_path = args.model_save_path
+        self.model_save_interval = args.model_save_interval
+        self.model_name = "ppo"
+        # model inference
+        self.inference_interval = args.inference_interval
+        # model load
+        self.prev_update = 0
+        self.prev_episode = 0
+        # model log
+        self.log_save_path = args.log_save_path
         # writer
         self.writer = writer
-
         # policy
         self.policy_type = args.policy_type
         if self.policy_type == "ppo-lstm":
@@ -37,6 +46,9 @@ class PPO(object):
                                      act_dim=args.act_dim,
                                      encode_dim=args.encode_dim)
             self.optim = Adam(self.policy.parameters(), lr=self.lr)
+        
+        if model_path is not None:
+            self.load_model(model_path)
 
         # env
         self.env = env
@@ -44,14 +56,17 @@ class PPO(object):
         if self.env_mode == "unity":
             self.behavior_name = args.behavior_name
 
+  
     def train(self):
         buffer: Buffer = []
+        memory = Memory()
         global_update = 0
         global_step = 0
+        step = 0
 
         for episode in range(self.num_episodes):
             self.env.reset()
-            rollout_reward = 0.
+            mean_reward = 0.
             terminal = False
             if self.policy_type == "ppo-lstm":
                 prev_a_hc = (torch.zeros(self.num_agents, self.encode_dim), torch.zeros(self.num_agents, self.encode_dim))
@@ -59,6 +74,7 @@ class PPO(object):
 
             while not terminal:
                 global_step += 1
+                step += 1
                 transition = self._step(prev_a_hc, prev_c_hc)
                 buffer.append(transition)
 
@@ -71,33 +87,97 @@ class PPO(object):
                 # BEST: terminal means at least one agent is done (collided), need to calculate GAE
                 terminal = torch.sum(transition.done) > 0
 
-                if len(buffer) >= self.rollout_size:
+                if step >= self.rollout_size:
                     global_update += 1
-                    # TITLE: delete
-                    
+                    step = 0
 
                     next_transition = self._step(prev_a_hc, prev_c_hc)
                     next_value = next_transition.value
 
-                    # prepare 1: transform buffer
                     obs_arr, action_arr, reward_arr, done_arr, logprob_arr, value_arr, a_hc_arr, c_hc_arr = self._transform_buffer(buffer)
                     target_arr, adv_arr = self._get_advantage(reward_arr, value_arr, next_value, done_arr)
-                    memory = (obs_arr, action_arr, logprob_arr, a_hc_arr, c_hc_arr, target_arr, adv_arr)
-                    loss, _, _, _ = self._update(memory)
-                    rollout_reward = torch.mean(reward_arr)
+                    tmp_memory = Memory(obs=obs_arr, action=action_arr, logprob=logprob_arr, target=target_arr, adv=adv_arr,
+                                        a_hc=a_hc_arr, c_hc=c_hc_arr)
+                    
+                    memory.extend(tmp_memory)
                     buffer = []
-                    self.writer.add_scalar('Reward/Reward vs. update', rollout_reward, global_update)
-                    self.writer.add_scalar('Reward/Reward vs. episode', rollout_reward, episode)
+
+                    loss, _, _, _ = self._update(memory)
+                    mean_reward = torch.mean(reward_arr)
+
+                    memory.empty()
+
+                    self.writer.add_scalar('Reward/Reward vs. update', mean_reward, global_update)
+                    self.writer.add_scalar('Reward/Reward vs. episode', mean_reward, episode)
                     self.writer.add_scalar('Loss/Loss vs. update', loss, global_update)
                     self.writer.add_scalar('Loss/Loss vs. episode', loss, episode)
-                    print(f"-----> Full buffer, update {global_update}\t reward {rollout_reward}\t loss {loss}")
-            
-            print(f"-----x terminated at episode {episode}")
+                    print(f"-----> update {global_update + self.prev_update}\t episode {episode + self.prev_episode}\t reward {mean_reward}\t loss {loss}")
 
 
-    # NOTE: WIP
+            if global_update % self.model_save_interval == 0:
+                self.save_model(extra=str(global_update), prev_update=global_update, prev_episode=episode)
+
     def eval(self):
-        pass
+        episode = 0
+        rewards = []
+        while True:
+            self.env.reset()
+            reward = 0.
+            step = 0
+            terminal = False
+            if self.policy_type == "ppo-lstm":
+                prev_a_hc = (torch.zeros(self.num_agents, self.encode_dim), torch.zeros(self.num_agents, self.encode_dim))
+                prev_c_hc = (torch.zeros(self.num_agents, self.encode_dim), torch.zeros(self.num_agents, self.encode_dim))
+
+            while not terminal:
+                step += 1
+                transition = self._step(prev_a_hc, prev_c_hc)
+                prev_a_hc = transition.a_hc
+                prev_c_hc = transition.c_hc
+                reward += transition.reward
+                terminal = torch.sum(transition.done) > 0
+
+            rewards.append(reward)
+            episode += 1
+
+            if episode % self.inference_interval == 0:
+                print(f">>>>>> avg. reward {np.mean(reward)}\t step {step}\t episode {episode}")
+                rewards = []
+
+    def save_model(self,
+                   save_path: Union[str, pathlib.Path] = None,
+                   extra: str = None,
+                   prev_update: int = 0,
+                   prev_episode: int = 0):
+        if save_path is None:
+            save_path = self.model_save_path
+        else:
+            save_path = pathlib.Path(save_path)
+
+        if not save_path.exists():
+            save_path.mkdir(parents=True, exist_ok=False)
+
+        name = self.model_name
+        if extra is not None:
+            name = self.model_name + "_" + extra + ".pt"
+
+        torch.save({
+            'model_state_dict': self.policy.state_dict(),
+            'optimizer_state_dict': self.optim.state_dict(),
+            'prev_update': prev_update,
+            'prev_episode': prev_episode
+        }, save_path / name)
+
+    def load_model(self, load_path: Union[str, pathlib.Path]):
+        if not pathlib.Path(load_path).exists():
+            raise ValueError("model doesn't exist")
+        
+        checkpoint = torch.load(load_path)
+        self.policy.load_state_dict(checkpoint['model_state_dict'])
+        self.optim.load_state_dict(checkpoint['optimizer_state_dict'])
+        self.prev_update = checkpoint['prev_update']
+        self.prev_episode = checkpoint['prev_episode']
+
 
     # NOTE: DEBUGGED, need recheck
     def _step(self,
@@ -172,7 +252,7 @@ class PPO(object):
         clipped_action = torch.clamp(action, action_bound[0], action_bound[1])
         return value, clipped_action, logprob, mean, a_hc, c_hc
 
-    # NOTE: DEBUGGED, need verify GAE
+    # NOTE: DEBUGGED
     def _get_advantage(self, reward_arr, value_arr, next_value, done_arr):
         T, N = reward_arr.shape
         value_arr = torch.cat((value_arr, next_value.unsqueeze(0)), dim=0)
@@ -181,7 +261,7 @@ class PPO(object):
         target_arr = torch.zeros(T, N)
         gae = torch.zeros(N)
 
-        for t in range(T - 1, -1, -1):
+        for t in reversed(range(T)):
             delta = reward_arr[t, :] + self.gamma * value_arr[t + 1, :] * (1 - done_arr[t, :]) - value_arr[t, :]
             gae = delta + self.gamma * self.lam * (1 - done_arr[t, :]) * gae
 
@@ -191,7 +271,7 @@ class PPO(object):
         return target_arr, adv_arr
 
     def _update(self, memory):
-        obs, action, logprob, a_hc, c_hc, target, adv = memory
+        obs, action, logprob, a_hc, c_hc, target, adv = memory.obs, memory.action, memory.logprob, memory.a_hc, memory.c_hc, memory.target, memory.adv
         N = target.shape[0] * target.shape[1]
         adv = (adv - adv.mean()) / adv.std()
         obs_lidar, obs_other = obs
@@ -251,13 +331,13 @@ class PPO(object):
         cpnt_2 = {key: (getattr(buffer[0], key)[0].unsqueeze(0),
                         getattr(buffer[0], key)[1].unsqueeze(0)) for key in L2}
 
-        for idx in range(1, len(buffer)):
-            cpnt_1 = {key: torch.cat((cpnt_1[key], getattr(buffer[idx], key).unsqueeze(0)), dim=0) for key in L1}
-            cpnt_2 = {key: (torch.cat((cpnt_2[key][0], getattr(buffer[idx], key)[0].unsqueeze(0)), dim=0),
-                            torch.cat((cpnt_2[key][1], getattr(buffer[idx], key)[1].unsqueeze(0)), dim=0)) for key in L2}
+        if len(buffer) > 1:
+            for idx in range(1, len(buffer)):
+                cpnt_1 = {key: torch.cat((cpnt_1[key], getattr(buffer[idx], key).unsqueeze(0)), dim=0) for key in L1}
+                cpnt_2 = {key: (torch.cat((cpnt_2[key][0], getattr(buffer[idx], key)[0].unsqueeze(0)), dim=0),
+                                torch.cat((cpnt_2[key][1], getattr(buffer[idx], key)[1].unsqueeze(0)), dim=0)) for key in L2}
         
         # sanity check of output dim
-        assert cpnt_1['action'].shape[0] == self.rollout_size
         assert cpnt_1['action'].shape[1] == self.num_agents
 
-        return (cpnt_2['obs'], cpnt_1['action'], cpnt_1['reward'], cpnt_1['done'], cpnt_1['logprob'], cpnt_1['value'], cpnt_2['a_hc'], cpnt_2['c_hc'])
+        return cpnt_2['obs'], cpnt_1['action'], cpnt_1['reward'], cpnt_1['done'], cpnt_1['logprob'], cpnt_1['value'], cpnt_2['a_hc'], cpnt_2['c_hc']

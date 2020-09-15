@@ -1,54 +1,87 @@
 # Multi-Drone Algorithm Library
 
-Package requirements 
+## Package requirements
 ```
 python=3.8.5
 pytorch=1.6.0
 torchvision=0.7.0
+tensorboard=2.3.0
 mlagents=0.19.0
 numpy=1.19.1
 ```
 
-Easy access through terminal
+## Usage
+Training, inference and resume training is easy through shell, or terminal. To train the model. **Attention**, if you have changed the number of Lidar ray frames collected each step (e.g. 5 frames), please change through the following flag. By default, we use 3 frames.
+```
+python main.py --mode train --obs-lidar-frames 5
+```
+
+### Training
+Simply run either of the following commands. If you are using a Unity environment, remember to press the `Play` button.
 ```
 python main.py
+python main.py --mode train
 ```
 
-Available arguments to pass in terminal
+### Inference
+In order to conduct inference, you need to specify a PyTorch model file. An example model file is provided in `_model/ppo_10.pt`. In training process, these models are automatically saved. If not specified otherwise (**see available arguments below**), they are stored in `_model` folder.
 ```
-"--env-mode", type=str, default="unity", help="mode of environment"
-"--policy-type", type=str, default="ppo-lstm", help="mode of policy"
+python main.py --mode infer --model-load-path _model/ppo_10.pt
+```
 
-"--num-episodes", type=int, default=5000, help="(maximum) number of episodes"
-"--max-global-step", type=int, default=5000, help="maximum training global step"
-"--rollout-size", type=int, default=50, help="rollout size of each agent"
-"--encode-dim", type=int, default=128, help="encode dimension of LSTM cell"
+### Resume training
+You can resume training by providing a previous PyTorch model file.
+```
+python main.py --mode resume --model-load-path _model/ppo_10.pt
+```
 
-# External env config
-"--obs-lidar-frames", type=int, default=3, help="number of lidar frames to cache for LSTM"
+## Logging and inspection
+We use Tensorboard for logging the training process. After running the above training command, open up a new terminal window, go back to this directory (through `cd` commands) and type the following command. Please be patient and refresh your browser window if the plots do not show up.
+```
+tensorboard --logdir=_log
+```
 
-# ppo stuff
-"--gamma", type=float, default=0.99, help="discount factor gamma"
-"--lam", type=float, default=0.95, help="lineage rate lambda"
-"--lr", type=float, default=1e-3, help="learning rate"
-"--coeff-entropy", type=float, default=5e-4, help="coefficient of entropy"
-"--clip-value", type=float, default=0.1, help="PPO clip value"
+You can then go to `http://localhost:6006` to inspect the training. Logging data files (e.g. CSV files) can also be downloaded from Tensorboard.
 
-# Training specs
-"--batch-size", type=int, default=1024, help="number of transitions to sample at each train"
-"--num-epochs", type=int, default=2, help="number of transitions to sample at each train"
+
+## Available parameters
+Here are all possible options for tuning your usage.
+```
+--mode", type=str, default="train", help="mode of running, 'train', 'resume' or 'infer'"
+
+--env-mode", type=str, default="unity", help="mode of environment, 'real', 'unity', 'gym' or 'ros'"
+--algo", type=str, default="ppo", help="name of RL algorithm, 'ppo', 'maddpg' or 'ddpg'"
+--policy-type", type=str, default="ppo-lstm", help="mode of policy"
+
+--num-episodes", type=int, default=5000, help="(maximum) number of episodes"
+--rollout-size", type=int, default=128, help="rollout size"
+--encode-dim", type=int, default=128, help="encode dimension of LSTM cell"
+
+# Network config
+--obs-lidar-frames", type=int, default=3, help="number of lidar frames to cache for LSTM"
+
+# PPO stuff
+--gamma", type=float, default=0.99, help="discount factor gamma"
+--lam", type=float, default=0.95, help="lineage rate lambda"
+--lr", type=float, default=1e-3, help="learning rate"
+--coeff-entropy", type=float, default=5e-4, help="coefficient of entropy"
+--clip-value", type=float, default=0.1, help="PPO clip value"
+
+# Training
+--batch-size", type=int, default=128, help="batch size at training"
+--num-epochs", type=int, default=2, help="training epochs"
+
+# Inference
+--inference-interval", type=int, default=100, help="inference evaluation interval"
 
 # Checkpointing
-"--save-dir", type=str, default="./model", help="directory in which training state and model should be saved"
-"--save-rate", type=int, default=2000, help="save model once every time this many episodes are completed"
-"--model-dir", type=str, default="", help="directory in which training state and model are loaded"
+--model-save-interval", type=int, default=10, help="model save interval"
+--model-save-path", type=str, default="_model", help="path for saving model"
+--model-load-path", type=str, default=None, help="path for loading model, model name must be included"
+
+# Logging
+--log-save-path", type=str, default="_log", help="path for saving log"
 
 # Device
-"--device", type=str, default="cpu", help="Whether use GPU. Currently not available with GPU.
+--device", type=str, default="gpu", help="Whether use GPU, 'gpu' or 'cpu'"
 ```
-
-Example
-* Set lidar frames (by default 3 frames) to 4 frames.
-    ```
-    python main.py --obs-lidar-frames 4
-    ```

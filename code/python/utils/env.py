@@ -1,6 +1,5 @@
 from mlagents_envs.environment import UnityEnvironment
 
-
 def make_env(args):
     if args.env_mode == "unity":
         env = UnityEnvironment(file_name=None)
@@ -31,7 +30,7 @@ def make_env(args):
     else:
         raise ValueError("Invalid environment mode.")
 
-    print(f"===> # of agents: {args.num_agents}")
+    print(f"===> number of drones: {args.num_agents}")
     print(f"===> action dim: {args.act_dim}")
     print(f"===> observation lidar dim: {args.obs_lidar_dim}")
     print(f"===> observation lidar frames: {args.obs_lidar_frames}")

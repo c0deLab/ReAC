@@ -20,12 +20,7 @@ class LSTMPolicy(nn.Module):
 
         # actor layers
         self.a_fea_cv1 = nn.Conv1d(in_channels=self.obs_lidar_frames, out_channels=32, kernel_size=5, stride=2, padding=1)
-        # self.a_conn_dim = self.calc_conn_dim(obs_lidar_dim, 5, 2, 1)
         self.a_fea_cv2 = nn.Conv1d(in_channels=32, out_channels=32, kernel_size=3, stride=2, padding=1)
-        # self.a_conn_dim = self.calc_conn_dim(self.a_conn_dim, 3, 2, 1)
-        # self.a_fc1 = nn.Linear(64*32, 256)  # TODO hard coded
-        # self.a_fc2 = nn.Linear(256+2+2, 128)  # TODO hard coded
-        # self.a_fc1 = nn.Linear(self.a_conn_dim * 32, 256)
         self.a_fc1 = nn.Linear(32, 256)
         self.a_fc2 = nn.Linear(256 + obs_other_dim, encode_dim)
         self.a_lstm = nn.LSTMCell(input_size=encode_dim, hidden_size=encode_dim)
@@ -33,16 +28,10 @@ class LSTMPolicy(nn.Module):
 
         # critic layer
         self.c_fea_cv1 = nn.Conv1d(in_channels=self.obs_lidar_frames, out_channels=32, kernel_size=5, stride=2, padding=1)
-        # self.c_conn_dim = self.calc_conn_dim(obs_lidar_dim, kernel_size=5, stride=2, padding=1)
         self.c_fea_cv2 = nn.Conv1d(in_channels=32, out_channels=32, kernel_size=3, stride=2, padding=1)
-        # self.c_conn_dim = self.calc_conn_dim(self.c_conn_dim, kernel_size=3, stride=2, padding=1)
-        # self.c_fc1 = nn.Linear(64*32, 256)
-        # self.c_fc2 = nn.Linear(256+2+2, 128)
         self.c_fc1 = nn.Linear(32, 256)
-        # self.c_fc1 = nn.Linear(self.c_conn_dim * 32, 256)
         self.c_fc2 = nn.Linear(256 + obs_other_dim, encode_dim)
-        self.c_lstm = nn.LSTMCell(
-            input_size=encode_dim, hidden_size=encode_dim)
+        self.c_lstm = nn.LSTMCell(input_size=encode_dim, hidden_size=encode_dim)
         self.c_out = nn.Linear(encode_dim, 1)
 
     def forward(self,
@@ -114,7 +103,3 @@ class LSTMPolicy(nn.Module):
             torch.log(2 * pi) - log_std
         log_density = log_density.sum(dim=-1, keepdim=True)
         return log_density
-
-    # @staticmethod
-    # def calc_conn_dim(input_dim: int, kernel_size: int, stride: int, padding: int) -> int:
-    #     return int((input_dim - kernel_size + 2 * padding) / stride + 1)
