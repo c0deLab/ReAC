@@ -70,6 +70,7 @@ class PPO(object):
         global_update = 0
         global_step = 0
         step = 0
+        last_episode = 0
 
         for episode in range(self.num_episodes):
             self.env.reset()
@@ -114,13 +115,15 @@ class PPO(object):
                     loss, _, _, _ = self._update(memory)
                     mean_reward = torch.mean(reward_arr)
 
-                    memory.empty()
-
                     self.writer.add_scalar('Reward/Reward vs. update', mean_reward, global_update)
                     self.writer.add_scalar('Reward/Reward vs. episode', mean_reward, episode)
                     self.writer.add_scalar('Loss/Loss vs. update', loss, global_update)
                     self.writer.add_scalar('Loss/Loss vs. episode', loss, episode)
+                    self.writer.add_scalar('Persistence/Num of Collision vs. update', episode - last_episode, global_update)
                     print(f"-----> update {global_update + self.prev_update}\t episode {episode + self.prev_episode}\t reward {mean_reward}\t loss {loss}")
+
+                    memory.empty()
+                    last_episode = episode
 
 
             if global_update % self.model_save_interval == 0:
