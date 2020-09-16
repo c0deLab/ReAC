@@ -21,6 +21,7 @@ public class RLDrone : Agent
 
     private Vector3 _lastObsPos;
     private bool _collided;
+    private const float _targetDisplayRadius = 0.1f;
 
     [Observable] public float ColliderRadius => _collider.radius;
     public float rewardDistScalar = 2.5f;
@@ -29,7 +30,10 @@ public class RLDrone : Agent
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _target = new GameObject($"{name} Target").transform;
+        _target = GameObject.CreatePrimitive(PrimitiveType.Sphere).transform;
+        _target.name = $"{name} Target";
+        DestroyImmediate(_target.GetComponent<Collider>());
+        _target.transform.localScale = Vector3.one * _targetDisplayRadius;
         _collider = GetComponent<SphereCollider>();
         _envConfig = transform.parent.GetComponent<RLConfig>();
     }
@@ -47,7 +51,6 @@ public class RLDrone : Agent
 
         return false;
     }
-
 
     public override void OnEpisodeBegin()
     {
@@ -67,7 +70,7 @@ public class RLDrone : Agent
         } while (!CheckInit());
 
         var targetCollider = _target.gameObject.AddComponent<SphereCollider>();
-        targetCollider.radius = colliderRangeMax;
+        targetCollider.radius = colliderRangeMax / _targetDisplayRadius;
         targetCollider.isTrigger = true;
 
         bool CheckTargetInit()
