@@ -115,12 +115,16 @@ class PPO(object):
                     loss, _, _, _ = self._update(memory)
                     mean_reward = torch.mean(reward_arr)
 
-                    self.writer.add_scalar('Reward/Reward vs. update', mean_reward, global_update)
-                    self.writer.add_scalar('Reward/Reward vs. episode', mean_reward, episode)
-                    self.writer.add_scalar('Loss/Loss vs. update', loss, global_update)
-                    self.writer.add_scalar('Loss/Loss vs. episode', loss, episode)
-                    self.writer.add_scalar('Persistence/Num of Collision vs. update', episode - last_episode, global_update)
-                    print(f"-----> update {global_update + self.prev_update}\t episode {episode + self.prev_episode}\t reward {mean_reward}\t loss {loss}")
+                    log_episode = episode + self.prev_episode
+                    log_update = global_update + self.prev_update
+                    log_endure = episode - last_episode
+
+                    self.writer.add_scalar('Reward/Reward vs. update', mean_reward, log_update)
+                    self.writer.add_scalar('Reward/Reward vs. episode', mean_reward, log_episode)
+                    self.writer.add_scalar('Loss/Loss vs. update', loss, log_update)
+                    self.writer.add_scalar('Loss/Loss vs. episode', loss, log_episode)
+                    self.writer.add_scalar('Persistence/Num of Collision vs. update', log_endure, log_update)
+                    print(f"-----> update {log__update}\t episode {log_episode}\t collision {log_endure}\t reward {mean_reward}\t loss {loss}")
 
                     memory.empty()
                     last_episode = episode
