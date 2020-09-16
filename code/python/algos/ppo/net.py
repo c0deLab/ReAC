@@ -95,16 +95,6 @@ class LSTMPolicy(nn.Module):
         dist_entropy = dist_entropy.sum(-1).mean()
         return value, logprob, dist_entropy
 
-    # https://github.com/Acmece/rl-collision-avoidance/blob/40bf4f22b4270074d549461ea56ca2490b2e5b1c/model/utils.py#L90
-    # TODO: rewrite log density
-    @staticmethod
-    def log_normal_density(x: torch.tensor,
-                           mean: torch.tensor,
-                           log_std: torch.tensor) -> Tuple[torch.tensor]:
-        """returns guassian density given x on log scale"""
-        var = torch.exp(log_std) ** 2
-        dist = MultivariateNormal(mean, torch.diag_embed(var))
-        return dist.log_prob(x)
 
 
 class FCPolicy(nn.Module):
