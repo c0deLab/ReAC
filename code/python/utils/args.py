@@ -11,7 +11,7 @@ def get_args():
     parser.add_argument("--algo", type=str, default="ppo", help="name of RL algorithm, 'ppo', 'maddpg' or 'ddpg'")
     parser.add_argument("--policy-type", type=str, default="ppo-fc", help="mode of policy, 'ppo-fc' or 'ppo-lstm'")
 
-    parser.add_argument("--num-episodes", type=int, default=1e8, help="(maximum) number of episodes")
+    parser.add_argument("--num-episodes", type=int, default=1000000, help="(maximum) number of episodes")
     parser.add_argument("--rollout-size", type=int, default=128, help="rollout size")
     parser.add_argument("--encode-dim", type=int, default=128, help="encode dimension of LSTM cell")
 

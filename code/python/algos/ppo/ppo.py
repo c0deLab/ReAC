@@ -187,8 +187,8 @@ class PPO(object):
         self.policy.load_state_dict(checkpoint['model_state_dict'])
         # TODO: uncomment if learning rate is properly tuned.
         # self.optim.load_state_dict(checkpoint['optimizer_state_dict'])
-        self.prev_update = checkpoint['prev_update']
-        self.prev_episode = checkpoint['prev_episode']
+        self.prev_update = int(checkpoint['prev_update'])
+        self.prev_episode = int(checkpoint['prev_episode'])
 
 
     # NOTE: DEBUGGED, need recheck
