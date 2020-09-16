@@ -11,7 +11,7 @@ def get_args():
     parser.add_argument("--algo", type=str, default="ppo", help="name of RL algorithm, 'ppo', 'maddpg' or 'ddpg'")
     parser.add_argument("--policy-type", type=str, default="ppo-fc", help="mode of policy, 'ppo-fc' or 'ppo-lstm'")
 
-    parser.add_argument("--num-episodes", type=int, default=5000, help="(maximum) number of episodes")
+    parser.add_argument("--num-episodes", type=int, default=1e8, help="(maximum) number of episodes")
     parser.add_argument("--rollout-size", type=int, default=128, help="rollout size")
     parser.add_argument("--encode-dim", type=int, default=128, help="encode dimension of LSTM cell")
 
@@ -21,7 +21,7 @@ def get_args():
     # PPO stuff
     parser.add_argument("--gamma", type=float, default=0.99, help="discount factor gamma")
     parser.add_argument("--lam", type=float, default=0.95, help="lineage rate lambda")
-    parser.add_argument("--lr", type=float, default=1e-3, help="learning rate")
+    parser.add_argument("--lr", type=float, default=5e-5, help="learning rate")
     parser.add_argument("--coeff-entropy", type=float, default=5e-4, help="coefficient of entropy")
     parser.add_argument("--clip-value", type=float, default=0.1, help="PPO clip value")
 
