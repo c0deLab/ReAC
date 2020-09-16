@@ -8,6 +8,7 @@ torchvision=0.7.0
 tensorboard=2.3.0
 mlagents=0.19.0
 numpy=1.19.1
+pathlib=1.0.1
 ```
 
 ## Usage

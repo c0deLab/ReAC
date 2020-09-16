@@ -1,3 +1,9 @@
+# Please share these files externally, not through git
+_log/
+_model/
+_plot/
+_video/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -33,7 +33,7 @@ def get_args():
     parser.add_argument("--inference-interval", type=int, default=100, help="inference evaluation interval")
 
     # Checkpointing
-    parser.add_argument("--model-save-interval", type=int, default=2, help="model save interval")
+    parser.add_argument("--model-save-interval", type=int, default=200, help="model save interval")
     parser.add_argument("--model-save-path", type=str, default="_model", help="path for saving model")
     parser.add_argument("--model-load-path", type=str, default=None, help="path for loading model, model name must be included")
 

@@ -17,7 +17,7 @@ def guess_path(path: str) -> str:
     elif cwd_path.exists():
         return cwd_path
     else:
-        raise ValueError("Model path doesn't exists.")
+        raise ValueError("path doesn't exist.")
 
 
 if __name__ == "__main__":
@@ -25,6 +25,15 @@ if __name__ == "__main__":
     env, args = make_env(args)
 
     args.root_dir = pathlib.Path(__file__).parent.absolute()
+
+    # make default folder _log/, _model/, _video/, _plot/ if not exist
+    defaults = ['_log', '_model', '_video', '_plot']
+    for default in defaults:
+        default_path = args.root_dir / default
+        if not default_path.exists():
+            default_path.mkdir(parents=True, exist_ok=False)
+
+
     args.log_save_path = guess_path(args.log_save_path)
     args.model_save_path = guess_path(args.model_save_path)
 

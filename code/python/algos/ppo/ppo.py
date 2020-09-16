@@ -40,18 +40,19 @@ class PPO(object):
         self.writer = writer
         # policy
         self.policy_type = args.policy_type
+        init_dict = {"obs_lidar_frames": args.obs_lidar_frames,
+                     "obs_lidar_dim": args.obs_lidar_dim,
+                     "obs_other_dim": args.obs_other_dim,
+                     "act_dim": args.act_dim,
+                     "encode_dim": args.encode_dim}
         if self.policy_type == "ppo-lstm":
-            self.policy = LSTMPolicy(obs_lidar_frames=args.obs_lidar_dim,
-                                     obs_other_dim=args.obs_other_dim,
-                                     act_dim=args.act_dim,
-                                     encode_dim=args.encode_dim)
+            self.policy = LSTMPolicy(**init_dict)
             self.optim = Adam(self.policy.parameters(), lr=self.lr)
         elif self.policy_type == "ppo-fc":
-            self.policy = FCPolicy(obs_lidar_frames=args.obs_lidar_dim,
-                                     obs_other_dim=args.obs_other_dim,
-                                     act_dim=args.act_dim,
-                                     encode_dim=args.encode_dim)
+            self.policy = FCPolicy(**init_dict)
             self.optim = Adam(self.policy.parameters(), lr=self.lr)
+        else:
+            raise ValueError("Policy type not supported.")
         
         if model_path is not None:
             self.load_model(model_path)
@@ -221,7 +222,7 @@ class PPO(object):
             done: torch.tensor = torch.tensor(done)
 
             with torch.no_grad():
-                value, action, logprob, _ = self._get_clipped_action(obs, [[0., 1.], [-1., 1.]], **kwargs)
+                value, action, logprob, _ = self._get_clipped_action(obs, [[0., -1.], [1., 1.]], **kwargs)
                     
             transition = Transition(obs=obs, action=action, reward=reward, done=done, logprob=logprob, value=value, **kwargs)
             # TODO: is the done here necessary? Avoid irregular respawn behavior
