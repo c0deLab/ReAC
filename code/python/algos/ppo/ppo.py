@@ -82,16 +82,16 @@ class PPO(object):
             else:
                 prev_a_hc, prev_c_hc = None, None
 
-            while not terminal:
+            while (not terminal) and (step < self.rollout_size):
                 global_step += 1
                 step += 1
                 transition = self._step(a_hc=prev_a_hc, c_hc=prev_c_hc)
                 buffer.append(transition)
 
-                # BEST: terminal means at least one agent is done (collided), need to calculate GAE
+                # BEST: terminal means at least one agent is done (collided)
                 terminal = torch.sum(transition.done) > 0
 
-                if step >= self.rollout_size:
+                if step == self.rollout_size:
                     global_update += 1
                     step = 0
 
