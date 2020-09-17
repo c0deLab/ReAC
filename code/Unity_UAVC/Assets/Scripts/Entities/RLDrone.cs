@@ -17,8 +17,8 @@ public class RLDrone : Agent
     private const string TargetsName = "Targets";
     private const float _targetDisplayRadius = 0.1f;
 
-    [Range(0.2f, 0.5f)] public float colliderRangeMin = 0.25f;
-    [Range(0.2f, 0.5f)] public float colliderRangeMax = 0.40f;
+    // [Range(0.2f, 0.5f)] public float colliderRangeMin = 0.25f;
+    // [Range(0.2f, 0.5f)] public float colliderRangeMax = 0.40f;
     public float maxTranslateVelocity = 1.0f;
     public float maxRotateVelocity = 1.0f;
     public float safeRotateVelocity = 0.7f;
@@ -26,7 +26,7 @@ public class RLDrone : Agent
     public float rewardCollide = -15.0f;
     [Observable] public float ColliderRadius => _collider.radius;
     public float rewardDistScalar = 2.5f;
-    public float rewardRotScalar = -0.1f;
+    public float rewardRotScalar = -0.3f;
 
     private void Awake()
     {
@@ -57,9 +57,11 @@ public class RLDrone : Agent
 
     private void RespawnDrone()
     {
+        Stop();
+
         var respawnRange = _envConfig.RespawnDistance;
         _rigidbody.velocity = new Vector3();
-        _collider.radius = Random.Range(colliderRangeMin, colliderRangeMax);
+        // _collider.radius = Random.Range(colliderRangeMin, colliderRangeMax);
 
         bool CheckInit() => Vector3.Distance(transform.position, Vector3.zero) <= _envConfig.RespawnDistance &&
                             !IsCollided(_collider);
@@ -70,6 +72,9 @@ public class RLDrone : Agent
                 Random.Range(-respawnRange, respawnRange));
             Physics.SyncTransforms();
         } while (!CheckInit());
+
+        _lastObsPos = transform.position;
+        _collided = false;
     }
 
     private void RespawnTarget()
@@ -82,7 +87,8 @@ public class RLDrone : Agent
             foreach (Transform otherTarget in _targets)
             {
                 if (otherTarget != _target &&
-                    Vector3.Distance(_target.position, otherTarget.position) < colliderRangeMax * 2)
+                    Vector3.Distance(_target.position, otherTarget.position) <
+                    GetComponent<SphereCollider>().radius * 2)
                     return false;
             }
 
@@ -101,10 +107,7 @@ public class RLDrone : Agent
 
     public override void OnEpisodeBegin()
     {
-        RespawnDrone();
-        RespawnTarget();
-        _lastObsPos = transform.position;
-        _collided = false;
+        ResetDrone();
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -128,7 +131,7 @@ public class RLDrone : Agent
         {
             Debug.Log($"{name} terminated");
             SetReward(rewardCollide);
-            EndEpisode();
+            ResetDrone();
             return;
         }
 
@@ -157,5 +160,17 @@ public class RLDrone : Agent
     private void OnTriggerEnter(Collider other)
     {
         _collided = true;
+    }
+
+    private void Stop()
+    {
+        _rigidbody.velocity = Vector3.zero;
+        _rigidbody.angularVelocity = Vector3.zero;
+    }
+
+    private void ResetDrone()
+    {
+        RespawnDrone();
+        RespawnTarget();
     }
 }
