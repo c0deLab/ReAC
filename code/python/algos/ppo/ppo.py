@@ -362,4 +362,4 @@ class PPO(object):
         obs_l = obs_lidar[:, :, 2::2]
 
         reversed_obs_l = torch.flip(obs_l, dims=[-1])
-        return torch.cat((reversed_obs_l, obs_mid, obs_r), dim=-1)
+        return torch.cat((reversed_obs_l, obs_mid, obs_r), dim=-1).view(num_agents, obs_lidar_frames * obs_lidar_dim)
