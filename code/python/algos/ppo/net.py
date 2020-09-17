@@ -137,7 +137,7 @@ class FCPolicy(nn.Module):
             returns value estimation, action, log_action_prob
         """
 
-        obs_lidar = obs[0].view(obs[0].shape[0], self.obs_lidar_frames, -1)
+        obs_lidar = obs[0]
         obs_other = obs[1]
         N = obs_lidar.shape[0]
 

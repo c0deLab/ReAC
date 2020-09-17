@@ -16,7 +16,11 @@ class PPO(object):
         self.num_epochs = args.num_epochs
         self.num_episodes = args.num_episodes
         self.rollout_size = args.rollout_size
+
         self.num_agents = args.num_agents
+        self.obs_lidar_dim = args.obs_lidar_dim
+        self.obs_lidar_frames = args.obs_lidar_frames
+
         self.encode_dim = args.encode_dim
         self.gamma = args.gamma
         self.lam = args.lam
@@ -212,6 +216,10 @@ class PPO(object):
             # obs
             obs_lidar: np.ndarray = decision_steps.obs[1][:, 2::3]                      # -> N x (obs_lidar_dim * obs_lidar_frames)
             obs_lidar: torch.tensor = torch.from_numpy(obs_lidar).float()
+
+            obs_lidar = self._transform_lidar(obs_lidar, self.num_agents, self.obs_lidar_dim, self.obs_lidar_frames)
+
+
             obs_other: np.ndarray = decision_steps.obs[2]                               # -> N x obs_other_dim
             obs_other: torch.tensor = torch.from_numpy(obs_other).float()
             obs = (obs_lidar, obs_other)
@@ -343,3 +351,15 @@ class PPO(object):
             return cpnt_2['obs'], cpnt_1['action'], cpnt_1['reward'], cpnt_1['done'], cpnt_1['logprob'], cpnt_1['value'], cpnt_2['a_hc'], cpnt_2['c_hc']
         except KeyError:
             return cpnt_2['obs'], cpnt_1['action'], cpnt_1['reward'], cpnt_1['done'], cpnt_1['logprob'], cpnt_1['value'], None, None
+
+    @staticmethod
+    def _transform_lidar(obs_lidar: torch.tensor, num_agents: int, obs_lidar_dim: int, obs_lidar_frames: int):
+        # TODO: questions about view
+        obs_lidar = obs_lidar.view(num_agents, obs_lidar_frames, obs_lidar_dim)
+
+        obs_mid = obs_lidar[:, :, 0].unsqueeze(-1)
+        obs_r = obs_lidar[:, :, 1::2]
+        obs_l = obs_lidar[:, :, 2::2]
+
+        reversed_obs_l = torch.flip(obs_l, dims=[-1])
+        return torch.cat((reversed_obs_l, obs_mid, obs_r), dim=-1)
