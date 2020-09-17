@@ -88,12 +88,6 @@ class PPO(object):
                 transition = self._step(a_hc=prev_a_hc, c_hc=prev_c_hc)
                 buffer.append(transition)
 
-                prev_a_hc = transition.a_hc
-                prev_c_hc = transition.c_hc
-                # re-init LSTM cell state and hidden state of collided agent
-                # terminated_agents = torch.nonzero(transition.done).squeeze()
-                # prev_a_hc = [x[i, :]= 0 for i in terminated_agents for x in a_hc]
-                # prev_c_hc = [x[i, :]= 0 for i in terminated_agents for x in a_hc]
                 # BEST: terminal means at least one agent is done (collided), need to calculate GAE
                 terminal = torch.sum(transition.done) > 0
 
@@ -124,7 +118,7 @@ class PPO(object):
                     self.writer.add_scalar('Loss/Loss vs. update', loss, log_update)
                     self.writer.add_scalar('Loss/Loss vs. episode', loss, log_episode)
                     self.writer.add_scalar('Persistence/Num of Collision vs. update', log_endure, log_update)
-                    print(f"-----> update {log__update}\t episode {log_episode}\t collision {log_endure}\t reward {mean_reward}\t loss {loss}")
+                    print(f"-----> update {log_update}\t episode {log_episode}\t collision {log_endure}\t reward {mean_reward}\t loss {loss}")
 
                     memory.empty()
                     last_episode = episode
@@ -224,7 +218,7 @@ class PPO(object):
             # reward
             reward: np.ndarray = decision_steps.reward                                  # -> N,
             reward: torch.tensor = torch.from_numpy(reward).float()
-            # done, handle terminated (collided) agents
+            # done, handle terminated (collided, or exceeds max step) agents
             terminated_agents = terminal_steps.agent_id
             done: list = [True if i in terminated_agents else False for i in range(self.num_agents)]
             done: torch.tensor = torch.tensor(done)
