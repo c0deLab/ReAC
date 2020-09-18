@@ -12,7 +12,7 @@ def get_args():
     parser.add_argument("--policy-type", type=str, default="ppo-fc", help="mode of policy, 'ppo-fc' or 'ppo-lstm'")
 
     parser.add_argument("--num-episodes", type=int, default=1000000, help="(maximum) number of episodes")
-    parser.add_argument("--rollout-size", type=int, default=128, help="rollout size")
+    parser.add_argument("--rollout-size", type=int, default=1024, help="rollout size")
     parser.add_argument("--encode-dim", type=int, default=128, help="encode dimension of LSTM cell")
 
     # Network config
@@ -21,8 +21,8 @@ def get_args():
     # PPO stuff
     parser.add_argument("--gamma", type=float, default=0.99, help="discount factor gamma")
     parser.add_argument("--lam", type=float, default=0.95, help="lineage rate lambda")
-    parser.add_argument("--lr", type=float, default=1e-5, help="learning rate")
-    parser.add_argument("--coeff-entropy", type=float, default=5e-4, help="coefficient of entropy")
+    parser.add_argument("--lr", type=float, default=5e-5, help="learning rate")
+    parser.add_argument("--coeff-entropy", type=float, default=1e-3, help="coefficient of entropy")
     parser.add_argument("--clip-value", type=float, default=0.1, help="PPO clip value")
 
     # Training
@@ -33,7 +33,7 @@ def get_args():
     parser.add_argument("--inference-interval", type=int, default=100, help="inference evaluation interval")
 
     # Checkpointing
-    parser.add_argument("--model-save-interval", type=int, default=100, help="model save interval")
+    parser.add_argument("--model-save-interval", type=int, default=25, help="model save interval")
     parser.add_argument("--model-save-path", type=str, default="_model", help="path for saving model")
     parser.add_argument("--model-load-path", type=str, default=None, help="path for loading model, model name must be included")
 
