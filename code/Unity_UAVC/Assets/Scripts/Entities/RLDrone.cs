@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Random = UnityEngine.Random;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
@@ -13,6 +14,7 @@ public class RLDrone : Agent
     private RLConfig _envConfig;
     private Vector3 _lastObsPos;
     private bool _collided;
+    private bool _arrival;
 
     private const string TargetsName = "Targets";
     private const float _targetDisplayRadius = 0.1f;
@@ -55,15 +57,24 @@ public class RLDrone : Agent
         return false;
     }
 
+    private void Update()
+    {
+        if (Vector3.Distance(transform.position, _target.position) <= _envConfig.ReachTargetTolerance)
+        {
+            _arrival = true;
+        }
+    }
+
     private void RespawnDrone()
     {
+        Debug.Log($"respawning {name}");
         Stop();
 
         var respawnRange = _envConfig.RespawnDistance;
         _rigidbody.velocity = new Vector3();
         // _collider.radius = Random.Range(colliderRangeMin, colliderRangeMax);
 
-        bool CheckInit() => Vector3.Distance(transform.position, Vector3.zero) <= _envConfig.RespawnDistance &&
+        bool CheckInit() => Vector3.Distance(transform.position, Vector3.zero) <= respawnRange &&
                             !IsCollided(_collider);
 
         do
@@ -75,10 +86,12 @@ public class RLDrone : Agent
 
         _lastObsPos = transform.position;
         _collided = false;
+        Debug.Log($"respawned {name}");
     }
 
     private void RespawnTarget()
     {
+        Debug.Log($"respawning {name}'s target");
         var respawnRange = _envConfig.RespawnDistance;
         var targetDist = _envConfig.TargetDistance;
 
@@ -103,6 +116,7 @@ public class RLDrone : Agent
                 Random.Range(-respawnRange, respawnRange));
             Physics.SyncTransforms();
         } while (!CheckTargetInit());
+        Debug.Log($"respawned {name}'s target");
     }
 
     public override void OnEpisodeBegin()
@@ -140,15 +154,16 @@ public class RLDrone : Agent
         AddReward(rewardDistScalar * (lastDist - curDist));
         _lastObsPos = transform.position;
 
-        if (Vector3.Distance(transform.position, _target.position) <= _envConfig.ReachTargetTolerance)
+        if (_rigidbody.angularVelocity.y > safeRotateVelocity)
+            AddReward(rewardRotScalar * _rigidbody.angularVelocity.y);
+        
+        if (_arrival)
         {
             Debug.Log($"{name} arrived");
+            _arrival = false;
             AddReward(rewardReach);
             RespawnTarget();
         }
-
-        if (_rigidbody.angularVelocity.y > safeRotateVelocity)
-            AddReward(rewardRotScalar * _rigidbody.angularVelocity.y);
     }
 
     private float CalcTargetAngle()
