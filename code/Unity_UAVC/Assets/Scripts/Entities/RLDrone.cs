@@ -67,13 +67,14 @@ public class RLDrone : Agent
 
     private void RespawnDrone()
     {
+        Debug.Log($"respawning {name}");
         Stop();
 
         var respawnRange = _envConfig.RespawnDistance;
         _rigidbody.velocity = new Vector3();
         // _collider.radius = Random.Range(colliderRangeMin, colliderRangeMax);
 
-        bool CheckInit() => Vector3.Distance(transform.position, Vector3.zero) <= _envConfig.RespawnDistance &&
+        bool CheckInit() => Vector3.Distance(transform.position, Vector3.zero) <= respawnRange &&
                             !IsCollided(_collider);
 
         do
@@ -85,10 +86,12 @@ public class RLDrone : Agent
 
         _lastObsPos = transform.position;
         _collided = false;
+        Debug.Log($"respawned {name}");
     }
 
     private void RespawnTarget()
     {
+        Debug.Log($"respawning {name}'s target");
         var respawnRange = _envConfig.RespawnDistance;
         var targetDist = _envConfig.TargetDistance;
 
@@ -113,6 +116,7 @@ public class RLDrone : Agent
                 Random.Range(-respawnRange, respawnRange));
             Physics.SyncTransforms();
         } while (!CheckTargetInit());
+        Debug.Log($"respawned {name}'s target");
     }
 
     public override void OnEpisodeBegin()
