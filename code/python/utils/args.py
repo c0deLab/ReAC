@@ -12,7 +12,7 @@ def get_args():
     parser.add_argument("--policy-type", type=str, default="ppo-fc", help="mode of policy, 'ppo-fc' or 'ppo-lstm'")
 
     parser.add_argument("--num-episodes", type=int, default=1000000, help="(maximum) number of episodes")
-    parser.add_argument("--rollout-size", type=int, default=1024, help="rollout size")
+    parser.add_argument("--rollout-size", type=int, default=600, help="rollout size")
     parser.add_argument("--encode-dim", type=int, default=128, help="encode dimension of LSTM cell")
 
     # Network config

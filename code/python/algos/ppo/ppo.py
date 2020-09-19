@@ -110,18 +110,21 @@ class PPO(object):
                     memory.extend(tmp_memory)
                     buffer = []
 
-                    loss, _, _, _ = self._update(memory)
+                    loss, p_loss, v_loss, entropy = self._update(memory)
                     mean_reward = torch.mean(reward_arr)
 
                     log_episode = episode + self.prev_episode
                     log_update = global_update + self.prev_update
                     log_endure = episode - last_episode
 
-                    self.writer.add_scalar('Reward/Reward vs. update', mean_reward, log_update)
+                    # self.writer.add_scalar('Reward/Reward vs. update', mean_reward, log_update)
                     self.writer.add_scalar('Reward/Reward vs. episode', mean_reward, log_episode)
-                    self.writer.add_scalar('Loss/Loss vs. update', loss, log_update)
+                    # self.writer.add_scalar('Loss/Loss vs. update', loss, log_update)
                     self.writer.add_scalar('Loss/Loss vs. episode', loss, log_episode)
-                    self.writer.add_scalar('Persistence/Num of Collision vs. update', log_endure, log_update)
+                    self.writer.add_scalar('Loss/Policy loss vs. episode', p_loss, log_episode)
+                    self.writer.add_scalar('Loss/Value loss vs. episode', v_loss, log_episode)
+                    self.writer.add_scalar('Loss/Entropy vs. episode', entropy, log_episode)
+                    self.writer.add_scalar('Tremble/Num of collision vs. update', log_endure, log_update)
                     print(f"-----> update {log_update}\t episode {log_episode}\t collision {log_endure}\t reward {mean_reward}\t loss {loss}")
 
                     memory.empty()
