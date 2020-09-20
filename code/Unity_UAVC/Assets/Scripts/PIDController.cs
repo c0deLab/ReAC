@@ -7,12 +7,6 @@ public class PIDController
     private PID _posPID;
     private PID _rotPID;
 
-    // private Vector3 totalPosError;
-    // private Vector3 lastPosError;
-    // private Vector3 totalVelError;
-    // private Vector3 lastVelError;
-    // private Vector3 totalRotError;
-    // private Vector3 lastRotError;
     private Vector3 totalError;
     private Vector3 lastError;
 
@@ -32,7 +26,7 @@ public class PIDController
         }
     }
 
-    internal struct PID
+    private struct PID
     {
         public float kp;
         public float ki;
@@ -46,7 +40,6 @@ public class PIDController
         }
     }
 
-
     public PIDController(Rigidbody rb)
     {
         this.rb = rb;
@@ -57,6 +50,11 @@ public class PIDController
     public void Tick()
     {
         _pidHandler?.Invoke(this, _pidParam);
+    }
+
+    public void Stop()
+    {
+        _pidHandler = null;
     }
 
     public void GoToPos(Vector3 targetPos, float maxSpeed)
@@ -71,14 +69,6 @@ public class PIDController
         var error = param.target - rb.position;
         var targetVel = PIDUpdate(error, param.maxVal, _posPID, ref lastError, ref totalError);
         var force = (targetVel - rb.velocity) / Time.fixedDeltaTime;
-        var gravity = rb.useGravity ? (Physics.gravity * -1) : new Vector3(0, 0, 0);
-        rb.AddForce(force + gravity, ForceMode.Acceleration);
-    }
-
-    private void GoAtVelUpdate(Vector3 targetVel)
-    {
-        var error = targetVel - rb.velocity;
-        var force = PIDUpdate(error, Mathf.Infinity, _posPID, ref lastError, ref totalError);
         var gravity = rb.useGravity ? (Physics.gravity * -1) : new Vector3(0, 0, 0);
         rb.AddForce(force + gravity, ForceMode.Acceleration);
     }
@@ -117,13 +107,7 @@ public class PIDController
 
     private void ResetError()
     {
-        // totalPosError = new Vector3();
-        // lastPosError = new Vector3();
-        // totalVelError = new Vector3();
-        // lastVelError = new Vector3();
-        // totalRotError = new Vector3();
-        // lastRotError = new Vector3();
-        lastError = new Vector3();
-        totalError = new Vector3();
+        lastError = Vector3.zero;
+        totalError = Vector3.zero;
     }
 }
