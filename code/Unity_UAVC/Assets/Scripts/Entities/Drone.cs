@@ -16,6 +16,7 @@ public class Drone : MonoBehaviour
     private PIDController _controller;
     private PositionRotation _naviTarget;
     private RLModule _rlModule;
+    private Transform _meshModel;
 
     public const float TransHeight = 2.5f;
     private const float BatteryConsume = 0.005f;
@@ -34,6 +35,7 @@ public class Drone : MonoBehaviour
         dock.position = transform.position;
         dock.rotation = transform.rotation;
         _rlModule = GetComponent<RLModule>();
+        _meshModel = GetComponentInChildren<MeshRenderer>().transform.parent;
     }
 
     private void Start()
@@ -138,7 +140,7 @@ public class Drone : MonoBehaviour
     {
         _controller.Tick();
         _stateMachine.Tick();
-        // HandleTilt();
+        HandleTilt();
     }
 
     public void GoToPos(Vector3 targetPos)
@@ -177,16 +179,14 @@ public class Drone : MonoBehaviour
 
     private void HandleTilt()
     {
-        var pitch = -_rigidbody.velocity.x * 10;
-        var roll = _rigidbody.velocity.z * 10;
+        var pitch = -_rigidbody.velocity.x * 15;
+        var roll = _rigidbody.velocity.z * 15;
 
-        _tiltVelocity.x = Mathf.Lerp(_tiltVelocity.x, pitch, Time.deltaTime * 10);
-        _tiltVelocity.z = Mathf.Lerp(_tiltVelocity.z, roll, Time.deltaTime * 10);
+        _tiltVelocity.x = Mathf.Lerp(_tiltVelocity.x, pitch, Time.fixedDeltaTime * 20);
+        _tiltVelocity.z = Mathf.Lerp(_tiltVelocity.z, roll, Time.fixedDeltaTime * 20);
 
-        var convert = transform.InverseTransformDirection(_tiltVelocity);
-        var origin = Quaternion.AngleAxis(transform.eulerAngles.y, Vector3.up);
-        var rot = Quaternion.Euler(convert.z, 0, convert.x);
-        transform.rotation = origin * rot;
+        Debug.Log(_meshModel.eulerAngles);
+        _meshModel.eulerAngles = new Vector3(_tiltVelocity.magnitude, _meshModel.eulerAngles.y, 0);
     }
 
     public void EnterRLNavi(Vector3 targetPosition)
