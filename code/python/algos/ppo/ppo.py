@@ -227,11 +227,14 @@ class PPO(object):
             obs_other: np.ndarray = decision_steps.obs[2]                               # -> N x obs_other_dim
             obs_other: torch.tensor = torch.from_numpy(obs_other).float()
             obs = (obs_lidar, obs_other)
-            # reward
-            reward: np.ndarray = decision_steps.reward                                  # -> N,
-            reward: torch.tensor = torch.from_numpy(reward).float()
             # done, handle terminated (collided, or exceeds max step) agents
             terminated_agents = terminal_steps.agent_id
+            # reward
+            reward = [terminal_steps.reward[i] if i in terminated_agents else decision_steps.reward[i] for i in range(self.num_agents)]
+            # reward: np.ndarray = decision_steps.reward                                # -> N,
+            reward: torch.tensor = torch.tensor(reward).float()
+            
+
             done: list = [True if i in terminated_agents else False for i in range(self.num_agents)]
             done: torch.tensor = torch.tensor(done)
 

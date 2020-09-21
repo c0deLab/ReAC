@@ -145,8 +145,9 @@ public class RLDrone : Agent
         {
             Debug.Log($"{name} terminated");
             SetReward(rewardCollide);
-            ResetDrone();
-            return;
+            // ResetDrone();
+            EndEpisode();
+            // return;
         }
 
         var lastDist = Vector3.Distance(_lastObsPos, _target.position);
