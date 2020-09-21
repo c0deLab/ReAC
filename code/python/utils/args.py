@@ -21,9 +21,9 @@ def get_args():
     # PPO stuff
     parser.add_argument("--gamma", type=float, default=0.99, help="discount factor gamma")
     parser.add_argument("--lam", type=float, default=0.95, help="lineage rate lambda")
-    parser.add_argument("--lr", type=float, default=2e-4, help="learning rate")
+    parser.add_argument("--lr", type=float, default=5e-5, help="learning rate")
     parser.add_argument("--coeff-entropy", type=float, default=1e-2, help="coefficient of entropy")
-    parser.add_argument("--coeff-v", type=float, default=0.5, help="coefficient of value loss")
+    parser.add_argument("--coeff-v", type=float, default=20, help="coefficient of value loss")
     parser.add_argument("--clip-value", type=float, default=0.1, help="PPO clip value")
 
     # Training
