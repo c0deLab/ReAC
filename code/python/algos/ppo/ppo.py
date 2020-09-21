@@ -26,6 +26,7 @@ class PPO(object):
         self.lam = args.lam
         self.lr = args.lr
         self.coeff_entropy = args.coeff_entropy
+        self.coeff_v = args.coeff_v
         self.clip_value = args.clip_value
         self.batch_size = args.batch_size
 
@@ -307,7 +308,7 @@ class PPO(object):
                 surrogate_2 = torch.clamp(ratio, 1-self.clip_value, 1+self.clip_value) * batch.adv
                 p_loss = - torch.min(surrogate_1, surrogate_2).mean()
                 v_loss = F.mse_loss(new_value, batch.target)
-                loss = p_loss + 20 * v_loss - self.coeff_entropy * entropy
+                loss = p_loss + self.coeff_v * v_loss - self.coeff_entropy * entropy
 
                 self.optim.zero_grad()
                 loss.backward()
