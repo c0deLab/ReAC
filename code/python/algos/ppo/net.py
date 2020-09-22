@@ -155,7 +155,6 @@ class FCPolicy(nn.Module):
         # action prob on log scale
         logstd = self.logstd.expand_as(mean)
         action = torch.normal(mean, torch.exp(logstd))
-
         # action prob on log scale
         logprob = log_normal_density(action, mean, log_std=logstd)
 
@@ -183,7 +182,6 @@ class FCPolicy(nn.Module):
         dist_entropy = 0.5 + 0.5 * torch.log(2 * pi) + logstd
         dist_entropy = dist_entropy.sum(-1).mean()
         return value, logprob, dist_entropy
-
 
 
 def log_normal_density(x: torch.tensor,

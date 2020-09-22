@@ -130,6 +130,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 359163452}
     m_Modifications:
+    - target: {fileID: 4142280726135686883, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: DecisionPeriod
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142280726135686905, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: MaxStep
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142280726135686910, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: m_RaysPerDirection
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8352517225487177378, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
       propertyPath: m_Name
       value: RLDrone (6)
@@ -192,6 +204,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 359163452}
     m_Modifications:
+    - target: {fileID: 4142280726135686883, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: DecisionPeriod
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142280726135686905, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: MaxStep
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142280726135686910, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: m_RaysPerDirection
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8352517225487177378, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
       propertyPath: m_Name
       value: RLDrone (9)
@@ -310,6 +334,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 359163452}
     m_Modifications:
+    - target: {fileID: 4142280726135686883, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: DecisionPeriod
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142280726135686905, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: MaxStep
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142280726135686910, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: m_RaysPerDirection
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8352517225487177378, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
       propertyPath: m_Name
       value: RLDrone (3)
@@ -372,6 +408,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 359163452}
     m_Modifications:
+    - target: {fileID: 4142280726135686883, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: DecisionPeriod
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142280726135686905, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: MaxStep
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142280726135686910, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: m_RaysPerDirection
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8352517225487177378, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
       propertyPath: m_Name
       value: RLDrone (8)
@@ -517,6 +565,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 359163452}
     m_Modifications:
+    - target: {fileID: 4142280726135686883, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: DecisionPeriod
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142280726135686905, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: MaxStep
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142280726135686910, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: m_RaysPerDirection
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8352517225487177378, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
       propertyPath: m_Name
       value: RLDrone (1)
@@ -579,6 +639,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 359163452}
     m_Modifications:
+    - target: {fileID: 4142280726135686883, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: DecisionPeriod
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142280726135686905, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: MaxStep
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142280726135686910, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: m_RaysPerDirection
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8352517225487177378, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
       propertyPath: m_Name
       value: RLDrone (2)
@@ -641,6 +713,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 359163452}
     m_Modifications:
+    - target: {fileID: 4142280726135686883, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: DecisionPeriod
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142280726135686905, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: MaxStep
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142280726135686910, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: m_RaysPerDirection
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8352517225487177378, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
       propertyPath: m_Name
       value: RLDrone (5)
@@ -703,6 +787,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 359163452}
     m_Modifications:
+    - target: {fileID: 4142280726135686883, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: DecisionPeriod
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142280726135686905, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: MaxStep
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142280726135686910, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: m_RaysPerDirection
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8352517225487177378, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
       propertyPath: m_Name
       value: RLDrone (7)
@@ -765,6 +861,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 359163452}
     m_Modifications:
+    - target: {fileID: 4142280726135686883, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: DecisionPeriod
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142280726135686905, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: MaxStep
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142280726135686910, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: m_RaysPerDirection
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8352517225487177378, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
       propertyPath: m_Name
       value: RLDrone (4)
@@ -827,6 +935,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 359163452}
     m_Modifications:
+    - target: {fileID: 4142280726135686883, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: DecisionPeriod
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142280726135686905, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: MaxStep
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142280726135686910, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
+      propertyPath: m_RaysPerDirection
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8352517225487177378, guid: 330146dd29182f44dbec1c054a6f825b, type: 3}
       propertyPath: m_Name
       value: RLDrone

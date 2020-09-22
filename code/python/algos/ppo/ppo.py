@@ -15,7 +15,6 @@ class PPO(object):
     def __init__(self, env, args, writer, model_path=None):
         self.num_epochs = args.num_epochs
         self.num_episodes = args.num_episodes
-        self.rollout_size = args.rollout_size
 
         self.num_agents = args.num_agents
         self.obs_lidar_dim = args.obs_lidar_dim
@@ -37,7 +36,6 @@ class PPO(object):
         # model inference
         self.inference_interval = args.inference_interval
         # model load
-        self.prev_update = 0
         self.prev_episode = 0
         # model log
         self.log_save_path = args.log_save_path
@@ -72,68 +70,61 @@ class PPO(object):
     def train(self):
         buffer: Buffer = []
         memory = Memory()
-        global_update = 0
         global_step = 0
-        step = 0
-        last_episode = 0
+        episode = 0 + self.prev_episode
+        collision = 0
 
-        for episode in range(self.num_episodes):
-            self.env.reset()
-            mean_reward = 0.
-            terminal = False
-            if self.policy_type == "ppo-lstm":
-                prev_a_hc = [torch.zeros(self.num_agents, self.encode_dim), torch.zeros(self.num_agents, self.encode_dim)]
-                prev_c_hc = [torch.zeros(self.num_agents, self.encode_dim), torch.zeros(self.num_agents, self.encode_dim)]
-            else:
-                prev_a_hc, prev_c_hc = None, None
+        self.env.reset()
+        mean_reward = 0.
+        terminal = False
+        if self.policy_type == "ppo-lstm":
+            prev_a_hc = [torch.zeros(self.num_agents, self.encode_dim), torch.zeros(self.num_agents, self.encode_dim)]
+            prev_c_hc = [torch.zeros(self.num_agents, self.encode_dim), torch.zeros(self.num_agents, self.encode_dim)]
+        else:
+            prev_a_hc, prev_c_hc = None, None
 
-            while (not terminal) and (step < self.rollout_size):
-                global_step += 1
-                step += 1
-                transition = self._step(a_hc=prev_a_hc, c_hc=prev_c_hc)
-                buffer.append(transition)
+        while True:
+            global_step += 1
+            transition, terminal = self._step(a_hc=prev_a_hc, c_hc=prev_c_hc)
+            buffer.append(transition)
+            collision += torch.sum(transition.done)
 
-                # BEST: terminal means at least one agent is done (collided)
-                terminal = torch.sum(transition.done) > 0
+            if terminal:
+                episode += 1
 
-                if step == self.rollout_size:
-                    global_update += 1
-                    step = 0
+                obs_arr, action_arr, reward_arr, done_arr, logprob_arr, value_arr, a_hc_arr, c_hc_arr = self._transform_buffer(buffer)
+                next_value = value_arr[-1, :]
 
-                    next_transition = self._step(a_hc=prev_a_hc, c_hc=prev_c_hc)
-                    next_value = next_transition.value
+                target_arr, adv_arr = self._get_advantage(reward_arr[:-1, :], value_arr[:-1, :], next_value, done_arr[:-1, :])
+                tmp_memory = Memory(obs=[obs_arr[0][:-1, :], obs_arr[1][:-1, :]],
+                                    action=action_arr[:-1, :, :],
+                                    logprob=logprob_arr[:-1, :],
+                                    target=target_arr,
+                                    adv=adv_arr,
+                                    a_hc=a_hc_arr, c_hc=c_hc_arr)
+                
+                memory.extend(tmp_memory)
 
-                    obs_arr, action_arr, reward_arr, done_arr, logprob_arr, value_arr, a_hc_arr, c_hc_arr = self._transform_buffer(buffer)
-                    target_arr, adv_arr = self._get_advantage(reward_arr, value_arr, next_value, done_arr)
-                    tmp_memory = Memory(obs=obs_arr, action=action_arr, logprob=logprob_arr, target=target_arr, adv=adv_arr,
-                                        a_hc=a_hc_arr, c_hc=c_hc_arr)
-                    
-                    memory.extend(tmp_memory)
-                    buffer = []
+                loss, p_loss, v_loss, entropy = self._update(memory)
+                mean_reward = torch.mean(reward_arr)
+                
+                self.writer.add_scalar('Reward/Reward vs. episode', mean_reward, episode)
+                self.writer.add_scalar('Loss/Loss vs. episode', loss, episode)
+                self.writer.add_scalar('Loss/Policy loss vs. episode', p_loss, episode)
+                self.writer.add_scalar('Loss/Value loss vs. episode', v_loss, episode)
+                self.writer.add_scalar('Loss/Entropy vs. episode', entropy, episode)
+                self.writer.add_scalar('Tremble/Num of collision vs. update', collision, episode)
+                print(f"-----> episode {episode}\t step {global_step}\t collision {collision}\t reward {mean_reward}\t loss {loss}")
 
-                    loss, p_loss, v_loss, entropy = self._update(memory)
-                    mean_reward = torch.mean(reward_arr)
+                buffer = []
+                memory.empty()
+                collision = 0
 
-                    log_episode = episode + self.prev_episode
-                    log_update = global_update + self.prev_update
-                    log_endure = episode - last_episode
-
-                    # self.writer.add_scalar('Reward/Reward vs. update', mean_reward, log_update)
-                    self.writer.add_scalar('Reward/Reward vs. episode', mean_reward, log_episode)
-                    # self.writer.add_scalar('Loss/Loss vs. update', loss, log_update)
-                    self.writer.add_scalar('Loss/Loss vs. episode', loss, log_episode)
-                    self.writer.add_scalar('Loss/Policy loss vs. episode', p_loss, log_episode)
-                    self.writer.add_scalar('Loss/Value loss vs. episode', v_loss, log_episode)
-                    self.writer.add_scalar('Loss/Entropy vs. episode', entropy, log_episode)
-                    self.writer.add_scalar('Tremble/Num of collision vs. update', log_endure, log_update)
-                    print(f"-----> update {log_update}\t episode {log_episode}\t collision {log_endure}\t reward {mean_reward}\t loss {loss}")
-
-                    memory.empty()
-                    last_episode = episode
-
-
-            if global_update % self.model_save_interval == 0:
-                self.save_model(extra=str(global_update), prev_update=global_update, prev_episode=episode)
+            if episode % self.model_save_interval == 0:
+                self.save_model(extra=str(episode), prev_episode=episode)
+            
+            if episode == self.num_episodes:
+                break
 
     def eval(self):
         episode = 0
@@ -151,11 +142,10 @@ class PPO(object):
 
             while not terminal:
                 step += 1
-                transition = self._step(a_hc=prev_a_hc, c_hc=prev_c_hc)
+                transition, terminal = self._step(a_hc=prev_a_hc, c_hc=prev_c_hc)
                 prev_a_hc = transition.a_hc
                 prev_c_hc = transition.c_hc
                 reward += transition.reward
-                terminal = torch.sum(transition.done) > 0
 
             rewards.append(reward)
             episode += 1
@@ -167,7 +157,6 @@ class PPO(object):
     def save_model(self,
                    save_path: Union[str, pathlib.Path] = None,
                    extra: str = None,
-                   prev_update: int = 0,
                    prev_episode: int = 0):
         if save_path is None:
             save_path = self.model_save_path
@@ -184,7 +173,6 @@ class PPO(object):
         torch.save({
             'model_state_dict': self.policy.state_dict(),
             'optimizer_state_dict': self.optim.state_dict(),
-            'prev_update': prev_update,
             'prev_episode': prev_episode
         }, save_path / name)
 
@@ -196,7 +184,6 @@ class PPO(object):
         self.policy.load_state_dict(checkpoint['model_state_dict'])
         # TODO: uncomment if learning rate is properly tuned.
         self.optim.load_state_dict(checkpoint['optimizer_state_dict'])
-        self.prev_update = int(checkpoint['prev_update'])
         self.prev_episode = int(checkpoint['prev_episode'])
 
 
@@ -215,28 +202,29 @@ class PPO(object):
             Transition: Transition object with obs, action, reward, done, logprob, value, a_hc, c_hc
         """     
         if self.env_mode == "unity":
-            # TODO: see MLAgents release 6 for use of terminal steps
             decision_steps, terminal_steps = self.env.get_steps(self.behavior_name)
             # obs
-            obs_lidar: np.ndarray = decision_steps.obs[1][:, 2::3]                      # -> N x (obs_lidar_dim * obs_lidar_frames)
+            if len(terminal_steps) == 0:
+                obs_lidar: np.ndarray = decision_steps.obs[1][:, 2::3]                      # -> N x (obs_lidar_dim * obs_lidar_frames)
+                obs_other: np.ndarray = decision_steps.obs[2]                               # -> N x obs_other_dim  
+            else:
+                obs_lidar: np.ndarray = terminal_steps.obs[1][:, 2::3]                      # -> N x (obs_lidar_dim * obs_lidar_frames)
+                obs_other: np.ndarray = terminal_steps.obs[2]  
+
             obs_lidar: torch.tensor = torch.from_numpy(obs_lidar).float()
-
             obs_lidar = self._transform_lidar(obs_lidar, self.num_agents, self.obs_lidar_dim, self.obs_lidar_frames)
-
-
-            obs_other: np.ndarray = decision_steps.obs[2]                               # -> N x obs_other_dim
             obs_other: torch.tensor = torch.from_numpy(obs_other).float()
             obs = (obs_lidar, obs_other)
-            # done, handle terminated (collided, or exceeds max step) agents
-            terminated_agents = terminal_steps.agent_id
-            # reward
-            reward = [decision_steps.reward[i] for i in range(self.num_agents)]
-            for idx, agent_id in enumerate(terminated_agents):
-                reward[agent_id] += terminal_steps.reward[idx]
-            reward: torch.tensor = torch.tensor(reward).float()
 
-            done: list = [True if i in terminated_agents else False for i in range(self.num_agents)]
+            # reward
+            reward = decision_steps.reward
+            collided_agents = np.where(reward == -15)[0]
+            reward: torch.tensor = torch.from_numpy(reward).float()
+            
+            done: list = [True if i in collided_agents else False for i in range(self.num_agents)]
             done: torch.tensor = torch.tensor(done)
+
+            terminal = len(terminal_steps.agent_id) == self.num_agents
 
             with torch.no_grad():
                 value, action, logprob, _ = self._get_clipped_action(obs, [[0., -1.], [1., 1.]], **kwargs)
@@ -245,7 +233,7 @@ class PPO(object):
             # TODO: is the done here necessary? Avoid irregular respawn behavior
             self.env.set_actions(self.behavior_name, action.detach().numpy())
             self.env.step()
-            return transition
+            return transition, terminal
         else:
             raise ValueError("Unsupported environment")
 

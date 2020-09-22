@@ -67,7 +67,7 @@ public class RLDrone : Agent
 
     private void RespawnDrone()
     {
-        Debug.Log($"respawning {name}");
+        // Debug.Log($"respawning {name}");
         Stop();
 
         var respawnRange = _envConfig.RespawnDistance;
@@ -86,12 +86,12 @@ public class RLDrone : Agent
 
         _lastObsPos = transform.position;
         _collided = false;
-        Debug.Log($"respawned {name}");
+        // Debug.Log($"respawned {name}");
     }
 
     private void RespawnTarget()
     {
-        Debug.Log($"respawning {name}'s target");
+        // Debug.Log($"respawning {name}'s target");
         var respawnRange = _envConfig.RespawnDistance;
         var targetDist = _envConfig.TargetDistance;
 
@@ -116,7 +116,7 @@ public class RLDrone : Agent
                 Random.Range(-respawnRange, respawnRange));
             Physics.SyncTransforms();
         } while (!CheckTargetInit());
-        Debug.Log($"respawned {name}'s target");
+        // Debug.Log($"respawned {name}'s target");
     }
 
     public override void OnEpisodeBegin()
@@ -145,9 +145,8 @@ public class RLDrone : Agent
         {
             Debug.Log($"{name} terminated");
             SetReward(rewardCollide);
-            // ResetDrone();
-            EndEpisode();
-            // return;
+            ResetDrone();
+            return;
         }
 
         var lastDist = Vector3.Distance(_lastObsPos, _target.position);
