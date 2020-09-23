@@ -24,11 +24,11 @@ public class RLDrone : Agent
     public float maxTranslateVelocity = 1.0f;
     public float maxRotateVelocity = 1.0f;
     public float safeRotateVelocity = 0.7f;
-    public float rewardReach = 15.0f;
+    public float rewardReach = 50.0f;
     public float rewardCollide = -15.0f;
     [Observable] public float ColliderRadius => _collider.radius;
     public float rewardDistScalar = 2.5f;
-    public float rewardRotScalar = -0.3f;
+    public float rewardRotScalar = -0.5f;
 
     private void Awake()
     {
@@ -151,7 +151,12 @@ public class RLDrone : Agent
 
         var lastDist = Vector3.Distance(_lastObsPos, _target.position);
         var curDist = Vector3.Distance(transform.position, _target.position);
-        AddReward(rewardDistScalar * (lastDist - curDist));
+        if (curDist < lastDist) {
+            AddReward(3.0f * rewardDistScalar * (lastDist - curDist));
+        } else {
+            AddReward(rewardDistScalar * (lastDist - curDist));
+        }
+        
         _lastObsPos = transform.position;
 
         if (_rigidbody.angularVelocity.y > safeRotateVelocity)
