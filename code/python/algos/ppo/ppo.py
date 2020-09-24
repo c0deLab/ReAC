@@ -101,12 +101,14 @@ class PPO(object):
                 self.writer.add_scalar('Loss/Policy loss vs. episode', p_loss, episode)
                 self.writer.add_scalar('Loss/Value loss vs. episode', v_loss, episode)
                 self.writer.add_scalar('Loss/Entropy vs. episode', entropy, episode)
-                self.writer.add_scalar('Tremble/Num of collision vs. update', collision, episode)
+                self.writer.add_scalar('Result/Num of collision vs. episode', collision, episode)
+                self.writer.add_scalar('Result/Num of arrival vs. episode', arrival, episode)
                 print(f"-----> episode {episode}\t step {global_step}\t collision {collision}\t arrival {arrival}\t reward {mean_reward}\t loss {loss}")
 
                 buffer.empty()
                 memory.empty()
                 collision = 0
+                arrival = 0
 
             if episode % self.model_save_interval == 0:
                 self.save_model(extra=str(episode), prev_episode=episode)
@@ -197,7 +199,7 @@ class PPO(object):
             # TODO: hardcoding
             reward = decision_steps.reward
             collided_agents = np.where(reward == -15)[0].tolist()
-            arrived_agents = np.where(reward >= 30)[0].tolist()
+            arrived_agents = np.where(reward > 30)[0].tolist()
             done_agents = collided_agents + arrived_agents
             reward: torch.tensor = torch.from_numpy(reward).float()
             
