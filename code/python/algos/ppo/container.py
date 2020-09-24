@@ -14,8 +14,6 @@ class Transition:
     - done: Done flag           -- bool     N
     - logprob: Log probability  -- float    N
     - value: Value              -- float    N
-    - (opt)a_hc: actor state    -- float    [ N x encode_dim, N x encode_dim ]
-    - (opt)a_hc: critic state   -- float    [ N x encode_dim, N x encode_dim ]
     """
     obs: List[torch.tensor]
     action: torch.tensor
@@ -23,11 +21,57 @@ class Transition:
     done: torch.tensor
     logprob: torch.tensor
     value: torch.tensor
-    a_hc: List[torch.tensor] = None
-    c_hc: List[torch.tensor] = None
 
-# A Buffer is an unordered list of transitions
-Buffer = List[Transition]
+@dataclass
+class Buffer:
+    """A Transition contains the data of ALL agents' experience at multiple timesteps. Denote number of agents as N. The length of obs, action, reward, done, logprob, value (B) is largely by user's choice by specifying start and stop in mapreduce.
+    - buffer                -- Transition   T
+    - obs: Observation          -- float    [ B x N x (lidar_dim * lidar_frames), B x N x other_dim ]
+    - action: Action            -- float    B x N x act_dim 
+    - reward: Reward            -- float    B x N
+    - done: Done flag           -- bool     B x N
+    - logprob: Log probability  -- float    B x N
+    - value: Value              -- float    B x N
+    """
+    obs: List[torch.tensor] = None
+    action: torch.tensor = None
+    reward: torch.tensor = None
+    done: torch.tensor = None
+    logprob: torch.tensor = None
+    value: torch.tensor = None
+    L:  Tuple[str] = ('obs', 'action', 'reward', 'done', 'logprob', 'value')
+    L1: Tuple[str] = ('action', 'reward', 'done', 'logprob', 'value')
+    L2: Tuple[str] = ('obs', )
+
+    def __init__(self):
+        self.buffer: List[Transition] = []
+
+    @property
+    def length(self) -> int:
+        return len(self.buffer)
+
+    def map_reduce(self, start=None, stop=None):
+        try:
+            for key in self.L1:
+                setattr(self, key, getattr(self.buffer[start], key).unsqueeze(0))
+            for key in self.L2:
+                setattr(self, key, [getattr(self.buffer[start], key)[0].unsqueeze(0),
+                                    getattr(self.buffer[start], key)[1].unsqueeze(0)])
+
+            for item in self.buffer[start + 1 : stop]:
+                for key in self.L1:
+                    setattr(self, key, torch.cat((getattr(self, key), getattr(item, key).unsqueeze(0)), dim=0))
+                for key in self.L2:
+                    setattr(self, key, [torch.cat((getattr(self, key)[0], getattr(item, key)[0].unsqueeze(0)), dim=0),
+                                        torch.cat((getattr(self, key)[1], getattr(item, key)[1].unsqueeze(0)), dim=0)])
+        except IndexError:
+            print("Make sure the start and stop are valid.")
+    
+    def empty(self):
+        self.buffer = []
+        for key in self.L:
+            setattr(self, key, None)
+    
 
 @dataclass
 class Memory:
@@ -38,28 +82,18 @@ class Memory:
     - logprob: Log probability  -- float    T x N
     - target: Target for update -- float    T x N
     - adv: Advantage for update -- float    T x N
-    - (opt)a_hc: actor state    -- float    [ T x N x encode_dim, T x N x encode_dim ]
-    - (opt)a_hc: critic state   -- float    [ T x N x encode_dim, T x N x encode_dim ]
     """
     obs: List[torch.tensor] = None
     action: torch.tensor = None
     logprob: torch.tensor = None
     target: torch.tensor = None
     adv: torch.tensor = None
-    a_hc: List[torch.tensor] = None
-    c_hc: List[torch.tensor] = None
-
-    @property
-    def L(self) -> List[str]:
-        return ['obs', 'a_hc', 'c_hc', 'action', 'logprob', 'target', 'adv']
-
-    @property
-    def L1(self) -> List[str]:
-        return ['action', 'logprob', 'target', 'adv']
+    is_flat: bool = False
+    is_empty: bool = True
+    L: Tuple[str] = ('obs', 'action', 'logprob', 'target', 'adv')
+    L1: Tuple[str] = ('action', 'logprob', 'target', 'adv')
+    L2: Tuple[str] = ('obs', )
     
-    @property
-    def L2(self) -> List[str]:
-        return ['obs', 'a_hc', 'c_hc']
     
     @property
     def length(self) -> int:
@@ -73,45 +107,10 @@ class Memory:
         else:
             return 0
     
-    @property
-    def is_empty(self) -> bool:        
-        result = True
-        for key in self.L1:
-            result = result and (getattr(self, key) is None)
-        return result
-    
-    @property
-    def is_flat(self) -> bool:
-        if (not self.is_empty) and (len(self.target.shape) == 1):
-            return True
-        else:
-            return False
-
-
-    def extend(self, other_memory):
-        """Append another Memory object to the current memory.
-
-        Args:
-            other_memory (Memory): other Memory object
-
-        Returns:
-            Memory: The memory after append.
-        """
-        if (not self.is_empty) and (not other_memory.is_empty):
-            for key in self.L1:
-                setattr(self, key, torch.cat((getattr(self, key), getattr(other_memory, key)), dim=0))
-            for key in self.L2:
-                try:
-                    setattr(self, key, [torch.cat((getattr(self, key)[0], getattr(other_memory, key)[0]), dim=0),
-                                        torch.cat((getattr(self, key)[1], getattr(other_memory, key)[1]), dim=0)])
-                except TypeError:
-                    pass
-        elif self.is_empty:
-            for key in self.L:
-                setattr(self, key, getattr(other_memory, key))
-        else:
-            pass
-
+    def add(self, **kwargs):
+        for key in self.L:
+            setattr(self, key, kwargs[key])
+        self.is_empty = False
 
     def empty(self):
         """
@@ -119,6 +118,8 @@ class Memory:
         """
         for key in self.L:
             setattr(self, key, None)
+        self.is_flat = False
+        self.is_empty = True
     
     def flatten(self):
         """
@@ -129,13 +130,10 @@ class Memory:
 
             for key in self.L1:
                 setattr(self, key, getattr(self, key).view(T * N, -1).squeeze())
-
             for key in self.L2:
-                try:
-                    setattr(self, key, [getattr(self, key)[0].view(T * N, -1).squeeze(),
-                                        getattr(self, key)[1].view(T * N, -1).squeeze()])
-                except TypeError:
-                    pass
+                setattr(self, key, [getattr(self, key)[0].view(T * N, -1),
+                                    getattr(self, key)[1].view(T * N, -1)])
+            self.is_flat = True
 
 
     def get_batch(self, idxs: List[int]):
@@ -144,15 +142,15 @@ class Memory:
         Args:
             idxs (List[int]): indices to retrieve
         """
-        if self.is_empty:
+        if self.is_empty: 
             return None
-        if not self.is_flat:
+        if not self.is_flat: 
             self.flatten()
         
         if len(idxs) > self.length:
             raise IndexError("Too many indices to retrieve.")
         else:
-            retrieved = Memory()
+            retrieved = Memory(is_flat=True)
             for key in self.L1:
                 setattr(retrieved, key, getattr(self, key)[idxs].requires_grad_())
             for key in self.L2:

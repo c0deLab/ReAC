@@ -28,7 +28,7 @@ public class RLDrone : Agent
     public float rewardCollide = -15.0f;
     [Observable] public float ColliderRadius => _collider.radius;
     public float rewardDistScalar = 2.5f;
-    public float rewardRotScalar = -0.5f;
+    public float rewardRotScalar = -0.1f;
 
     private void Awake()
     {

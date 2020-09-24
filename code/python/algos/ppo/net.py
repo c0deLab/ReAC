@@ -1,6 +1,8 @@
 from typing import Tuple, List
 import math
 
+import numpy as np
+
 import torch
 import torch.nn as nn
 from torch.nn import functional as F
@@ -110,7 +112,6 @@ class FCPolicy(nn.Module):
         self.act_dim = act_dim
         self.logstd = nn.Parameter(torch.zeros(act_dim))
 
-
         # actor layers
         self.a_fea_cv1 = nn.Conv1d(in_channels=self.obs_lidar_frames, out_channels=32, kernel_size=5, stride=2, padding=1)
         conv_out_dim = calc_conv_dim(obs_lidar_dim, kernel_size=5, stride=2, padding=1)
@@ -118,7 +119,6 @@ class FCPolicy(nn.Module):
         conv_out_dim = calc_conv_dim(conv_out_dim, kernel_size=3, stride=2, padding=1)
         self.a_fc1 = nn.Linear(conv_out_dim * 32, 256)
         self.a_fc2 = nn.Linear(256 + obs_other_dim, encode_dim)
-        self.a_fc3 = nn.Linear(encode_dim, encode_dim)
         self.a_out_1 = nn.Linear(encode_dim, 1)
         self.a_out_2 = nn.Linear(encode_dim, 1)
 
@@ -127,19 +127,18 @@ class FCPolicy(nn.Module):
         self.c_fea_cv2 = nn.Conv1d(in_channels=32, out_channels=32, kernel_size=3, stride=2, padding=1)
         self.c_fc1 = nn.Linear(conv_out_dim * 32, 256)
         self.c_fc2 = nn.Linear(256 + obs_other_dim, encode_dim)
-        self.c_fc3 = nn.Linear(encode_dim, encode_dim)
         self.c_out = nn.Linear(encode_dim, 1)
 
-    def forward(self, 
+
+    def forward(self,
                 obs: List[torch.tensor],
                 **kwargs) -> Tuple[torch.tensor, ...]:
         """
-            returns value estimation, action, log_action_prob
+        returns value estimation, action, log_action_prob
         """
 
         obs_lidar = obs[0].view(obs[0].shape[0], self.obs_lidar_frames, -1)
         obs_other = obs[1]
-        N = obs_lidar.shape[0]
 
         # action
         a = F.relu(self.a_fea_cv1(obs_lidar))
@@ -154,9 +153,10 @@ class FCPolicy(nn.Module):
 
         # action prob on log scale
         logstd = self.logstd.expand_as(mean)
-        action = torch.normal(mean, torch.exp(logstd))
+        std = torch.exp(logstd)
+        action = torch.normal(mean, std)
         # action prob on log scale
-        logprob = log_normal_density(action, mean, log_std=logstd)
+        logprob = log_normal_density(action, mean, logstd=logstd)
 
         # value
         v = F.relu(self.c_fea_cv1(obs_lidar))
@@ -165,8 +165,8 @@ class FCPolicy(nn.Module):
         v = F.relu(self.c_fc1(v))
         v = torch.cat((v, obs_other), dim=-1)
         v = F.relu(self.c_fc2(v))
-        v = F.relu(self.c_fc3(v))
         value = self.c_out(v).squeeze()
+
 
         return value, action, logprob, mean
 
@@ -178,19 +178,21 @@ class FCPolicy(nn.Module):
         logstd = self.logstd.expand_as(mean)
         pi = torch.tensor(math.pi)
         # evaluate
-        logprob = log_normal_density(action, mean, logstd)
+        logprob = log_normal_density(action, mean=mean, logstd=logstd)
         dist_entropy = 0.5 + 0.5 * torch.log(2 * pi) + logstd
         dist_entropy = dist_entropy.sum(-1).mean()
         return value, logprob, dist_entropy
+        # TITLE: my (10), original (10, 1)
 
 
 def log_normal_density(x: torch.tensor,
                         mean: torch.tensor,
-                        log_std: torch.tensor) -> Tuple[torch.tensor]:
+                        logstd: torch.tensor) -> Tuple[torch.tensor]:
     """returns guassian density given x on log scale"""
-    var = torch.exp(log_std) ** 2
+    var = torch.exp(logstd) ** 2
     dist = MultivariateNormal(mean, torch.diag_embed(var))
     return dist.log_prob(x)
+
 
 def calc_conv_dim(input_size: int, kernel_size: int, stride: int, padding: int) -> int:
     raw = (input_size - kernel_size + 2 * padding) / stride + 1
