@@ -159,8 +159,8 @@ public class RLDrone : Agent
         
         _lastObsPos = transform.position;
 
-        if (_rigidbody.angularVelocity.y > safeRotateVelocity)
-            AddReward(rewardRotScalar * _rigidbody.angularVelocity.y);
+        if (Mathf.Abs(_rigidbody.angularVelocity.y) > safeRotateVelocity)
+            AddReward(rewardRotScalar * Mathf.Abs(_rigidbody.angularVelocity.y));
         
         if (_arrival)
         {

@@ -197,7 +197,7 @@ class PPO(object):
             # TODO: hardcoding
             reward = decision_steps.reward
             collided_agents = np.where(reward == -15)[0].tolist()
-            arrived_agents = np.where(reward >= 50)[0].tolist()
+            arrived_agents = np.where(reward >= 30)[0].tolist()
             done_agents = collided_agents + arrived_agents
             reward: torch.tensor = torch.from_numpy(reward).float()
             
