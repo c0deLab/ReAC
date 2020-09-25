@@ -24,7 +24,7 @@ public class RLDrone : Agent
     public float maxTranslateVelocity = 1.0f;
     public float maxRotateVelocity = 1.0f;
     public float safeRotateVelocity = 0.7f;
-    public float maxDistanceToTarget = 10f;
+    public float maxDistanceToTarget = 20f;
     public float rewardReach = 50.0f;
     public float rewardCollide = -15.0f;
     [Observable] public float ColliderRadius => _collider.radius;
@@ -174,8 +174,10 @@ public class RLDrone : Agent
         {
             Debug.Log($"{name} arrived");
             _arrival = false;
-            SetReward(rewardReach);
+            AddReward(rewardReach);
             RespawnTarget();
+        } else {
+            AddReward(-0.05f);
         }
     }
 
