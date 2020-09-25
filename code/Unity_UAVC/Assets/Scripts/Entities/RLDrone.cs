@@ -24,6 +24,7 @@ public class RLDrone : Agent
     public float maxTranslateVelocity = 1.0f;
     public float maxRotateVelocity = 1.0f;
     public float safeRotateVelocity = 0.7f;
+    public float maxDistanceToTarget = 10f;
     public float rewardReach = 50.0f;
     public float rewardCollide = -15.0f;
     [Observable] public float ColliderRadius => _collider.radius;
@@ -149,12 +150,19 @@ public class RLDrone : Agent
             return;
         }
 
+        
         var lastDist = Vector3.Distance(_lastObsPos, _target.position);
         var curDist = Vector3.Distance(transform.position, _target.position);
         if (curDist < lastDist) {
-            AddReward(3.0f * rewardDistScalar * (lastDist - curDist));
+            // AddReward(3.0f * rewardDistScalar * (lastDist - curDist));
+            AddReward(0.3f);
         } else {
-            AddReward(rewardDistScalar * (lastDist - curDist));
+            // AddReward(rewardDistScalar * (lastDist - curDist));
+            AddReward(-0.1f);
+        }
+        // // Added by ICE-5
+        if (curDist > maxDistanceToTarget) {
+            AddReward(rewardCollide);
         }
         
         _lastObsPos = transform.position;
@@ -166,7 +174,7 @@ public class RLDrone : Agent
         {
             Debug.Log($"{name} arrived");
             _arrival = false;
-            AddReward(rewardReach);
+            SetReward(rewardReach);
             RespawnTarget();
         }
     }

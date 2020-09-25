@@ -154,9 +154,7 @@ class Memory:
             for key in self.L1:
                 setattr(retrieved, key, getattr(self, key)[idxs].requires_grad_())
             for key in self.L2:
-                try:
-                    setattr(retrieved, key, [getattr(self, key)[0][idxs].requires_grad_(), getattr(self, key)[1][idxs].requires_grad_()])
-                except TypeError:
-                    pass
+                setattr(retrieved, key, [getattr(self, key)[0][idxs].requires_grad_(),
+                                         getattr(self, key)[1][idxs].requires_grad_()])
             return retrieved
 
