@@ -33,7 +33,8 @@ class PPO(object):
         self.model_save_path = args.model_save_path
         self.model_save_interval = args.model_save_interval
         self.model_name = args.policy_type
-        # model inference
+        # model infervals
+        self.update_interval = args.update_interval
         self.inference_interval = args.inference_interval
         # model load
         self.prev_episode = 0
@@ -84,7 +85,7 @@ class PPO(object):
             collision += cols
             arrival += arrs
 
-            if terminal:
+            if terminal or (global_step % self.update_interval == 0):
                 episode += 1
 
                 buffer.map_reduce(start=0, stop=-1)

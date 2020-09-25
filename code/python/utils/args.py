@@ -29,8 +29,9 @@ def get_args():
     parser.add_argument("--batch-size", type=int, default=1024, help="batch size at training")
     parser.add_argument("--num-epochs", type=int, default=2, help="training epochs")
 
-    # Inference
-    parser.add_argument("--inference-interval", type=int, default=100, help="inference evaluation interval")
+    # Inference and update intervals
+    parser.add_argument("--update-interval", type=int, default=128, help="Model update interval")
+    parser.add_argument("--inference-interval", type=int, default=128, help="inference evaluation interval")
 
     # Checkpointing
     parser.add_argument("--model-save-interval", type=int, default=25, help="model save interval")
