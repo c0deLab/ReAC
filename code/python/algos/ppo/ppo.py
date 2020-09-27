@@ -87,13 +87,11 @@ class PPO(object):
             buffer.buffer.append(transition)
             collision += cols
             arrival += arrs
+            mean_reward += torch.sum(transition.reward)
 
             if terminal or (step % self.update_interval == 0):
-                if terminal_2:
-                    episode += 1
-
                 next_transition, _, _, _, _ = self._step()
-                next_value = torch.tensor(next_transition.value).squeeze()
+                next_value = next_transition.value
 
                 buffer.map_reduce()
 
@@ -101,20 +99,23 @@ class PPO(object):
                 memory.add(obs=buffer.obs, action=buffer.action, logprob=buffer.logprob, target=target, adv=adv)
 
                 loss, p_loss, v_loss, entropy = self._update(memory)
-                mean_reward = torch.mean(buffer.reward)
                 
-                self.writer.add_scalar('Reward/Reward vs. episode', mean_reward, episode)
-                self.writer.add_scalar('Loss/Loss vs. episode', loss, episode)
-                self.writer.add_scalar('Loss/Policy loss vs. episode', p_loss, episode)
-                self.writer.add_scalar('Loss/Value loss vs. episode', v_loss, episode)
-                self.writer.add_scalar('Loss/Entropy vs. episode', entropy, episode)
-                self.writer.add_scalar('Result/Num of collision vs. episode', collision, episode)
-                self.writer.add_scalar('Result/Num of arrival vs. episode', arrival, episode)
-                print(f"-----> episode {episode}\t collision {collision}\t arrival {arrival}\t reward {mean_reward}\t loss {loss}")
+                if terminal_2:
+                    episode += 1
+                    self.writer.add_scalar('Reward/Reward vs. episode', mean_reward, episode)
+                    self.writer.add_scalar('Loss/Loss vs. episode', loss, episode)
+                    self.writer.add_scalar('Loss/Policy loss vs. episode', p_loss, episode)
+                    self.writer.add_scalar('Loss/Value loss vs. episode', v_loss, episode)
+                    self.writer.add_scalar('Loss/Entropy vs. episode', entropy, episode)
+                    self.writer.add_scalar('Result/Num of collision vs. episode', collision, episode)
+                    self.writer.add_scalar('Result/Num of arrival vs. episode', arrival, episode)
+                    print(f"-----> episode {episode}\t collision {collision}\t arrival {arrival}\t reward {mean_reward :5F}\t loss {loss :5F}")
+                    
+                    mean_reward = 0.
+                    collision = 0
+                    arrival = 0
 
                 step = 0
-                collision = 0
-                arrival = 0
                 buffer.empty()
                 memory.empty()
 
