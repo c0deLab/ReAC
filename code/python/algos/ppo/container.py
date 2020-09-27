@@ -50,7 +50,7 @@ class Buffer:
     def length(self) -> int:
         return len(self.buffer)
 
-    def map_reduce(self, start=None, stop=None):
+    def map_reduce(self, start=0, stop=None):
         try:
             for key in self.L1:
                 setattr(self, key, getattr(self.buffer[start], key).unsqueeze(0))
@@ -142,10 +142,9 @@ class Memory:
         Args:
             idxs (List[int]): indices to retrieve
         """
-        if self.is_empty: 
-            return None
         if not self.is_flat: 
             self.flatten()
+            self.is_flat = True
         
         if len(idxs) > self.length:
             raise IndexError("Too many indices to retrieve.")

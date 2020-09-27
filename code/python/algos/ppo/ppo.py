@@ -69,7 +69,7 @@ class PPO(object):
     def train(self):
         buffer = Buffer()
         memory = Memory()
-        global_step = 0
+        step = 0
         episode = 0 + self.prev_episode
         collision = 0
         arrival = 0
@@ -79,17 +79,23 @@ class PPO(object):
         terminal = False
 
         while True:
-            global_step += 1
-            transition, terminal, cols, arrs = self._step()
+            step += 1
+
+            transition, terminal_1, terminal_2, cols, arrs = self._step()
+            terminal = terminal_1 or terminal_2
+
             buffer.buffer.append(transition)
             collision += cols
             arrival += arrs
 
-            if terminal or (global_step % self.update_interval == 0):
-                episode += 1
+            if terminal or (step % self.update_interval == 0):
+                if terminal_2:
+                    episode += 1
 
-                buffer.map_reduce(start=0, stop=-1)
-                next_value = buffer.buffer[-1].value
+                next_transition, _, _, _, _ = self._step()
+                next_value = torch.tensor(next_transition.value).squeeze()
+
+                buffer.map_reduce()
 
                 target, adv = self._get_advantage(reward=buffer.reward, value=buffer.value, next_value=next_value, done=buffer.done)
                 memory.add(obs=buffer.obs, action=buffer.action, logprob=buffer.logprob, target=target, adv=adv)
@@ -104,12 +110,13 @@ class PPO(object):
                 self.writer.add_scalar('Loss/Entropy vs. episode', entropy, episode)
                 self.writer.add_scalar('Result/Num of collision vs. episode', collision, episode)
                 self.writer.add_scalar('Result/Num of arrival vs. episode', arrival, episode)
-                print(f"-----> episode {episode}\t step {global_step}\t collision {collision}\t arrival {arrival}\t reward {mean_reward}\t loss {loss}")
+                print(f"-----> episode {episode}\t collision {collision}\t arrival {arrival}\t reward {mean_reward}\t loss {loss}")
 
-                buffer.empty()
-                memory.empty()
+                step = 0
                 collision = 0
                 arrival = 0
+                buffer.empty()
+                memory.empty()
 
             if episode % self.model_save_interval == 0:
                 self.save_model(extra=str(episode), prev_episode=episode)
@@ -117,13 +124,14 @@ class PPO(object):
             if episode == self.num_episodes:
                 break
 
+
     def eval(self):
         episode = 0
         self.env.reset()
         reward = 0.
         reward_list = []
-        while True:           
-            transition, terminal, _, _ = self._step()
+        while True:
+            transition, _, terminal, _, _ = self._step()
             reward += torch.sum(transition.reward)
 
             if terminal:
@@ -200,23 +208,25 @@ class PPO(object):
             # TODO: hardcoding
             reward = decision_steps.reward
             collided_agents = np.where(reward == -15)[0].tolist()
-            arrived_agents = np.where(reward > 30)[0].tolist()
-            done_agents = collided_agents + arrived_agents
+            arrived_agents = np.where(reward >= 10)[0].tolist()
             reward: torch.tensor = torch.from_numpy(reward).float()
             
             # done
-            done: list = [True if i in done_agents else False for i in range(self.num_agents)]
+            # crash terminal
+            terminal_1 = len(collided_agents) > 0
+            done: list = [True if i in collided_agents else False for i in range(self.num_agents)]
             done: torch.tensor = torch.tensor(done)
-
-            # terminal
-            terminal = len(terminal_steps) == self.num_agents
+            # max_step terminal
+            terminal_2 = len(terminal_steps) == self.num_agents
+            if terminal_2:
+                done: torch.tensor = torch.ones(self.num_agents, dtype=bool)
 
             value, action, logprob, _ = self._get_clipped_action(obs, ((0., -1.), (1., 1.)), **kwargs)
                     
             transition = Transition(obs=obs, action=action, reward=reward, done=done, logprob=logprob, value=value, **kwargs)
             self.env.set_actions(self.behavior_name, action.numpy())
             self.env.step()
-            return transition, terminal, len(collided_agents), len(arrived_agents)
+            return transition, terminal_1, terminal_2, len(collided_agents), len(arrived_agents), 
         else:
             raise ValueError("Unsupported environment")
 
