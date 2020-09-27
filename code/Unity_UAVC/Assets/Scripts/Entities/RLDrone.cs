@@ -128,8 +128,11 @@ public class RLDrone : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         CalcAward();
-        sensor.AddObservation(Vector3.Distance(_target.position, transform.position));
-        sensor.AddObservation(CalcTargetAngle() / 180f);
+        // sensor.AddObservation(Vector3.Distance(_target.position, transform.position));
+        // sensor.AddObservation(CalcTargetAngle() / 180f);
+        var relativePosition = CalcRelativePosition();
+        sensor.AddObservation(relativePosition.Item1);
+        sensor.AddObservation(relativePosition.Item2);
         sensor.AddObservation(transform.InverseTransformDirection(_rigidbody.velocity).z);
         sensor.AddObservation(_rigidbody.angularVelocity.y);
     }
@@ -185,6 +188,12 @@ public class RLDrone : Agent
     {
         var targetLocal = transform.InverseTransformPoint(_target.position);
         return Mathf.Atan2(targetLocal.x, targetLocal.z) * Mathf.Rad2Deg;
+    }
+
+    private (float, float) CalcRelativePosition()
+    {
+        var targetLocal = transform.InverseTransformPoint(_target.position);
+        return (targetLocal.x, targetLocal.z);
     }
 
     private void OnTriggerEnter(Collider other)
