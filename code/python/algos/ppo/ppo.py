@@ -213,9 +213,9 @@ class PPO(object):
             reward: torch.tensor = torch.from_numpy(reward).float()
             
             # done
-            # crash terminal
-            terminal_1 = len(collided_agents) > 0
-            done: list = [True if i in collided_agents else False for i in range(self.num_agents)]
+            # crash / arrive terminal
+            terminal_1 = (len(collided_agents) > 0) or (len(arrived_agents) > 0)
+            done: list = [True if (i in collided_agents) or (i in arrived_agents) else False for i in range(self.num_agents)]
             done: torch.tensor = torch.tensor(done)
             # max_step terminal
             terminal_2 = len(terminal_steps) == self.num_agents
