@@ -1,8 +1,10 @@
 # Rethinking Automation in Construction
-by: Zhihao Fang, Yuning Wu, Ardavan Bidgoli, Daniel Cardoso-Llach, Ammar Hassonjee
+by: Zhihao Fang, Yuning Wu, Ammar Hassonjee, Ardavan Bidgoli, Daniel Cardoso-Llach, Michael Hasey, Willa Yang, Yanwen Dong
 
 ## An Architectural Framework for Distributed Semi-Autonomous Construction 
 ### Using Reinforcement Learning to Support Scalable Multi-Drone Construction in Dynamic Environments
+
+#### [Presentation Link](https://docs.google.com/presentation/d/12oNLmjrZbbdthgC6_SSjJvmG4bwvcLlHvFmcy8rDtmo/edit?usp=sharing)
 
 Autonomous construction has been an active research topic for engineers and designers 
 for many years. Meanwhile, technological advancements made in the drone industry are
@@ -75,6 +77,5 @@ performance in diverse scenarios. Some candidate multi-agent reinforcement learn
 
 We would like to thank [Computational Design Lab](http://code.arc.cmu.edu/) (CoDe Lab) for its generous support. 
 We would also like to express our gratitude towards the [Design Fabrication Lab](https://soa.cmu.edu/dfab) (DFab) at the School of Architecture, CMU for their help with fabrication. 
-We would also like to thank Michael Hasey, Willa Yang, and Yanwen Dong for their continued help with the project.
 
 
