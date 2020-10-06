@@ -26,7 +26,7 @@ After the server assigns a drone its related construction task, it operates in a
 - [Training Model and Results](#TrainingandResults)
 - [Drone Hardware and Building Components](#DroneHardwareandBuildingComponents)
 - [Simulation](#Simulation)
-- [Next Steps](#NextSteps)
+- [Next Steps](#Next Steps)
 - [Acknowledgments](#Acknowledgments)
 
 ## Status
