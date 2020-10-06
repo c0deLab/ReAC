@@ -35,13 +35,13 @@ This project is currently under development.
 
 ## Reinforcement Learning Algorithm Details
 
-## Training Model and Results
+### Training Model and Results
 
 ## Drone Hardware and Building Components
 
-## Simulation
+### Simulation
 
-## Next Steps
+### Next Steps
 
 For future steps, we are pushing the current pipeline into a more universal, scalable platform that further integrates simulation with real-time RL training and inference, 
 and a seamless communication API for different environments. We are using Unity as our first testbed. With the help of MLagents as middleware, we 
