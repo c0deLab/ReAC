@@ -23,10 +23,10 @@ After the server assigns a drone its related construction task, it operates in a
 
 - [Status](#Status)
 - [RL Algorithm Details](#ReinforcementLearningAlgorithmDetails)
-- [Training Model and Results](#TrainingandResults)
+- [Training Model and Results](#TrainingModelandResults)
 - [Drone Hardware and Building Components](#DroneHardwareandBuildingComponents)
 - [Simulation](#Simulation)
-- [Next Steps](#Next Steps)
+- [Next Steps](#NextSteps)
 - [Acknowledgments](#Acknowledgments)
 
 ## Status
