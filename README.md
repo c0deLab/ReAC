@@ -35,11 +35,33 @@ This project is currently under development.
 
 ## Reinforcement Learning Algorithm Details
 
+We use a particular kind of reinforcement learning algorithm called  Proximal Policy Optimization, or PPo for short, to learn the policy of how drones can 
+approach a target while avoiding collision with other drones. Essentially, the PPO algorithm is a policy gradient-based optimization that uses a neural network 
+to resemble the policy. The network is updated using a composite loss that takes into account of generalized advantage estimation, GAE,  in a clipped manner. 
+Our neural network architecture uses convolutional layers to combine encodings of different kinds of input, namely lidar, goal position, 
+and agent velocity. For better generalization, we also added Gaussian sampling to the output.
+
+
 ### Training Model and Results
+
+We use a two-stage training method to learn the policy in a curriculum learning fashion. In the first stage we trained on 5 agents 
+while in the second stage we trained on 10 agents and introduced some threat areas. We use 20 agents for evaluation and the result demonstrates the 
+scalability of the algorithm.
 
 ## Drone Hardware and Building Components
 
+We opted to make a build a custom-made drone to the required specs. It relies on a Pixhawk to control its flight, a Raspberry Pi for on the edge computations 
+and communication with the centralized computer. It is also equipped with electromagnets to pick and place foam blocks. 
+At its final setup, it can use a lidar or depth camera to scan the environment. Our next steps are to figure out the flight control and tracking system. The current proposed
+method for this is to use Aruco markers on each drone.
+
+Drones usually don’t stay in a fixed position when flying due to external factors like wind, and this difference between a drone’s simulated location versus its physical
+locations can cause building components to be placed in incorrect locations. So to account for these discrepancies, we experimented with different 
+brick designs to be used in our pick and placement procedure with key additions, which are shown in the images below. 
+
 ### Simulation
+
+Below you can see a video simulation demo of the framework in action. The simulation is currently running in Rhino model space.
 
 ### Next Steps
 
