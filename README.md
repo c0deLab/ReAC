@@ -1,5 +1,5 @@
 # Rethinking Automation in Construction
-by: Zhihao Fang, Yuning Wu, Ammar Hassonjee, Ardavan Bidgoli, Daniel Cardoso-Llach, Michael Hasey, Willa Yang, Yanwen Dong
+by: [Zhihao Fang](https://github.com/SakuraiSatoru), [Yuning Wu](https://github.com/ICE-5), [Ammar Hassonjee](https://github.com/ahassonj), [Ardavan Bidgoli](ardavan.io), [Daniel Cardoso-Llach](https://soa.cmu.edu/daniel-cardoso-llach), Michael Hasey, Willa Yang, Yanwen Dong
 
 ## An Architectural Framework for Distributed Semi-Autonomous Construction 
 ### Using Reinforcement Learning to Support Scalable Multi-Drone Construction in Dynamic Environments
