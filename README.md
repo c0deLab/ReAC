@@ -5,21 +5,24 @@ by: Zhihao Fang, Yuning Wu, Ardavan Bidgoli, Daniel Cardoso-Llach, Ammar Hassonj
 ### Using Reinforcement Learning to Support Scalable Multi-Drone Construction in Dynamic Environments
 
 Autonomous construction has been an active research topic for engineers and designers 
-for many years. Meanwhile, technological advancement made in the drone industry is
+for many years. Meanwhile, technological advancements made in the drone industry are
 continuously pushing the drone’s capability boundary. The probability of drones actively
 participating in additive construction is large enough to be realized in the near
-future. However, there is no system that can control a scalable number of drones for
-autonomous construction in a dynamic continuous environment. This thesis aims to
+future. However, currently there is no system that can control a scalable number of drones for
+autonomous construction in a dynamic environment. This project aims to
 develop a system for autonomous multi-drone additive construction using deep reinforcement
-learning-based algorithm. First, the process of multi-drone additive construction
-is modeled in a computer simulation. Then state-of-art deep reinforcement learning
-algorithm is applied to achieve collision avoidance in navigation. A software package
-is then developed and able to be integrated into a 3d modeling software, Rhinoceros,
-for future use and development for researchers and designers. Finally, this system is
-applied in two experiments: bricklaying and facade coating to demonstrate usage.
+learning and rule-based algorithms.
+
+**Table of Contents**
+
+- [Status](#Status)
+- [Acknowledgments](#Acknowledgments)
 
 
+### Acknowledgments
 
-
+We would like to thank [Computational Design Lab](http://code.arc.cmu.edu/) (CoDe Lab) for its generous support. 
+We would also like to express our gratitude towards the [Design Fabrication Lab](https://soa.cmu.edu/dfab) (DFab) at the School of Architecture, CMU for their help with fabrication. 
+We would also like to thank Michael Hasey, Willa Yang, and Yanwen Dong for their continued help with the project.
 
 
