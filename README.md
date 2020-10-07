@@ -70,6 +70,8 @@ brick designs to be used in our pick and placement procedure with key additions,
 
 Below you can see a video simulation demo of the framework in action. The simulation is currently running in Rhino model space.
 
+[![Video thumbnail of multi-drone simulation](https://img.youtube.com/vi/oe1T1j5nVqM/0.jpg)](https://youtu.be/oe1T1j5nVqM)
+
 ### Next_Steps
 
 For future steps, we are pushing the current pipeline into a more universal, scalable platform that further integrates simulation with real-time RL training and inference, 
