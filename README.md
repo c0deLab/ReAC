@@ -68,7 +68,7 @@ brick designs to be used in our pick and placement procedure with key additions,
 
 ### Simulation
 
-Below you can see a video simulation demo of the framework in action. The simulation is currently running in Rhino model space.
+Below you can click to see a video simulation demo of the framework in action. The simulation below runs in the Rhino model space and shows a sample bricklaying procedure completed by 10 drone agents.
 
 [![Video thumbnail of multi-drone simulation](https://img.youtube.com/vi/oe1T1j5nVqM/0.jpg)](https://youtu.be/oe1T1j5nVqM)
 
