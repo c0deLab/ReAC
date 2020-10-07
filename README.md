@@ -24,33 +24,38 @@ After the server assigns a drone its related construction task, it operates in a
 **Table of Contents**
 
 - [Status](#Status)
-- [RL Algorithm Details](#ReinforcementLearningAlgorithmDetails)
-- [Training Model and Results](#TrainingModelandResults)
-- [Drone Hardware and Building Components](#DroneHardwareandBuildingComponents)
+- [RL Algorithm Details](#Reinforcement_Learning_Algorithm_Details)
+- [Training Model and Results](#Training_Model_and_Results)
+- [Drone Hardware and Building Components](#Drone_Hardware_and_Building_Components)
 - [Simulation](#Simulation)
-- [Next Steps](#NextSteps)
+- [Next Steps](#Next_Steps)
 - [Acknowledgments](#Acknowledgments)
 
 ## Status
 
-This project is currently under development. 
+This project is currently under development in three phases:
 
-## Reinforcement Learning Algorithm Details
+1. Code development and RL Algorithm Training Advancement
+    - [ ] Training more drone agents to be able to autonomously detect collisions
+2. Developing the system to run in Unity
+3. Experimenting with the physical fabrication side of crafting drone-compatible building components as well as preparing the drone hardware.
 
-We use a particular kind of reinforcement learning algorithm called  Proximal Policy Optimization, or PPo for short, to learn the policy of how drones can 
+## Reinforcement_Learning_Algorithm_Details
+
+We use a particular kind of reinforcement learning algorithm called  Proximal Policy Optimization, or PPO for short, to learn the policy of how drones can 
 approach a target while avoiding collision with other drones. Essentially, the PPO algorithm is a policy gradient-based optimization that uses a neural network 
 to resemble the policy. The network is updated using a composite loss that takes into account of generalized advantage estimation, GAE,  in a clipped manner. 
 Our neural network architecture uses convolutional layers to combine encodings of different kinds of input, namely lidar, goal position, 
 and agent velocity. For better generalization, we also added Gaussian sampling to the output.
 
 
-### Training Model and Results
+### Training_Model_and_Results
 
 We use a two-stage training method to learn the policy in a curriculum learning fashion. In the first stage we trained on 5 agents 
 while in the second stage we trained on 10 agents and introduced some threat areas. We use 20 agents for evaluation and the result demonstrates the 
 scalability of the algorithm.
 
-## Drone Hardware and Building Components
+## Drone_Hardware_and_Building_Components
 
 We opted to make a build a custom-made drone to the required specs. It relies on a Pixhawk to control its flight, a Raspberry Pi for on the edge computations 
 and communication with the centralized computer. It is also equipped with electromagnets to pick and place foam blocks. 
@@ -65,7 +70,7 @@ brick designs to be used in our pick and placement procedure with key additions,
 
 Below you can see a video simulation demo of the framework in action. The simulation is currently running in Rhino model space.
 
-### Next Steps
+### Next_Steps
 
 For future steps, we are pushing the current pipeline into a more universal, scalable platform that further integrates simulation with real-time RL training and inference, 
 and a seamless communication API for different environments. We are using Unity as our first testbed. With the help of MLagents as middleware, we 
@@ -77,5 +82,9 @@ performance in diverse scenarios. Some candidate multi-agent reinforcement learn
 
 We would like to thank [Computational Design Lab](http://code.arc.cmu.edu/) (CoDe Lab) for its generous support. 
 We would also like to express our gratitude towards the [Design Fabrication Lab](https://soa.cmu.edu/dfab) (DFab) at the School of Architecture, CMU for their help with fabrication. 
+
+### Citations
+
+Please check back later for citations as we are in the process of writing our paper.
 
 
