@@ -6,16 +6,11 @@ Research Team: [Zhihao Fang](https://github.com/SakuraiSatoru), [Yuning Wu](http
 
 #### [Presentation Link](https://docs.google.com/presentation/d/12oNLmjrZbbdthgC6_SSjJvmG4bwvcLlHvFmcy8rDtmo/edit?usp=sharing)
 
-Autonomous construction has been an active research topic for engineers and designers 
-for many years. Meanwhile, technological advancements made in the drone industry are
-continuously pushing the drone’s capability boundary. The probability of drones actively
-participating in additive construction is large enough to be realized in the near
-future. However, currently there is no system that can control a scalable number of drones for
-autonomous construction in a dynamic environment. A question that rises from this is how can a scalable
-number of drones be coordinated to achieve tasks in real world construction sites as part of an
-integrated human and machine construction workflow.
+Recent research in the field of autonomous construction has explored the feasibility of utilizing drones in construction tasks including, but not limited to, bricklaying [1], frame structure assembly [2], 3D printing [3], tensile structure weaving [4], nailing [5], spraying [6], and site data collection [7]. Alongside the new tectonic possibilities afforded by robotic construction, these efforts have immense potential to reduce costs, increase efficiency, and accuracy in building construction.
 
-This project aims to develop a decentralized reinforcement learning control framework based on sensory input with a central server 
+An important limitation of these approaches is that they have been mostly tested in controlled, laboratory environments. Thus, the dynamic conditions of actual construction sites are either overlooked or significantly simplified. A second limitation is that the focus on “autonomy” has led to systems that fail to recognize the plurality of human roles involved in computational design and construction workflows [Assisted Automation + Machinic Surrogates]. Addressing these limitations, in this project we introduce a reinforcement learning-based (RL-based) approach to scalable semi-autonomous construction that takes into account the dynamic nature of construction environments, and the human labors involved in their production. We present a software framework that allows for the planning and simulation of simple additive construction tasks by multiple drones under changing environmental and resource conditions, and demonstrate it through a series of simulations and a proof-of-concept implementation. The implementation comprises a series of pick-and-place tasks conducted outdoors by a small swarm of drones under different environmental conditions. Our approach contributes to ongoing research into architectural and design robotics by demonstrating a usable framework for architects to orchestrate robotic building tasks.
+
+This project aims to specifically develop a decentralized reinforcement learning control framework based on sensory input with a central server 
 for dispatching tasks that therefore can support multi-drone coordination for architectural construction, and thus enable more complex human-machine construction processes.
 The technical framework consists of a central server for task scheduling, progress monitoring, and drone management. Each individual drone is equipped with an RL-based navigation algorithms for collision avoidance, and macro-actions, which are sequences of action steps geared to accomplishing tasks including building, resupplying, and charging. 
 After the server assigns a drone its related construction task, it operates in a decentralized fashion to make the system more scalable. The drone goes to the supply station for resupply, navigates to the designated target position to build, then depending on its remaining battery, it will issue another task request, or go to the charge station for battery charging.
@@ -28,6 +23,7 @@ After the server assigns a drone its related construction task, it operates in a
 - [Training Model and Results](#Training_Model_and_Results)
 - [Drone Hardware and Building Components](#Drone_Hardware_and_Building_Components)
 - [Simulation](#Simulation)
+- [Human and Drone Relationships](#Human-Drone_Relationships)
 - [Next Steps](#Next_Steps)
 - [Acknowledgments](#Acknowledgments)
 
@@ -71,6 +67,18 @@ brick designs to be used in our pick and placement procedure with key additions,
 Below you can click to see a video simulation demo of the framework in action. The simulation below runs in the Rhino model space and shows a sample bricklaying procedure completed by 10 drone agents.
 
 [![Video thumbnail of multi-drone simulation](https://img.youtube.com/vi/oe1T1j5nVqM/0.jpg)](https://youtu.be/oe1T1j5nVqM)
+
+## Human-Drone_Relationships
+
+Our proposed framework aims at a more comprehensive workflow that not only encompases the drones, but also the full pipeline that they work within consisting of a variety of
+different construction roles. We illustrate our long term idea of a project workflow from the design development stages, involving roles such as architects and engineers, to the building construction phases integrated with our proposed multi-drone framework.
+
+With the specific project workflow shown above, the number of roles involved and necessary interactions among roles resembles a complex web in order to keep data consistent, emphasize communication, and ensure the project runs smoothly.
+Because of the many roles involved, a central model and dedicated BIM team is incredibly important to the project's flow as they provide a single accessible model from where different parties can access and reference information.
+
+Regarding the technical workflow of this entire project pipeline, the diagram below shows the various interfaces used by the different roles and how they can be integrated together to utlize and monitor a multi-drone system for different construction tasks. 
+Architectural designers, engineers, and manufacturers will most likely continue to use CAD modeling software, such as Rhino, for design development. 
+The BIM team then imports these models into a BIM software like Revit. Afterwards, programmers can access the BIM model to program the drone’s pick and placement procedure using visualization interfaces like Unity. Once the program is finished and starts running, on site project managers can use a custom UI plugin to monitor progress and stop the drone operation in case of emergencies or errors. 
 
 ### Next_Steps
 
