@@ -50,8 +50,10 @@ and agent velocity. For better generalization, we also added Gaussian sampling t
     <p style="font-size:12px"> Diagrams depicting the PPO process </p>
 </div>
 
-<img width="70%"    src="./Media/framework_diagram.png">
-<p style="font-size:12px"> Technical framework overview </p>
+<div align="center">
+    <img width="70%"    src="./Media/framework_diagram.png">
+    <p style="font-size:12px"> Technical framework overview </p>
+</div>
 
 ### Training_Model_and_Results
 
@@ -59,7 +61,9 @@ We use a two-stage training method to learn the policy in a curriculum learning 
 while in the second stage we trained on 10 agents and introduced some threat areas. We use 20 agents for evaluation, as shown in the GIF below, and the result demonstrates the 
 scalability of the algorithm.
 
-<img width="50%"    src="./Media/evaluation_20.gif">
+<div align="center">
+    <img width="50%"    src="./Media/evaluation_20.gif">
+</div>
 
 ## Drone_Hardware_and_Building_Components
 
@@ -89,7 +93,9 @@ brick designs to be used in our pick and placement procedure with key additions,
 
 Below you can click to see a video simulation demo of the framework in action. The simulation below runs in the Rhino model space and shows a sample bricklaying procedure completed by 10 drone agents.
 
-[![Video thumbnail of multi-drone simulation](https://img.youtube.com/vi/oe1T1j5nVqM/0.jpg)](https://youtu.be/oe1T1j5nVqM)
+<div  align="center">  
+    [![Video thumbnail of multi-drone simulation](https://img.youtube.com/vi/oe1T1j5nVqM/0.jpg)](https://youtu.be/oe1T1j5nVqM)
+</div>
 
 ## Human-Drone_Relationships
 
