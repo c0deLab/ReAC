@@ -112,7 +112,12 @@ For future steps, we are pushing the current pipeline into a more universal, sca
 and a seamless communication API for different environments. We are using Unity as our first testbed. With the help of MLagents as middleware, we 
 are able to establish a fluent workflow between the environment and PyTorch model. We are also expanding our library of algorithm to prepare for enhanced 
 performance in diverse scenarios. Some candidate multi-agent reinforcement learning algorithms include MADDPG, DDPG, Central-Q, Central-V, etc.
-![alt text](https://github.com/c0deLab/UAVC/blob/master/Media/technical_framework_diagram.png?raw=true)
+
+<div  align="center">   
+  <img width="100%"    src="./Media/technical_framework_diagram.png">
+  <p style="font-size:12px">Evolving the Framework</p>
+</div>
+
 
 ### Acknowledgments
 
