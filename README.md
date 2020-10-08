@@ -88,6 +88,12 @@ Below you can click to see a video simulation demo of the framework in action. T
 Our proposed framework aims at a more comprehensive workflow that not only encompases the drones, but also the full pipeline that they work within consisting of a variety of
 different construction roles. We illustrate our long term idea of a project workflow from the design development stages, involving roles such as architects and engineers, to the building construction phases integrated with our proposed multi-drone framework.
 
+<div  align="center">   
+  <img width="45%"    src="./Media/flowchart_diagram.png">
+  <img width="40%"    src="./Media/membrane_diagram.jpg">
+  <p style="font-size:12px"> Left: Long-term Project Workflow | Right: Human Roles in the Framework</p>
+</div>
+
 With the specific project workflow shown above, the number of roles involved and necessary interactions among roles resembles a complex web in order to keep data consistent, emphasize communication, and ensure the project runs smoothly.
 Because of the many roles involved, a central model and dedicated BIM team is incredibly important to the project's flow as they provide a single accessible model from where different parties can access and reference information.
 
@@ -95,13 +101,18 @@ Regarding the technical workflow of this entire project pipeline, the diagram be
 Architectural designers, engineers, and manufacturers will most likely continue to use CAD modeling software, such as Rhino, for design development. 
 The BIM team then imports these models into a BIM software like Revit. Afterwards, programmers can access the BIM model to program the drone’s pick and placement procedure using visualization interfaces like Unity. Once the program is finished and starts running, on site project managers can use a custom UI plugin to monitor progress and stop the drone operation in case of emergencies or errors. 
 
+<div  align="center">   
+  <img width="80%"    src="./Media/human_interfaces.jpg">
+  <p style="font-size:12px">Technical Interfaces and Human Roles</p>
+</div>
+
 ### Next_Steps
 
 For future steps, we are pushing the current pipeline into a more universal, scalable platform that further integrates simulation with real-time RL training and inference, 
 and a seamless communication API for different environments. We are using Unity as our first testbed. With the help of MLagents as middleware, we 
 are able to establish a fluent workflow between the environment and PyTorch model. We are also expanding our library of algorithm to prepare for enhanced 
 performance in diverse scenarios. Some candidate multi-agent reinforcement learning algorithms include MADDPG, DDPG, Central-Q, Central-V, etc.
-
+![alt text](https://github.com/c0deLab/UAVC/blob/master/Media/technical_framework_diagram.png?raw=true)
 
 ### Acknowledgments
 
