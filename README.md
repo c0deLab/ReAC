@@ -60,7 +60,15 @@ method for this is to use Aruco markers on each drone.
 
 Drones usually don’t stay in a fixed position when flying due to external factors like wind, and this difference between a drone’s simulated location versus its physical
 locations can cause building components to be placed in incorrect locations. So to account for these discrepancies, we experimented with different 
-brick designs to be used in our pick and placement procedure with key additions, which are shown in the images below. 
+brick designs to be used in our pick and placement procedure with key additions, which are shown in the images and gifs below. 
+
+<img width="50%"    src="./Media/drickDiagrams [Converted] copy.jpg"
+
+<div  align="center">   
+  <img width="40%"    src="./Media/b&w1.gif">
+  <img width="40%"    src="./Media/b&w2.gif">
+  <p style="font-size:12px"> Assembly of fabricated bricks with magnets attached </p>
+</div>
 
 ### Simulation
 
