@@ -44,6 +44,14 @@ to resemble the policy. The network is updated using a composite loss that takes
 Our neural network architecture uses convolutional layers to combine encodings of different kinds of input, namely lidar, goal position, 
 and agent velocity. For better generalization, we also added Gaussian sampling to the output.
 
+<div align="center">
+    <img width="40%"    src="./Media/policy_diagram.png">
+    <img width="50%"    src="./Media/rl_details_image.png">
+    <p style="font-size:12px"> Diagrams depicting the PPO process </p>
+</div>
+
+<img width="70%"    src="./Media/framework_diagram.png">
+<p style="font-size:12px"> Technical framework overview </p>
 
 ### Training_Model_and_Results
 
