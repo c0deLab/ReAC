@@ -48,8 +48,10 @@ and agent velocity. For better generalization, we also added Gaussian sampling t
 ### Training_Model_and_Results
 
 We use a two-stage training method to learn the policy in a curriculum learning fashion. In the first stage we trained on 5 agents 
-while in the second stage we trained on 10 agents and introduced some threat areas. We use 20 agents for evaluation and the result demonstrates the 
+while in the second stage we trained on 10 agents and introduced some threat areas. We use 20 agents for evaluation, as shown in the GIF below, and the result demonstrates the 
 scalability of the algorithm.
+
+<img width="50%"    src="./Media/evaluation_20.gif">
 
 ## Drone_Hardware_and_Building_Components
 
@@ -58,11 +60,16 @@ and communication with the centralized computer. It is also equipped with electr
 At its final setup, it can use a lidar or depth camera to scan the environment. Our next steps are to figure out the flight control and tracking system. The current proposed
 method for this is to use Aruco markers on each drone.
 
+<div align="center">
+    <img width="40%"    src="./Media/IMG_7156.jpg">
+    <img width="33%"    src="./Media/update.jpg">
+    <p style="font-size:12px"> The assembled drone with installed Raspberry Pi </p>
+</div>
+
+
 Drones usually don’t stay in a fixed position when flying due to external factors like wind, and this difference between a drone’s simulated location versus its physical
 locations can cause building components to be placed in incorrect locations. So to account for these discrepancies, we experimented with different 
 brick designs to be used in our pick and placement procedure with key additions, which are shown in the images and gifs below. 
-
-<img width="50%"    src="./Media/drickDiagrams [Converted] copy.jpg"
 
 <div  align="center">   
   <img width="40%"    src="./Media/b&w1.gif">
