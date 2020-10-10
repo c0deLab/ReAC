@@ -164,9 +164,9 @@ public class RLDrone : Agent
         //     AddReward(-0.1f);
         // }
         // // // Added by ICE-5
-        if (curDist > maxDistanceToTarget) {
-            AddReward(-0.05f);
-        }
+        // if (curDist > maxDistanceToTarget) {
+        //     AddReward(-0.05f);
+        // }
         
         _lastObsPos = transform.position;
 

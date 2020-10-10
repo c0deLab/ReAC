@@ -12,10 +12,10 @@ def get_args():
     parser.add_argument("--policy-type", type=str, default="ppo-fc", help="mode of policy, 'ppo-fc' or 'ppo-lstm'")
 
     parser.add_argument("--num-episodes", type=int, default=1000000, help="(maximum) number of episodes")
-    parser.add_argument("--encode-dim", type=int, default=128, help="encode dimension of LSTM cell")
+    parser.add_argument("--encode-dim", type=int, default=128, help="encode dimension of hidden layer")
 
     # Network config
-    parser.add_argument("--obs-lidar-frames", type=int, default=3, help="number of lidar frames to cache for LSTM")
+    parser.add_argument("--obs-lidar-frames", type=int, default=3, help="number of lidar frames to cache")
 
     # PPO stuff
     parser.add_argument("--gamma", type=float, default=0.99, help="discount factor gamma")
@@ -30,7 +30,7 @@ def get_args():
     parser.add_argument("--num-epochs", type=int, default=2, help="training epochs")
 
     # Inference and update intervals
-    parser.add_argument("--update-interval", type=int, default=128, help="Model update interval")
+    parser.add_argument("--update-interval", type=int, default=128, help="model update interval")
     parser.add_argument("--inference-interval", type=int, default=128, help="inference evaluation interval")
 
     # Checkpointing
@@ -42,7 +42,7 @@ def get_args():
     parser.add_argument("--log-save-path", type=str, default="_log", help="path for saving log")
 
     # Device
-    parser.add_argument("--device", type=str, default="gpu", help="Whether use GPU, 'gpu' or 'cpu'")
+    parser.add_argument("--device", type=str, default="gpu", help="whether use GPU, 'gpu' or 'cpu'")
 
     args = parser.parse_args()
 

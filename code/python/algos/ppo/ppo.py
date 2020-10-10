@@ -311,7 +311,6 @@ class PPO(object):
 
     @staticmethod
     def _transform_lidar(obs_lidar: torch.tensor, num_agents: int, obs_lidar_dim: int, obs_lidar_frames: int):
-        # TODO: questions about view
         obs_lidar = obs_lidar.view(num_agents, obs_lidar_frames, obs_lidar_dim)
 
         obs_mid = obs_lidar[:, :, 0].unsqueeze(-1)

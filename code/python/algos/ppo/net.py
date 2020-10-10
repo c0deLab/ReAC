@@ -167,7 +167,6 @@ class FCPolicy(nn.Module):
         v = F.relu(self.c_fc2(v))
         value = self.c_out(v).squeeze()
 
-
         return value, action, logprob, mean
 
     def evaluate_actions(self,
@@ -181,6 +180,7 @@ class FCPolicy(nn.Module):
         logprob = log_normal_density(action, mean=mean, logstd=logstd)
         dist_entropy = 0.5 + 0.5 * torch.log(2 * pi) + logstd
         dist_entropy = dist_entropy.sum(-1).mean()
+        
         return value, logprob, dist_entropy
         # TITLE: my (10), original (10, 1)
 
