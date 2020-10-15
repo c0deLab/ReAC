@@ -48,11 +48,13 @@ and agent velocity. For better generalization, we also added Gaussian sampling t
     <img width="40%"    src="./Media/policy_diagram.png">
     <img width="50%"    src="./Media/rl_details_image.png">
     <p style="font-size:12px"> Diagrams depicting the PPO process </p>
+    <p style="font-size:8px"> Image from Long, Pinxin "Towards optimally decentralized multi-robot collision avoidance via deep reinforcement learning" (2018) </p>
 </div>
 
 <div align="center">
     <img width="70%"    src="./Media/framework_diagram.png">
     <p style="font-size:12px"> Technical framework overview </p>
+    <p style="font-size:8px"> Image taken from Zhihao Fang's thesis: "Towards multi-drone autonomous construction via deep reinforcement learning" (2020) </p>
 </div>
 
 ### Training_Model_and_Results
