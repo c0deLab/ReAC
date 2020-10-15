@@ -48,7 +48,7 @@ and agent velocity. For better generalization, we also added Gaussian sampling t
     <img width="40%"    src="./Media/policy_diagram.png">
     <img width="50%"    src="./Media/rl_details_image.png">
     <p style="font-size:12px"> Diagrams depicting the PPO process </p>
-    <p style="font-size:8px"> Image from Long, Pinxin "Towards optimally decentralized multi-robot collision avoidance via deep reinforcement learning" (2018) </p>
+    <p style="font-size:8px"> Image on the right from Long, Pinxin "Towards optimally decentralized multi-robot collision avoidance via deep reinforcement learning" (2018) </p>
 </div>
 
 <div align="center">
