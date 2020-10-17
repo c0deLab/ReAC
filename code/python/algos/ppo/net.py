@@ -193,7 +193,7 @@ def log_normal_density(x: torch.tensor,
     # dist = MultivariateNormal(mean, torch.diag_embed(var))
     # return dist.log_prob(x)
     variance = torch.exp(logstd).pow(2) + 1e-15
-    log_density = - (x - mean).pow(2) / (2 * variance) - 0.5 * np.log(2 * np.pi) - log_std
+    log_density = - (x - mean).pow(2) / (2 * variance) - 0.5 * np.log(2 * np.pi) - logstd
     log_density = log_density.sum(dim=-1, keepdim=True)
     return log_density
 
