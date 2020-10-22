@@ -189,13 +189,10 @@ def log_normal_density(x: torch.tensor,
                         mean: torch.tensor,
                         logstd: torch.tensor) -> Tuple[torch.tensor]:
     """returns guassian density given x on log scale"""
-    # var = torch.exp(logstd) ** 2
-    # dist = MultivariateNormal(mean, torch.diag_embed(var))
-    # return dist.log_prob(x)
-    variance = torch.exp(logstd).pow(2) + 1e-15
-    log_density = - (x - mean).pow(2) / (2 * variance) - 0.5 * np.log(2 * np.pi) - logstd
-    log_density = log_density.sum(dim=-1, keepdim=True)
-    return log_density
+    var = torch.exp(logstd) ** 2 + 1e-10
+    dist = MultivariateNormal(mean, torch.diag_embed(var))
+    return dist.log_prob(x)
+
 
 
 def calc_conv_dim(input_size: int, kernel_size: int, stride: int, padding: int) -> int:

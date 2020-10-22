@@ -156,23 +156,19 @@ public class RLDrone : Agent
         
         var lastDist = Vector3.Distance(_lastObsPos, _target.position);
         var curDist = Vector3.Distance(transform.position, _target.position);
-        // if (curDist < lastDist) {
-        //     // AddReward(3.0f * rewardDistScalar * (lastDist - curDist));
-        //     AddReward(0.3f);
-        // } else {
-        //     // AddReward(rewardDistScalar * (lastDist - curDist));
-        //     AddReward(-0.1f);
-        // }
-        // // // Added by ICE-5
-        // if (curDist > maxDistanceToTarget) {
-        //     AddReward(-0.05f);
-        // }
+        if (curDist < lastDist) {
+            // AddReward(3.0f * rewardDistScalar * (lastDist - curDist));
+            AddReward(0.3f);
+        } else {
+            // AddReward(rewardDistScalar * (lastDist - curDist));
+            AddReward(-0.1f);
+        }
         
         _lastObsPos = transform.position;
 
-        // if (Mathf.Abs(_rigidbody.angularVelocity.y) > safeRotateVelocity) {
-        //     AddReward(rewardRotScalar * Mathf.Abs(_rigidbody.angularVelocity.y));
-        // }
+        if (Mathf.Abs(_rigidbody.angularVelocity.y) > safeRotateVelocity) {
+            AddReward(rewardRotScalar * Mathf.Abs(_rigidbody.angularVelocity.y));
+        }
         
         if (_arrival)
         {
