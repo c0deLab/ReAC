@@ -1,8 +1,40 @@
-# Rethinking Automation in Construction
-Research Team: [Zhihao Fang](https://github.com/SakuraiSatoru), [Yuning Wu](https://github.com/ICE-5), [Ammar Hassonjee](https://github.com/ahassonj), [Ardavan Bidgoli](https://www.ardavan.io/), Michael Hasey, Willa Yang, Yanwen Dong, Prof. [Daniel Cardoso-Llach](https://soa.cmu.edu/daniel-cardoso-llach). 
+# Rethinking Automation in Construction (RAiC)
+Research Team:
+* [Daniel Cardoso-Llach](https://soa.cmu.edu/daniel-cardoso-llach), Associate Professor, School of Architecture, Carnegie Mellon University (PI). 
+* [Jean Oh](https://www.cs.cmu.edu/~./jeanoh/), Senior Systems Scientist, Robotics Institute, Carnegie Mellon University (Co-PI).
+* [Ardavan Bidgoli](https://www.ardavan.io/), Ph.D. Candidate, Computational Design.
+* [Yuning Wu](https://ice-5.github.io), Ph.D. Student, Computational Design / M.S., Machine Learning.
+* [Zhihao Fang](https://github.com/SakuraiSatoru), M.S., Computational Design.
+* [Ammar Hassonjee](https://github.com/ahassonj), B.Arch. Student.
+* Michael Hasey, M.S. Student, Computational Design.
+* Willa Yang, M.S. Student, Computational Design.
+* Yanwen Dong, M.S. Student, Computational Design.
 
-## An Architectural Framework for Distributed Semi-Autonomous Construction 
-### Using Reinforcement Learning to Support Scalable Multi-Drone Construction in Dynamic Environments
+## Project Catalog: An Architectural Framework for Distributed Semi-Autonomous Construction 
+
+1. Innovating Manufacturing for Construction: A Reinforcement Learning Framework for Robotically-Supported Modular Factories
+2. Using Reinforcement Learning to Support Scalable Multi-Drone Construction in Dynamic Environments
+
+### 1. Innovating Manufacturing for Construction: A Reinforcement Learning Framework for Robotically-Supported Modular Factories
+
+By relocating many tasks from construction sites into factories, where complex components can be manufactured under relatively controlled conditions, modular construction methods have great potential to improve efficiency and quality in the building industry while helping reduce its environmental impacts. However, modular factories for building construction rely on a highly diverse and specialized technical workforce whose roles are not amenable to technical formalization or automation. In collaboration with iBuilt, Inc., our team of computational design, architecture, and robotics specialists at Carnegie Mellon University will work to imagine how networks of smaller, more adaptive robots might more flexibly and effectively assist manufacturing workflows in modular construction.
+
+Building on our current research applying state-of-the-art reinforcement learning methods to controlling multiple robots in construction tasks, and on iBuilt’s industry expertise and innovative approach to modular construction, we will develop a semi-autonomous logistics and transportation framework that facilitates the delivery of materials and resources to running manufacturing pipelines by a variable number of robots. iBuilt's existing manufacturing workflows at the company’s factory in Berwick, Pennsylvania, will be studied to adjust the framework to factory constraints. Evaluating the performance of the system through simulations and a proof of concept prototype in the factory itself, we will assess the potential of reinforcement learning methods for robotically-assisted manufacturing to increase both efficiency and flexibility in the manufacturing of volumetric building components, and reduce barriers to the adoption of modular construction methods by the architecture, engineering, and construction (AEC) industry.
+
+<div align="center">
+    <img width="70%"    src="./media/ibuilt_0.jpeg">
+    <p style="font-size:12px"> iBUILT Berwick Factory </p>
+    <p style="font-size:8px"> Image taken by Ardavan Bidgoli (2020) </p>
+</div>
+
+<div align="center">
+    <img width="70%"    src="./media/ibuilt_1.jpeg">
+    <p style="font-size:12px"> Demonstration of the new logistic pipeline </p>
+    <p style="font-size:8px"> Diagram drawn by Ardavan Bidgoli (2020) </p>
+</div>
+
+
+### 2. Using Reinforcement Learning to Support Scalable Multi-Drone Construction in Dynamic Environments
 
 #### [Presentation Link](https://docs.google.com/presentation/d/12oNLmjrZbbdthgC6_SSjJvmG4bwvcLlHvFmcy8rDtmo/edit?usp=sharing)
 
@@ -45,14 +77,14 @@ Our neural network architecture uses convolutional layers to combine encodings o
 and agent velocity. For better generalization, we also added Gaussian sampling to the output.
 
 <div align="center">
-    <img width="40%"    src="./Media/policy_diagram.png">
-    <img width="50%"    src="./Media/rl_details_image.png">
+    <img width="40%"    src="./media/policy_diagram.png">
+    <img width="50%"    src="./media/rl_details_image.png">
     <p style="font-size:12px"> Diagrams depicting the PPO process </p>
     <p style="font-size:8px"> Image on the right from Long, Pinxin "Towards optimally decentralized multi-robot collision avoidance via deep reinforcement learning" (2018) </p>
 </div>
 
 <div align="center">
-    <img width="70%"    src="./Media/framework_diagram.png">
+    <img width="70%"    src="./media/framework_diagram.png">
     <p style="font-size:12px"> Technical framework overview </p>
     <p style="font-size:8px"> Image taken from Zhihao Fang's thesis: "Towards multi-drone autonomous construction via deep reinforcement learning" (2020) </p>
 </div>
@@ -64,7 +96,7 @@ while in the second stage we trained on 10 agents and introduced some threat are
 scalability of the algorithm.
 
 <div align="center">
-    <img width="50%"    src="./Media/evaluation_20.gif">
+    <img width="50%"    src="./media/evaluation_20.gif">
 </div>
 
 ## Drone_Hardware_and_Building_Components
@@ -75,8 +107,8 @@ At its final setup, it can use a lidar or depth camera to scan the environment. 
 method for this is to use Aruco markers on each drone.
 
 <div align="center">
-    <img width="40%"    src="./Media/IMG_7156.jpg">
-    <img width="33%"    src="./Media/update.jpg">
+    <img width="40%"    src="./media/IMG_7156.jpg">
+    <img width="33%"    src="./media/update.jpg">
     <p style="font-size:12px"> The assembled drone with installed Raspberry Pi </p>
 </div>
 
@@ -86,8 +118,8 @@ locations can cause building components to be placed in incorrect locations. So 
 brick designs to be used in our pick and placement procedure with key additions, which are shown in the images and gifs below. 
 
 <div  align="center">   
-  <img width="40%"    src="./Media/b&w1.gif">
-  <img width="40%"    src="./Media/b&w2.gif">
+  <img width="40%"    src="./media/b&w1.gif">
+  <img width="40%"    src="./media/b&w2.gif">
   <p style="font-size:12px"> Assembly of fabricated bricks with magnets attached </p>
 </div>
 
@@ -103,8 +135,8 @@ Our proposed framework aims at a more comprehensive workflow that not only encom
 different construction roles. We illustrate our long term idea of a project workflow from the design development stages, involving roles such as architects and engineers, to the building construction phases integrated with our proposed multi-drone framework.
 
 <div  align="center">   
-  <img width="45%"    src="./Media/flowchart_diagram.png">
-  <img width="40%"    src="./Media/membrane_diagram.jpg">
+  <img width="45%"    src="./media/flowchart_diagram.png">
+  <img width="40%"    src="./media/membrane_diagram.jpg">
   <p style="font-size:12px"> Left: Long-term Project Workflow | Right: Human Roles in the Framework</p>
 </div>
 
@@ -116,7 +148,7 @@ Architectural designers, engineers, and manufacturers will most likely continue 
 The BIM team then imports these models into a BIM software like Revit. Afterwards, programmers can access the BIM model to program the drone’s pick and placement procedure using visualization interfaces like Unity. Once the program is finished and starts running, on site project managers can use a custom UI plugin to monitor progress and stop the drone operation in case of emergencies or errors. 
 
 <div  align="center">   
-  <img width="80%"    src="./Media/human_interfaces.jpg">
+  <img width="80%"    src="./media/human_interfaces.jpg">
   <p style="font-size:12px">Technical Interfaces and Human Roles</p>
 </div>
 
@@ -128,7 +160,7 @@ are able to establish a fluent workflow between the environment and PyTorch mode
 performance in diverse scenarios. Some candidate multi-agent reinforcement learning algorithms include MADDPG, DDPG, Central-Q, Central-V, etc.
 
 <div  align="center">   
-  <img width="100%"    src="./Media/technical_framework_diagram.png">
+  <img width="100%"    src="./media/technical_framework_diagram.png">
   <p style="font-size:12px">Evolving the Framework</p>
 </div>
 
