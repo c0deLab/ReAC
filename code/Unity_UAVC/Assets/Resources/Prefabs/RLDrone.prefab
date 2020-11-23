@@ -7985,12 +7985,10 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 800
-  colliderRangeMin: 0.25
-  colliderRangeMax: 0.4
   maxTranslateVelocity: 1
   maxRotateVelocity: 1
   safeRotateVelocity: 0.7
-  rewardReach: 15
+  rewardReach: 50
   rewardCollide: -15
   rewardDistScalar: 2.5
   rewardRotScalar: -0.1
