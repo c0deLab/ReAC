@@ -12,7 +12,7 @@ Research Team:
 
 ## Project Catalog: An Architectural Framework for Distributed Semi-Autonomous Construction 
 
-1. Innovating Manufacturing for Construction: A Reinforcement Learning Framework for Robotically-Supported Modular Factories
+1. Innovating Manufacturing for Construction: A Reinforcement Learning Framework for Robotically\-Supported Modular Factories
 2. Using Reinforcement Learning to Support Scalable Multi-Drone Construction in Dynamic Environments
 
 ### 1. Innovating Manufacturing for Construction: A Reinforcement Learning Framework for Robotically-Supported Modular Factories
