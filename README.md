@@ -36,7 +36,7 @@ Building on our current research applying state-of-the-art reinforcement learnin
 
 ### 2. Using Reinforcement Learning to Support Scalable Multi-Drone Construction in Dynamic Environments
 
-#### [Presentation Link](https://docs.google.com/presentation/d/12oNLmjrZbbdthgC6_SSjJvmG4bwvcLlHvFmcy8rDtmo/edit?usp=sharing)
+#### [Presentation Link](https://docs.google.com/presentation/d/1-imEgwLdAeAg5kXq88B_MKbri-ZCLNCWNqa8yrZAHec/edit?usp=sharing)
 
 Recent research in the field of autonomous construction has explored the feasibility of utilizing drones in construction tasks including, but not limited to, bricklaying [1], frame structure assembly [2], 3D printing [3], tensile structure weaving [4], nailing [5], spraying [6], and site data collection [7]. Alongside the new tectonic possibilities afforded by robotic construction, these efforts have immense potential to reduce costs, increase efficiency, and accuracy in building construction.
 
