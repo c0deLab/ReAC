@@ -1,7 +1,12 @@
 # Rethinking Automation in Construction (RAiC)
-Research Team:
-* [Daniel Cardoso-Llach](https://soa.cmu.edu/daniel-cardoso-llach), Associate Professor, School of Architecture, Carnegie Mellon University (PI). 
+
+RAiC is a research group at Carnegie Mellon’s Computational Design Laboratory investigating how the combination of artificial intelligence and robotics may support building practices. We are interested in developing adaptive systems that enhance and interact with human expertise, and in articulating an enriched vision for human-machine construction ecologies.
+
+Team:
+* [Daniel Cardoso-Llach](http://dcardo.com), Associate Professor, School of Architecture, Carnegie Mellon University (PI). 
 * [Jean Oh](https://www.cs.cmu.edu/~./jeanoh/), Senior Systems Scientist, Robotics Institute, Carnegie Mellon University (Co-PI).
+
+Researchers:
 * [Ardavan Bidgoli](https://www.ardavan.io/), Ph.D. Candidate, Computational Design.
 * [Yuning Wu](https://ice-5.github.io), Ph.D. Student, Computational Design / M.S., Machine Learning.
 * [Zhihao Fang](https://github.com/SakuraiSatoru), M.S., Computational Design.
