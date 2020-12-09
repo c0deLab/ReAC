@@ -2,19 +2,7 @@
 
 RAiC is a research group at Carnegie Mellon’s Computational Design Laboratory investigating ways of combining artificial intelligence and robotics to support building practices. We are interested in developing adaptive systems that enhance and interact with human expertise on site, articulating a vision for human-machine construction ecologies that does not aspire to full automation. Comprising faculty, graduate, and undergraduate students, the group is currently developing a software framework for robotically-assisted construction based on reinforcement learning methods, and investigating human-machine interaction challenges specific to building contexts. Some preliminary results are forthcoming in an ACADIA 2021 paper. We are also in the early stages of an industry collaboration that will allow us to test our framework in the context of modular construction manufacturing.
 
-## Team
-
-* [Daniel Cardoso Llach, Ph.D.](http://dcardo.com), Associate Professor, School of Architecture, Carnegie Mellon University (PI). 
-* [Ardavan Bidgoli](https://www.ardavan.io/), Ph.D. Candidate, Computational Design.
-* [Yuning Wu](https://ice-5.github.io), Ph.D. Student, Computational Design / M.S., Machine Learning.
-* [Zhihao Fang](https://github.com/SakuraiSatoru), M.S., Computational Design.
-* [Ammar Hassonjee](https://github.com/ahassonj), B.Arch. Student.
-* Willa Yang, M.S. Student, Computational Design.
-* Yanwen Dong, M.S. Student, Computational Design.
-
-## Collaborators
-* [Jean Oh, Ph.D.](https://www.cs.cmu.edu/~./jeanoh/), Senior Systems Scientist, Robotics Institute, Carnegie Mellon University (Co-PI).
-* iBUILT 
+## Current Work
 
 ### Using Reinforcement Learning to Support Scalable Multi-Drone Construction in Dynamic Environments
 
@@ -24,14 +12,13 @@ Recent research in the field of architectural and construction robotics has expl
 
 This project is currently under development in three phases:
 
-1. Code development and RL Algorithm Training Advancement
-    - [ ] Training more drone agents to be able to autonomously detect collisions
-2. Developing the system to run in Unity
-3. Experimenting with the physical fabrication side of crafting drone-compatible building components as well as preparing the drone hardware.
+1. Code development and RL Algorithm Training
+2. Development of a simulation platform in Unity
+3. Prototyping (drone preparation and pick-and-place demonstration).
 
 ## Reinforcement_Learning_Algorithm_Details
 
-We use a particular kind of reinforcement learning algorithm called  Proximal Policy Optimization, or PPO for short, to learn the policy of how drones can 
+We use a particular kind of reinforcement learning algorithm called Proximal Policy Optimization, or PPO for short, to learn the policy of how drones can 
 approach a target while avoiding collision with other drones. Essentially, the PPO algorithm is a policy gradient-based optimization that uses a neural network 
 to resemble the policy. The network is updated using a composite loss that takes into account of generalized advantage estimation, GAE,  in a clipped manner. 
 Our neural network architecture uses convolutional layers to combine encodings of different kinds of input, namely lidar, goal position, 
@@ -124,6 +111,20 @@ performance in diverse scenarios. Some candidate multi-agent reinforcement learn
   <p style="font-size:12px">Evolving the Framework</p>
 </div>
 
+
+## Team
+
+* [Daniel Cardoso Llach, Ph.D.](http://dcardo.com), Associate Professor, School of Architecture, Carnegie Mellon University (PI). 
+* [Ardavan Bidgoli](https://www.ardavan.io/), Ph.D. Candidate, Computational Design.
+* [Yuning Wu](https://ice-5.github.io), Ph.D. Student, Computational Design / M.S., Machine Learning.
+* [Zhihao Fang](https://github.com/SakuraiSatoru), M.S., Computational Design.
+* [Ammar Hassonjee](https://github.com/ahassonj), B.Arch. Student.
+* Willa Yang, M.S. Student, Computational Design.
+* Yanwen Dong, M.S. Student, Computational Design.
+
+## Collaborators
+* [Jean Oh, Ph.D.](https://www.cs.cmu.edu/~./jeanoh/), Senior Systems Scientist, Robotics Institute, Carnegie Mellon University (Co-PI).
+* iBUILT, Inc. 
 
 
 
