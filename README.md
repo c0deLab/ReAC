@@ -1,17 +1,21 @@
 # Rethinking Automation in Construction (RAiC)
 
-RAiC is a research group at Carnegie Mellon’s Computational Design Laboratory investigating ways of combining artificial intelligence and robotics to support building practices. We are interested in developing adaptive systems that enhance and interact with human expertise, articulating a vision for human-machine construction ecologies that does not aspire to full automation and Taylorist optimization. The group, comprising faculty, graduate, and undergraduate students is currently developing a software framework for robotically-assisted construction based on reinforcement learning methods, and investigating human-machine interaction challenges specific to building contexts. Some preliminary results are forthcoming in an ACADIA 2021 paper. We are also in the early stages of an industry collaboration that will allow us to test our framework in the context of modular construction manufacturing.
+RAiC is a research group at Carnegie Mellon’s Computational Design Laboratory investigating ways of combining artificial intelligence and robotics to support building practices. We are interested in developing adaptive systems that enhance and interact with human expertise, articulating a vision for human-machine construction ecologies that does not aspire to full automation. Comprising faculty, graduate, and undergraduate students, the group is currently developing a software framework for robotically-assisted construction based on reinforcement learning methods, and investigating human-machine interaction challenges specific to building contexts. Some preliminary results are forthcoming in an ACADIA 2021 paper. We are also in the early stages of an industry collaboration that will allow us to test our framework in the context of modular construction manufacturing.
 
 ## Team
 
 * [Daniel Cardoso Llach, Ph.D.](http://dcardo.com), Associate Professor, School of Architecture, Carnegie Mellon University (PI). 
-* [Jean Oh, Ph.D.](https://www.cs.cmu.edu/~./jeanoh/), Senior Systems Scientist, Robotics Institute, Carnegie Mellon University (Co-PI).
 * [Ardavan Bidgoli](https://www.ardavan.io/), Ph.D. Candidate, Computational Design.
 * [Yuning Wu](https://ice-5.github.io), Ph.D. Student, Computational Design / M.S., Machine Learning.
 * [Zhihao Fang](https://github.com/SakuraiSatoru), M.S., Computational Design.
 * [Ammar Hassonjee](https://github.com/ahassonj), B.Arch. Student.
 * Willa Yang, M.S. Student, Computational Design.
 * Yanwen Dong, M.S. Student, Computational Design.
+
+## Collaborators
+* [Jean Oh, Ph.D.](https://www.cs.cmu.edu/~./jeanoh/), Senior Systems Scientist, Robotics Institute, Carnegie Mellon University (Co-PI).
+* iBUILT 
+
 
 
 ### Using Reinforcement Learning to Support Scalable Multi-Drone Construction in Dynamic Environments
@@ -127,8 +131,7 @@ The BIM team then imports these models into a BIM software like Revit. Afterward
 
 ### Next_Steps
 
-For future steps, we are pushing the current pipeline into a more universal, scalable platform that further integrates simulation with real-time RL training and inference, 
-and a seamless communication API for different environments. We are using Unity as our first testbed. With the help of MLagents as middleware, we 
+For future steps, we are pushing the current pipeline into a more universal, scalable platform that further integrates simulation with real-time RL training and inference, and a seamless communication API for different environments. We are using Unity as our first testbed. With the help of MLagents as middleware, we 
 are able to establish a fluent workflow between the environment and PyTorch model. We are also expanding our library of algorithm to prepare for enhanced 
 performance in diverse scenarios. Some candidate multi-agent reinforcement learning algorithms include MADDPG, DDPG, Central-Q, Central-V, etc.
 
@@ -138,13 +141,5 @@ performance in diverse scenarios. Some candidate multi-agent reinforcement learn
 </div>
 
 
-### Acknowledgments
-
-We would like to thank [Computational Design Lab](http://code.arc.cmu.edu/) (CoDe Lab) for its generous support. 
-We would also like to express our gratitude towards the [Design Fabrication Lab](https://soa.cmu.edu/dfab) (DFab) at the School of Architecture, CMU for their help with fabrication. 
-
-### Citations
-
-Please check back later for citations as we are in the process of writing our paper.
 
 
