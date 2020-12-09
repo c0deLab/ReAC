@@ -1,21 +1,21 @@
 # Rethinking Automation in Construction (RAiC)
 
-RAiC is a research group at Carnegie Mellon’s Computational Design Laboratory investigating how the combination of artificial intelligence and robotics may support building practices. We are interested in developing adaptive systems that enhance and interact with human expertise, and in articulating an enriched vision for human-machine construction ecologies.
+RAiC is a research group at Carnegie Mellon’s Computational Design Laboratory investigating how the combination of artificial intelligence and robotics may support building practices. We are interested in developing adaptive systems that enhance and interact with human expertise, and in articulating an enriched vision for human-machine construction ecologies. The group is currently developing a software framework for robotically-assisted construction based on reinforcement learning methods, and investigating some of the challenges associated with adaptive systems.    
 
-Team:
-* [Daniel Cardoso-Llach](http://dcardo.com), Associate Professor, School of Architecture, Carnegie Mellon University (PI). 
-* [Jean Oh](https://www.cs.cmu.edu/~./jeanoh/), Senior Systems Scientist, Robotics Institute, Carnegie Mellon University (Co-PI).
+## Team
 
-Researchers:
+* [Daniel Cardoso Llach, Ph.D.](http://dcardo.com), Associate Professor, School of Architecture, Carnegie Mellon University (PI). 
+* [Jean Oh, Ph.D.](https://www.cs.cmu.edu/~./jeanoh/), Senior Systems Scientist, Robotics Institute, Carnegie Mellon University (Co-PI).
 * [Ardavan Bidgoli](https://www.ardavan.io/), Ph.D. Candidate, Computational Design.
 * [Yuning Wu](https://ice-5.github.io), Ph.D. Student, Computational Design / M.S., Machine Learning.
 * [Zhihao Fang](https://github.com/SakuraiSatoru), M.S., Computational Design.
 * [Ammar Hassonjee](https://github.com/ahassonj), B.Arch. Student.
-* Michael Hasey, M.S. Student, Computational Design.
 * Willa Yang, M.S. Student, Computational Design.
 * Yanwen Dong, M.S. Student, Computational Design.
 
-## Project Catalog: An Architectural Framework for Distributed Semi-Autonomous Construction 
+## Current work
+
+
 
 1. Innovating Manufacturing for Construction: A Reinforcement Learning Framework for Robotically\-Supported Modular Factories
 2. Using Reinforcement Learning to Support Scalable Multi-Drone Construction in Dynamic Environments
