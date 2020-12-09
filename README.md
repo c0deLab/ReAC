@@ -1,6 +1,6 @@
 # Rethinking Automation in Construction (RAiC)
 
-RAiC is a research group at Carnegie Mellon’s Computational Design Laboratory investigating how the combination of artificial intelligence and robotics may support building practices. We are interested in developing adaptive systems that enhance and interact with human expertise, and in articulating an enriched vision for human-machine construction ecologies. The group is currently developing a software framework for robotically-assisted construction based on reinforcement learning methods, and investigating some of the challenges associated with adaptive systems.    
+RAiC is a research group at Carnegie Mellon’s Computational Design Laboratory investigating how the combination of artificial intelligence and robotics may support building practices. We are interested in developing adaptive systems that enhance and interact with human expertise, and in articulating an enriched vision for human-machine construction ecologies. The group is currently developing a software framework for robotically-assisted construction based on reinforcement learning methods, and investigating human-machine interaction challenges specific to the context of building practices. Some preliminary results are forthcoming in ACADIA 2021. We are also in the early stages of an industry collaboration that will allow us to test our framework in the context of modular construction manufacturing.
 
 ## Team
 
@@ -13,33 +13,8 @@ RAiC is a research group at Carnegie Mellon’s Computational Design Laboratory 
 * Willa Yang, M.S. Student, Computational Design.
 * Yanwen Dong, M.S. Student, Computational Design.
 
-## Current work
 
-
-
-1. Innovating Manufacturing for Construction: A Reinforcement Learning Framework for Robotically\-Supported Modular Factories
-2. Using Reinforcement Learning to Support Scalable Multi-Drone Construction in Dynamic Environments
-
-### 1. Innovating Manufacturing for Construction: A Reinforcement Learning Framework for Robotically-Supported Modular Factories
-
-By relocating many tasks from construction sites into factories, where complex components can be manufactured under relatively controlled conditions, modular construction methods have great potential to improve efficiency and quality in the building industry while helping reduce its environmental impacts. However, modular factories for building construction rely on a highly diverse and specialized technical workforce whose roles are not amenable to technical formalization or automation. In collaboration with iBuilt, Inc., our team of computational design, architecture, and robotics specialists at Carnegie Mellon University will work to imagine how networks of smaller, more adaptive robots might more flexibly and effectively assist manufacturing workflows in modular construction.
-
-Building on our current research applying state-of-the-art reinforcement learning methods to controlling multiple robots in construction tasks, and on iBuilt’s industry expertise and innovative approach to modular construction, we will develop a semi-autonomous logistics and transportation framework that facilitates the delivery of materials and resources to running manufacturing pipelines by a variable number of robots. iBuilt's existing manufacturing workflows at the company’s factory in Berwick, Pennsylvania, will be studied to adjust the framework to factory constraints. Evaluating the performance of the system through simulations and a proof of concept prototype in the factory itself, we will assess the potential of reinforcement learning methods for robotically-assisted manufacturing to increase both efficiency and flexibility in the manufacturing of volumetric building components, and reduce barriers to the adoption of modular construction methods by the architecture, engineering, and construction (AEC) industry.
-
-<div align="center">
-    <img width="70%"    src="./media/ibuilt_0.jpeg">
-    <p style="font-size:12px"> iBUILT Berwick Factory </p>
-    <p style="font-size:8px"> Image taken by Ardavan Bidgoli (2020) </p>
-</div>
-
-<div align="center">
-    <img width="70%"    src="./media/ibuilt_1.jpeg">
-    <p style="font-size:12px"> Demonstration of the new logistic pipeline </p>
-    <p style="font-size:8px"> Diagram drawn by Ardavan Bidgoli (2020) </p>
-</div>
-
-
-### 2. Using Reinforcement Learning to Support Scalable Multi-Drone Construction in Dynamic Environments
+### Using Reinforcement Learning to Support Scalable Multi-Drone Construction in Dynamic Environments
 
 #### [Presentation Link](https://docs.google.com/presentation/d/1-imEgwLdAeAg5kXq88B_MKbri-ZCLNCWNqa8yrZAHec/edit?usp=sharing)
 
