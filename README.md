@@ -22,20 +22,6 @@ Recent research in the field of architectural and construction robotics has expl
 
 #### [Presentation Link](https://docs.google.com/presentation/d/1-imEgwLdAeAg5kXq88B_MKbri-ZCLNCWNqa8yrZAHec/edit?usp=sharing)
 
-
-**Table of Contents**
-
-- [Status](#Status)
-- [RL Algorithm Details](#Reinforcement_Learning_Algorithm_Details)
-- [Training Model and Results](#Training_Model_and_Results)
-- [Drone Hardware and Building Components](#Drone_Hardware_and_Building_Components)
-- [Simulation](#Simulation)
-- [Human and Drone Relationships](#Human-Drone_Relationships)
-- [Next Steps](#Next_Steps)
-- [Acknowledgments](#Acknowledgments)
-
-## Status
-
 This project is currently under development in three phases:
 
 1. Code development and RL Algorithm Training Advancement
