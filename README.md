@@ -10,7 +10,7 @@ Recent research in the field of architectural and construction robotics has expl
 
 #### [Presentation Link](https://docs.google.com/presentation/d/1-imEgwLdAeAg5kXq88B_MKbri-ZCLNCWNqa8yrZAHec/edit?usp=sharing)
 
-This project is currently under development in three phases:
+Three aspects of this project are currently under development:
 
 1. Code development and RL Algorithm Training
 2. Development of a simulation platform in Unity
