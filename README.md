@@ -1,6 +1,6 @@
 # Rethinking Automation in Construction (RAiC)
 
-RAiC is a research group at Carnegie Mellon’s Computational Design Laboratory investigating ways of combining artificial intelligence and robotics to support building practices. We are interested in developing adaptive systems that enhance and interact with human expertise on site, articulating a vision for human-machine construction ecologies that does not aspire to full automation. Comprising faculty, graduate, and undergraduate students, the group is currently developing a software framework for robotically-assisted construction based on reinforcement learning methods, and investigating human-machine interaction challenges specific to building contexts. Some preliminary results are forthcoming in an ACADIA 2021 paper. We are also in the early stages of an industry collaboration that will allow us to test our framework in the context of modular construction manufacturing.
+RAiC is a research group at Carnegie Mellon’s Computational Design Laboratory investigating ways of combining artificial intelligence and robotics to support construction practices. We are interested in developing adaptive systems that enhance and interact with human expertise on site, articulating a vision for human-machine construction ecologies that does not aspire to full automation. Comprising faculty, graduate, and undergraduate students, the group is currently developing a software framework for robotically-assisted construction based on reinforcement learning methods, and investigating human-machine interaction challenges specific to building contexts. Some preliminary results are forthcoming in an ACADIA 2021 paper. We are also in the early stages of an industry collaboration that will allow us to test our framework in the context of modular construction manufacturing.
 
 ## Current Work
 
@@ -37,7 +37,7 @@ and agent velocity. For better generalization, we also added Gaussian sampling t
     <p style="font-size:8px"> Image taken from Zhihao Fang's thesis: "Towards multi-drone autonomous construction via deep reinforcement learning" (2020) </p>
 </div>
 
-### Training_Model_and_Results
+### Training Model and Preliminary Results
 
 We use a two-stage training method to learn the policy in a curriculum learning fashion. In the first stage we trained on 5 agents 
 while in the second stage we trained on 10 agents and introduced some threat areas. We use 20 agents for evaluation, as shown in the GIF below, and the result demonstrates the 
@@ -47,7 +47,7 @@ scalability of the algorithm.
     <img width="50%"    src="./media/evaluation_20.gif">
 </div>
 
-## Drone_Hardware_and_Building_Components
+## Drone Hardware and Building Components
 
 We opted to make a build a custom-made drone to the required specs. It relies on a Pixhawk to control its flight, a Raspberry Pi for on the edge computations 
 and communication with the centralized computer. It is also equipped with electromagnets to pick and place foam blocks. 
@@ -77,10 +77,9 @@ Below you can click to see a video simulation demo of the framework in action. T
 
 [![Video thumbnail of multi-drone simulation](https://img.youtube.com/vi/oe1T1j5nVqM/0.jpg)](https://youtu.be/oe1T1j5nVqM)
 
-## Human-Drone_Relationships
+## Human-Robot Construction Systems
 
-Our proposed framework aims at a more comprehensive workflow that not only encompases the drones, but also the full pipeline that they work within consisting of a variety of
-different construction roles. We illustrate our long term idea of a project workflow from the design development stages, involving roles such as architects and engineers, to the building construction phases integrated with our proposed multi-drone framework.
+Our proposed framework aims at a more comprehensive workflow that not only encompases the drones, but also the full pipeline that they work within consisting of a variety of different construction roles. We illustrate our long term idea of a project workflow from the design development stages, involving roles such as architects and engineers, to the building construction phases integrated with our proposed multi-drone framework.
 
 <div  align="center">   
   <img width="45%"    src="./media/flowchart_diagram.png">
@@ -88,12 +87,9 @@ different construction roles. We illustrate our long term idea of a project work
   <p style="font-size:12px"> Left: Long-term Project Workflow | Right: Human Roles in the Framework</p>
 </div>
 
-With the specific project workflow shown above, the number of roles involved and necessary interactions among roles resembles a complex web in order to keep data consistent, emphasize communication, and ensure the project runs smoothly.
-Because of the many roles involved, a central model and dedicated BIM team is incredibly important to the project's flow as they provide a single accessible model from where different parties can access and reference information.
+With the specific project workflow shown above, the number of roles involved and necessary interactions among roles resembles a complex web in order to keep data consistent, emphasize communication, and ensure the project runs smoothly. Because of the many roles involved, a central model and dedicated BIM team is incredibly important to the project's flow as they provide a single accessible model from where different parties can access and reference information.
 
-Regarding the technical workflow of this entire project pipeline, the diagram below shows the various interfaces used by the different roles and how they can be integrated together to utlize and monitor a multi-drone system for different construction tasks. 
-Architectural designers, engineers, and manufacturers will most likely continue to use CAD modeling software, such as Rhino, for design development. 
-The BIM team then imports these models into a BIM software like Revit. Afterwards, programmers can access the BIM model to program the drone’s pick and placement procedure using visualization interfaces like Unity. Once the program is finished and starts running, on site project managers can use a custom UI plugin to monitor progress and stop the drone operation in case of emergencies or errors. 
+Regarding the technical workflow of this entire project pipeline, the diagram below shows the various interfaces used by the different roles and how they can be integrated together to utlize and monitor a multi-drone system for different construction tasks. Architectural designers, engineers, and manufacturers will most likely continue to use CAD modeling software, such as Rhino, for design development. The BIM team then imports these models into a BIM software like Revit. Afterwards, programmers can access the BIM model to program the drone’s pick and placement procedure using visualization interfaces like Unity. Once the program is finished and starts running, on site project managers can use a custom UI plugin to monitor progress and stop the drone operation in case of emergencies or errors. 
 
 <div  align="center">   
   <img width="80%"    src="./media/human_interfaces.jpg">
