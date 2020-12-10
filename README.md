@@ -25,13 +25,6 @@ Our neural network architecture uses convolutional layers to combine encodings o
 and agent velocity. For better generalization, we also added Gaussian sampling to the output.
 
 <div align="center">
-    <img width="40%"    src="./media/policy_diagram.png">
-    <img width="50%"    src="./media/rl_details_image.png">
-    <p style="font-size:12px"> Diagrams depicting the PPO process </p>
-    <p style="font-size:8px"> Image on the right from Long, Pinxin "Towards optimally decentralized multi-robot collision avoidance via deep reinforcement learning" (2018) </p>
-</div>
-
-<div align="center">
     <img width="70%"    src="./media/framework_diagram.png">
     <p style="font-size:12px"> Technical framework overview </p>
     <p style="font-size:8px"> Image taken from Zhihao Fang's thesis: "Towards multi-drone autonomous construction via deep reinforcement learning" (2020) </p>
@@ -40,8 +33,7 @@ and agent velocity. For better generalization, we also added Gaussian sampling t
 ### Training Model and Preliminary Results
 
 We use a two-stage training method to learn the policy in a curriculum learning fashion. In the first stage we trained on 5 agents 
-while in the second stage we trained on 10 agents and introduced some threat areas. We use 20 agents for evaluation, as shown in the GIF below, and the result demonstrates the 
-scalability of the algorithm.
+while in the second stage we trained on 10 agents and introduced some threat areas. We use 20 agents for evaluation, as shown in the GIF below, and the result demonstrates the scalability of the algorithm.
 
 <div align="center">
     <img width="50%"    src="./media/evaluation_20.gif">
@@ -96,11 +88,9 @@ Regarding the technical workflow of this entire project pipeline, the diagram be
   <p style="font-size:12px">Technical Interfaces and Human Roles</p>
 </div>
 
-### Next_Steps
+### Next Steps
 
-For future steps, we are pushing the current pipeline into a more universal, scalable platform that further integrates simulation with real-time RL training and inference, and a seamless communication API for different environments. We are using Unity as our first testbed. With the help of MLagents as middleware, we 
-are able to establish a fluent workflow between the environment and PyTorch model. We are also expanding our library of algorithm to prepare for enhanced 
-performance in diverse scenarios. Some candidate multi-agent reinforcement learning algorithms include MADDPG, DDPG, Central-Q, Central-V, etc.
+We aim to build a more generalizable and scalable platform that integrates simulation with real-time RL training and inference, and a seamless communication API for different environments. We are using Unity as our first testbed. With the help of MLagents as middleware, we are able to establish a fluent workflow between the environment and PyTorch model. We are also expanding our library of algorithm to prepare for enhanced performance in diverse scenarios. Some candidate multi-agent reinforcement learning algorithms include MADDPG, DDPG, Central-Q, Central-V, etc.
 
 <div  align="center">   
   <img width="100%"    src="./media/technical_framework_diagram.png">
