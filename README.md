@@ -57,7 +57,7 @@ method for this is to use Aruco markers on each drone.
 <div align="center">
     <img width="40%"    src="./media/IMG_7156.jpg">
     <img width="33%"    src="./media/update.jpg">
-    <p style="font-size:12px"> The assembled drone with installed Raspberry Pi </p>
+    <p style="font-size:12px"> The assembled drone with installed Raspberry Pi at CodeLab </p>
 </div>
 
 
