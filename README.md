@@ -98,17 +98,18 @@ We aim to build a more generalizable and scalable platform that integrates simul
 </div>
 
 
-## Team
+## Research Team
 
-* [Daniel Cardoso Llach, Ph.D.](http://dcardo.com), Associate Professor, School of Architecture, Carnegie Mellon University (PI). 
-* [Ardavan Bidgoli](https://www.ardavan.io/), Ph.D. Candidate, Computational Design.
 * [Yuning Wu](https://ice-5.github.io), Ph.D. Student, Computational Design / M.S., Machine Learning.
+* [Emek Erdolu], Ph.D. Candidate, School of Architecture, Computational Design.
+* [Ardavan Bidgoli](https://www.ardavan.io/), Ph.D. Candidate, Computational Design. 
 * [Zhihao Fang](https://github.com/SakuraiSatoru), M.S., Computational Design.
 * [Ammar Hassonjee](https://github.com/ahassonj), B.Arch. Student.
 * Willa Yang, M.S. Student, Computational Design.
 * Yanwen Dong, M.S. Student, Computational Design.
 
-## Collaborators
+
+* [Daniel Cardoso Llach, Ph.D.](http://dcardo.com), Associate Professor, School of Architecture, Carnegie Mellon University (PI). 
 * [Jean Oh, Ph.D.](https://www.cs.cmu.edu/~./jeanoh/), Senior Systems Scientist, Robotics Institute, Carnegie Mellon University (Co-PI).
 * iBUILT, Inc. 
 
