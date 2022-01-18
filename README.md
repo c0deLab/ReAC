@@ -15,18 +15,18 @@ In particular, we apply state of the art social navigation algorithms to enable 
 * We conduct exploratory research on human-robot interaction, and revise the relationship through an interactive, integrated, and immersive angle.
 
 <div align="center">
-    <img height=150px    src="./media/rscc/robot.jpg">
-    <img height=150px    src="./media/rscc/robot2.png">
+    <img height=300px    src="./media/rscc/robot.jpg">
+    <img height=300px    src="./media/rscc/robot2.png">
     <p style="font-size:12px"> The Fetch robot for prototyping </p>
 </div>
 
 <div align="center">
-    <img width="100%"    src="./media/rscc/architecture.png">
+    <img width="75%"    src="./media/rscc/architecture.png">
     <p style="font-size:12px"> The system architecture </p>
 </div>
 
 <div align="center">
-    <img width="100%"    src="./media/rscc/navigation.png">
+    <img width="75%"    src="./media/rscc/navigation.png">
     <p style="font-size:12px"> Collision avoidance navigation </p>
 </div>
 
@@ -48,11 +48,14 @@ Recent research in the field of architectural and construction robotics has expl
 </div> 
 
 <div  align="center">   
-  <img height=100px    src="./media/b&w1.gif">
-  <img height=100px    src="./media/b&w2.gif">
+  <img height=150px    src="./media/b&w1.gif">
+  <img height=150px    src="./media/b&w2.gif">
   <p style="font-size:12px"> Assembly of fabricated bricks with magnets attached </p>
 </div>
 
+<!-- <div align="center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/oe1T1j5nVqM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div> -->
 
 [![Video thumbnail of multi-drone simulation](https://img.youtube.com/vi/oe1T1j5nVqM/0.jpg)](https://youtu.be/oe1T1j5nVqM)
 
