@@ -1,17 +1,15 @@
 # Rethinking Automation in Construction (ReAC)
 
-ReAC is a research group at Carnegie Mellon’s Computational Design Laboratory investigating ways of combining artificial intelligence and robotics to support architectural construction. We are interested in adaptive systems that enhance and interact with human expertise on site, and in articulating a vision for human-machine construction ecologies that does not aspire to full automation. Comprising faculty, graduate, and undergraduate students in the School of Architecture and Robotics Institute, the group is currently developing a software framework for robotically-assisted construction based on reinforcement learning methods, and investigating human-machine interaction challenges specific to building contexts. 
+ReAC is a research group at Carnegie Mellon’s Computational Design Laboratory investigating ways of combining artificial intelligence and robotics to support building construction. We are interested in "robot in the loop" adaptive systems that enhance and interact with (rather than replace) human expertise on site, and in advancing a vision for "robotically supported cooperative construction." Comprising faculty, graduate, and undergraduate students in the School of Architecture and Robotics Institute, the group is currently developing a software framework for robotically-assisted construction based on reinforcement learning methods, investigating human-machine interaction challenges specific to building contexts, and conducting qualitative studies of construction practices. 
 
 ## Project Series
 
-### [(Current Work) Towards a Robotically Supported Collaborative Construction (RSCC)](page/rscc.md)
+### [(Current Work) Robot in the loop: Towards a Robotically Supported Collaborative Construction (RSCC)](page/rscc.md)
 
-The ReAC RSCC project mobilizes recent advances in AI and robotics towards the concept of robotically supported cooperative construction. Instead of fully automated systems, it seeks to develop robots able to support human workers on construction sites through human-robot interactive, collaborative, assistive, and facilitative systems using reinforcement learning / AI as their key technical advantage. The project is a collaborative effort between faculty and students in the Computational Design Laboratory (School of Architecture) and the Robotics Institute at Carnegie Mellon University.
+The ReAC RSCC project mobilizes recent advances in AI and robotics towards the concept of robotically supported cooperative construction. Instead of fully automated systems, it seeks to harness recent developments in machine learning and robotics in order to support human workers on construction sites. The project is a collaborative effort between faculty and students in the Computational Design Laboratory (School of Architecture) and the Robotics Institute at Carnegie Mellon University.
 
-* We conduct a qualitative / observational study to gain a deep understanding of specific building construction activities 
-* We observe and document the specific activities, and engage with and learn from the construction personnel in order to reflectively inform the development of the robotic system
-* We use reinforcement learning (RL), which is a special genre of machine learning (ML), for adaptive solutions of aforementioned questions.
-In particular, we apply state of the art social navigation algorithms to enable robots safely navigating among humans.
+* We approach building practices through qualitative methods in order to reflectively inform the development of the robotic system and directly involve builders in its design;
+* We use reinforcement learning (RL), a special genre of machine learning (ML), to develop robotic systems which are adaptive rather than rigid. In particular, we apply state of the art social navigation algorithms to enable robots safely navigating among people.
 * We conduct exploratory research on human-robot interaction, and revise the relationship through an interactive, integrated, and immersive angle.
 
 <div align="center">
@@ -63,6 +61,11 @@ Recent research in the field of architectural and construction robotics has expl
 
 ## Research Team
 
+* [Daniel Cardoso Llach, Ph.D.](http://dcardo.com), Associate Professor, School of Architecture, Carnegie Mellon University (PI). 
+* [Jean Oh, Ph.D.](https://www.cs.cmu.edu/~./jeanoh/), Senior Systems Scientist, Robotics Institute, Carnegie Mellon University (Co-PI).
+* iBUILT, Inc. 
+
+
 * [Yuning Wu](https://ice-5.github.io), Ph.D. Student, Computational Design / M.S., Machine Learning.
 * [Emek Erdolu], Ph.D. Candidate, School of Architecture, Computational Design.
 * [Ardavan Bidgoli](https://www.ardavan.io/), Ph.D. Candidate, Computational Design. 
@@ -72,9 +75,6 @@ Recent research in the field of architectural and construction robotics has expl
 * Yanwen Dong, M.S. Student, Computational Design.
 
 
-* [Daniel Cardoso Llach, Ph.D.](http://dcardo.com), Associate Professor, School of Architecture, Carnegie Mellon University (PI). 
-* [Jean Oh, Ph.D.](https://www.cs.cmu.edu/~./jeanoh/), Senior Systems Scientist, Robotics Institute, Carnegie Mellon University (Co-PI).
-* iBUILT, Inc. 
 
 
 
