@@ -1,10 +1,6 @@
 # Rethinking Automation in Construction (ReAC)
 
-ReAC is a research group at Carnegie Mellon’s Computational Design Laboratory investigating ways of combining artificial intelligence and robotics to support building construction. The group's focus is on advancing a vision for humane uses of automation in constructionin through the design and development of "robot in the loop" adaptive systems that enhance and interact with (rather than replace) human expertise on site. Comprising faculty, graduate, and undergraduate students in the School of Architecture and Robotics Institute, the group is currently developing a software framework for robotically-assisted construction based on reinforcement learning methods, investigating human-machine interaction challenges specific to building contexts, and conducting qualitative studies of construction practices. 
-
-## Project Series
-
-### [(Current Work) Towards robotically-supported collaborative construction (RSCC)](page/rscc.md)
+ReAC is a research group at Carnegie Mellon’s Computational Design Laboratory investigating new ways of combining artificial intelligence and robotics techniques to support building construction. The group's focus is on advancing a vision for humane uses of automation in constructionin through the design and development of "robot in the loop" adaptive systems that enhance and interact with (rather than replace) human expertise on site. Comprising faculty, graduate, and undergraduate students in the School of Architecture and Robotics Institute, the group is currently developing a software framework for robotically-assisted construction based on reinforcement learning methods, investigating human-machine interaction challenges specific to building contexts, and conducting qualitative studies of construction practices. 
 
 Our current work involves:
 
@@ -29,9 +25,9 @@ Our current work involves:
 </div>
 
 
-### [Prior work: Using Reinforcement Learning to Support Scalable Multi-Drone Construction in Dynamic Environments](page/drone.md)
+### [Prior work](page/drone.md)
 
-An early prototype of tthis project comprised a framework for distributed robotically-assisted construction using reinforcement learning techniques to allow a variable number of drones to dynamically execute pick and place and spraycoating tasks. We tested the framework via simulations and started to refine a vision for computationally-supported construction processes.
+Earlier efforts comprised the development of a framework for distributed robotically-assisted construction using reinforcement learning techniques to allow a variable number of drones to dynamically execute pick and place and spraycoating tasks. We tested the framework via simulations and started to refine a vision for computationally-supported construction processes.
 
 <div align="center">
     <img width="50%"    src="./media/evaluation_20.gif">
