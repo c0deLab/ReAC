@@ -59,21 +59,29 @@ Recent research in the field of architectural and construction robotics has expl
 
 
 
-## Research Team
+## Reseach Team
 
-* [Daniel Cardoso Llach, Ph.D.](http://dcardo.com), Associate Professor, School of Architecture, Carnegie Mellon University (PI). 
-* [Jean Oh, Ph.D.](https://www.cs.cmu.edu/~./jeanoh/), Senior Systems Scientist, Robotics Institute, Carnegie Mellon University (Co-PI).
-* iBUILT, Inc. 
+* [Daniel Cardoso Llach, Ph.D.](http://dcardo.com), Associate Professor, School of Architecture, Carnegie Mellon University (PI);
+* [Jean Oh, Ph.D.](https://www.cs.cmu.edu/~./jeanoh/), Senior Systems Scientist, Robotics Institute, Carnegie Mellon University (Co-PI);
+* [Yuning Wu](https://ice-5.github.io), Ph.D. Student, Computational Design / M.S., Machine Learning;
+* [Emek Erdolu], Ph.D. Candidate, School of Architecture, Computational Design;
+* [Jiaying Li], M.S. Candidate, School of Architecture, Computational Design;
+* [Abhishek Singh], Masters of Information Systems Candidate, School of Engineering;
+* [Yuchen Liu], M.S. Candidate, School of Architecture, Computational Design. 
 
 
-* [Yuning Wu](https://ice-5.github.io), Ph.D. Student, Computational Design / M.S., Machine Learning.
-* [Emek Erdolu], Ph.D. Candidate, School of Architecture, Computational Design.
+## Alumni
+
 * [Ardavan Bidgoli](https://www.ardavan.io/), Ph.D. Candidate, Computational Design. 
 * [Zhihao Fang](https://github.com/SakuraiSatoru), M.S., Computational Design.
 * [Ammar Hassonjee](https://github.com/ahassonj), B.Arch. Student.
 * Willa Yang, M.S. Student, Computational Design.
 * Yanwen Dong, M.S. Student, Computational Design.
 
+## Industry Partners
+
+* PJ Dick
+* Module 
 
 
 
