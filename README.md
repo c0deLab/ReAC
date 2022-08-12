@@ -1,16 +1,16 @@
 # Rethinking Automation in Construction (ReAC)
 
-ReAC is a research group at Carnegie Mellon’s Computational Design Laboratory investigating ways of combining artificial intelligence and robotics to support building construction. We are interested in "robot in the loop" adaptive systems that enhance and interact with (rather than replace) human expertise on site, and in advancing a vision for "robotically supported cooperative construction." Comprising faculty, graduate, and undergraduate students in the School of Architecture and Robotics Institute, the group is currently developing a software framework for robotically-assisted construction based on reinforcement learning methods, investigating human-machine interaction challenges specific to building contexts, and conducting qualitative studies of construction practices. 
+ReAC is a research group at Carnegie Mellon’s Computational Design Laboratory investigating ways of combining artificial intelligence and robotics to support building construction. The group's focus is on advancing a vision for humane uses of automation in constructionin through the design and development of "robot in the loop" adaptive systems that enhance and interact with (rather than replace) human expertise on site. Comprising faculty, graduate, and undergraduate students in the School of Architecture and Robotics Institute, the group is currently developing a software framework for robotically-assisted construction based on reinforcement learning methods, investigating human-machine interaction challenges specific to building contexts, and conducting qualitative studies of construction practices. 
 
 ## Project Series
 
-### [(Current Work) Robot in the loop: Towards a Robotically Supported Collaborative Construction (RSCC)](page/rscc.md)
+### [(Current Work) Towards robotically-supported collaborative construction (RSCC)](page/rscc.md)
 
-The ReAC RSCC project mobilizes recent advances in AI and robotics towards the concept of robotically supported cooperative construction. Instead of fully automated systems, it seeks to harness recent developments in machine learning and robotics in order to support human workers on construction sites. The project is a collaborative effort between faculty and students in the Computational Design Laboratory (School of Architecture) and the Robotics Institute at Carnegie Mellon University.
+Our current work involves:
 
-* We approach building practices through qualitative methods in order to reflectively inform the development of the robotic system and directly involve builders in its design;
-* We use reinforcement learning (RL), a special genre of machine learning (ML), to develop robotic systems which are adaptive rather than rigid. In particular, we apply state of the art social navigation algorithms to enable robots safely navigating among people.
-* We conduct exploratory research on human-robot interaction, and revise the relationship through an interactive, integrated, and immersive angle.
+* Studying construction practices qualitatively in order to inform the design and development of robotic systems and directly involve builders and their concerns in their design;
+* Developing a reinforcement learning-based framework for social navigation allowing robots to safely move in construction sites. RL is a special genre of machine learning (ML) well suited to operate in changing environments; 
+* Engineering of a customized mobile ground robot uniquely suited for construction support.  
 
 <div align="center">
     <img height=300px    src="./media/rscc/robot.jpg">
@@ -29,10 +29,9 @@ The ReAC RSCC project mobilizes recent advances in AI and robotics towards the c
 </div>
 
 
+### [Prior work: Using Reinforcement Learning to Support Scalable Multi-Drone Construction in Dynamic Environments](page/drone.md)
 
-### [Using Reinforcement Learning to Support Scalable Multi-Drone Construction in Dynamic Environments](page/drone.md)
-
-Recent research in the field of architectural and construction robotics has explored robots’ potential to support construction tasks including, bricklaying, frame structure assembly, 3D printing, tensile structure weaving, nailing, spraying, and site data collection. However, a common limitation of these approaches is their lack of generalizability and scalability, as well as the assumption that drones work under highly controlled environments in isolation from human builders and environmental changes. In this paper we document progress towards an architectural framework for distributed robotically-assisted construction that takes into account the environmental and social dynamism of construction sites. We draw from state-of-the-art reinforcement learning techniques to propose a software framework allowing for a variable number of drones to dynamically execute pick and place and spraycoating tasks. Documenting the framework for robotically-assisted construction through simulations and a proof-of-concept outline, this paper contributes to current research in architectural and construction robotics, and advances a vision for semi-autonomous construction ecosystems interfacing humans and computational systems.
+An early prototype of tthis project comprised a framework for distributed robotically-assisted construction using reinforcement learning techniques to allow a variable number of drones to dynamically execute pick and place and spraycoating tasks. We tested the framework via simulations and started to refine a vision for computationally-supported construction processes.
 
 <div align="center">
     <img width="50%"    src="./media/evaluation_20.gif">
@@ -57,7 +56,13 @@ Recent research in the field of architectural and construction robotics has expl
 
 [![Video thumbnail of multi-drone simulation](https://img.youtube.com/vi/oe1T1j5nVqM/0.jpg)](https://youtu.be/oe1T1j5nVqM)
 
+## Publications
 
+Yuning Wu, Emek Erdolu, Jean Oh and Daniel Cardoso Llach. Re-Thinking Automation in Construction: Towards Robotically-Supported Cooperative Construction. (Association for Computer Aided Design in Architecture, ACADIA, 2022 under review); 
+
+Fang, Zhihao, Yuning Wu, Ammar Hassonjee, Ardavan Bidgoli, and Daniel Cardoso Llach. “Towards a Distributed, Robotically Assisted Construction Framework.” In Distributed Proximities (Association for Computer Aided Design in Architecture, ACADIA, Virtual, 2020). 
+
+Wu, Yuning, Jieliang Luo, and Hui Li. "Learning Dense Reward with Temporal Variant Self-Supervision." arXiv preprint arXiv:2205.10431 (2022). 
 
 ## Reseach Team
 
@@ -72,10 +77,10 @@ Recent research in the field of architectural and construction robotics has expl
 
 ## Alumni
 
-* [Ardavan Bidgoli](https://www.ardavan.io/), Ph.D. Candidate, Computational Design. 
 * [Zhihao Fang](https://github.com/SakuraiSatoru), M.S., Computational Design.
+* [Ardavan Bidgoli](https://www.ardavan.io/), Ph.D. Candidate, Computational Design. 
 * [Ammar Hassonjee](https://github.com/ahassonj), B.Arch. Student.
-* Willa Yang, M.S. Student, Computational Design.
+* Willa Yang M.S. Student, Computational Design.
 * Yanwen Dong, M.S. Student, Computational Design.
 
 ## Industry Partners
