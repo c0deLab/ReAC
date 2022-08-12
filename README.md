@@ -65,10 +65,10 @@ Wu, Yuning, Jieliang Luo, and Hui Li. "Learning Dense Reward with Temporal Varia
 * [Daniel Cardoso Llach, Ph.D.](http://dcardo.com), Associate Professor, School of Architecture, Carnegie Mellon University (PI);
 * [Jean Oh, Ph.D.](https://www.cs.cmu.edu/~./jeanoh/), Senior Systems Scientist, Robotics Institute, Carnegie Mellon University (Co-PI);
 * [Yuning Wu](https://ice-5.github.io), Ph.D. Student, Computational Design / M.S., Machine Learning;
-* [Emek Erdolu], Ph.D. Candidate, School of Architecture, Computational Design;
-* [Jiaying Li], M.S. Candidate, School of Architecture, Computational Design;
-* [Abhishek Singh], Masters of Information Systems Candidate, School of Engineering;
-* [Yuchen Liu], M.S. Candidate, School of Architecture, Computational Design. 
+* Emek Erdolu, Ph.D. Candidate, School of Architecture, Computational Design;
+* Jiaying Li, M.S. Candidate, School of Architecture, Computational Design;
+* Abhishek Singh, Masters of Information Systems Candidate, School of Engineering;
+* Yuchen Liu, M.S. Candidate, School of Architecture, Computational Design. 
 
 
 ## Alumni
