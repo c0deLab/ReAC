@@ -5,7 +5,7 @@ ReAC is a research group at Carnegie Mellon’s Computational Design Laboratory 
 Our current work involves:
 
 * Studying construction practices qualitatively in order to inform the design and development of robotic systems and directly involve builders and their concerns in their design;
-* Developing a reinforcement learning-based framework for social navigation allowing robots to safely move in construction sites. RL is a special genre of machine learning (ML) well suited to operate in changing environments; 
+* Developing a reinforcement learning-based framework for social navigation allowing robots to safely move in construction sites; 
 * Engineering of a customized mobile ground robot uniquely suited for construction support.  
 
 <div align="center">
@@ -27,7 +27,7 @@ Our current work involves:
 
 ### [Prior work](page/drone.md)
 
-Earlier efforts comprised the development of a framework for distributed robotically-assisted construction using reinforcement learning techniques to allow a variable number of drones to dynamically execute pick and place and spraycoating tasks. We tested the framework via simulations and started to refine a vision for computationally-supported construction processes.
+Earlier efforts comprised the development of a framework for distributed robotically-assisted construction using reinforcement learning techniques to allow a variable number of drones to dynamically execute pick and place and spraycoating tasks. RL is a special genre of machine learning well suited to operate in changing environments. We tested the framework via simulations and started to refine a vision for computationally-supported construction processes.
 
 <div align="center">
     <img width="50%"    src="./media/evaluation_20.gif">
@@ -84,6 +84,11 @@ Wu, Yuning, Jieliang Luo, and Hui Li. "Learning Dense Reward with Temporal Varia
 * PJ Dick
 * Module 
 
+## Sponsors
+
+* Manufacturing Futures Initiative (2022-2023);
+* Pennsylvania Agency for Economic Development - PAMIP (2021-2022);
+* Google's Artist + Machine Intelligence Program (2021-2022).
 
 
 
