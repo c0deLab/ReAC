@@ -9,7 +9,6 @@ Our current work involves:
 * Engineering of a customized mobile ground robot uniquely suited for construction support.  
 
 <div align="center">
-    <img height=300px    src="./media/rscc/robot.jpg">
     <img height=300px    src="./media/rscc/robot2.png">
     <p style="font-size:12px"> The Fetch robot for prototyping </p>
 </div>
