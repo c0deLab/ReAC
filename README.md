@@ -59,10 +59,7 @@ The ReAC group has contributed to construction robotics, intelligent robotics, a
 
 ## Sponsors
 
-* Manufacturing Futures Initiative (2022-2023);
-* Pennsylvania Agency for Economic Development - PAMIP (2021-2022);
-* Google's Artist + Machine Intelligence Program (2021-2022).
-* Autodesk
+The ReAC group gratefully acknowledges material support from the Manufacturing Futures Institute, the Pennsylvania Agency for Economic Development, Google, and Autodesk.
 
 
 
