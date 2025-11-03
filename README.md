@@ -1,8 +1,4 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="DARK-IMAGE-URL">
-  <source media="(prefers-color-scheme: light)" srcset="LIGHT-IMAGE-URL">
-  <img alt="ALT-TEXT" src="DEFAULT-IMAGE-URL">
-</picture>
+![Image test](/media/rscc/demo_1.JPG)
 
 # Rethinking Automation in Construction (ReAC)
 
