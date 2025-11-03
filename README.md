@@ -13,6 +13,18 @@ The ReAC group has contributed to construction robotics, intelligent robotics, a
 * Wu, Yuning, Jieliang Luo, and Hui Li. 2022. “Learning Dense Reward with Temporal Variant Self-Supervision.” arXiv. https://doi.org/10.48550/arXiv.2205.10431.
 * Fang, Zhihao, Yuning Wu, Ammar Hassonjee, Ardavan Bidgoli, and Daniel Cardoso Llach. 2020. “Towards a Distributed, Robotically Assisted Construction Framework.” In Distributed Proximities. Online + Global. link to article.
 
+## Doctoral Dissertations
+
+* Erdolu, Emek. 2024. “Robotic Technologies and the Reconfiguration of Building Construction Work.” Thesis, Pittsburgh: Carnegie Mellon University. Committee: D. Cardoso Llach, Daragh Byrne, Molly W. Steenson. https://doi.org/10.1184/R1/27304371.v1.
+* Yuning Wu. 2024. “A Human-Centered, Reinforcement Learning Driven Robotic Framework For Assisting Construction Workers.” Pittsburgh: Carnegie Mellon University. Advisors: D. Cardoso Llach, Jean Oh; committee members: Rodger Luo (Autodesk) https://kilthub.cmu.edu/articles/thesis/A_Human-Centered_Reinforcement_Learning_Driven_Robotic_Framework_For_Assisting_Construction_Workers/27304317/1.
+* Liu, Jingyang. 2024. “Space as Interface: A Computational Framework for Spatial Computing in Robotically-Assisted Construction.” Thesis, Pittsburgh: Carnegie Mellon University. Committee: Josh Bard, Daniel Cardoso Llach, Mayank Goel. https://doi.org/10.1184/R1/26090086.v1.
+
+## MS Theses
+
+* Ou, Tingsong. 2023. “Mobile Robot-Assisted Material Handling in Prefabricated Housing Factories.” Thesis, Pittsburgh: Carnegie Mellon University. https://doi.org/10.1184/R1/23960865.v1.
+* Liu, Haoyu. 2023. “Towards Contextualized Synthetic Dataset for Construction Site.” Thesis, Pittsburgh: Carnegie Mellon University. https://doi.org/10.1184/R1/23099876.v1.
+* Fang, Zhihao. 2021. “Towards Multi-Drone Autonomous Construction via Deep Reinforcement Learning.” Thesis, Pittsburgh: Carnegie Mellon University. https://doi.org/10.1184/R1/14138024.v1.
+
 ## Presentations
 
 * STS-Hub Berlin; Poster Session, March 13, 2025, Humboldt Universität, Berlin. Poster presentation by PI Daniel Cardoso Llach;
@@ -26,7 +38,6 @@ The ReAC group has contributed to construction robotics, intelligent robotics, a
 * Design for Collaborative Robotic Environments symposium at the Center for Design at Northeastern University's College of Arts, Media and Design, alongside Keith Evan Green and Taskin Padir. The panel was convened and moderated by Kristian Kloeckl and introduced by Paolo Ciuccareli. April 21, 2022. Presentation by PI Daniel Cardoso Llach.
 * Manufacturing Futures Initiative Meeting, Pittsburgh, PA, Spring 2022. Presentation by PI Daniel Cardoso Llach;
 * Association for Computer Aided Design in Architecture, ACADIA, Virtual, 2020. Towards a Distributed, Robotically Assisted Construction Framework. In Distributed Proximities. Presentation by team member Ardavan Bidgoli.
-
 
 ## Reseach Team
 
