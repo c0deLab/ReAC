@@ -12,10 +12,10 @@ The ReAC group contributes to construction robotics, intelligent robotics, and a
 
 #### Peer Reviewed Articles
 * Wu, Yuning, Emek Erdolu, Jiaying Wei, Jean Oh, and Daniel Cardoso Llach. 2024. “Robot in the Loop: A Human-Centered Approach to Contextualizing AI and Robotics in Construction.” Construction Robotics 9 (1): 1. https://doi.org/10.1007/s41693-024-00144-8.
-* Wu, Yuning, Jiaying Wei, Jean Oh, and Daniel Cardoso Llach. 2024. “Towards Human-Centered Construction Robotics: A Reinforcement Learning-Driven Companion Robot for Contextually Assisting Carpentry Workers.” In 2024 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), 90–97. https://doi.org/10.1109/IROS58592.2024.10802698.
-* Stoler, Benjamin, Meghdeep Jana, Soonmin Hwang, and Jean Oh. 2023. “T2FPV: Dataset and Method for Correcting First-Person View Errors in Pedestrian Trajectory Prediction.” In 2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), 4037–44. https://doi.org/10.1109/IROS55552.2023.10341874.
-* Wu, Yuning, Jieliang Luo, and Hui Li. 2022. “Learning Dense Reward with Temporal Variant Self-Supervision.” arXiv. https://doi.org/10.48550/arXiv.2205.10431.
-* Fang, Zhihao, Yuning Wu, Ammar Hassonjee, Ardavan Bidgoli, and Daniel Cardoso Llach. 2020. “Towards a Distributed, Robotically Assisted Construction Framework.” In Distributed Proximities. Online + Global. link to article.
+* Wu, Yuning, Jiaying Wei, Jean Oh, and Daniel Cardoso Llach. 2024. “Towards Human-Centered Construction Robotics: A Reinforcement Learning-Driven Companion Robot for Contextually Assisting Carpentry Workers.” In 2024 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), 90–97. [https://doi.org/10.1109/IROS58592.2024.10802698](https://doi.org/10.1109/IROS58592.2024.10802698).
+* Stoler, Benjamin, Meghdeep Jana, Soonmin Hwang, and Jean Oh. 2023. “T2FPV: Dataset and Method for Correcting First-Person View Errors in Pedestrian Trajectory Prediction.” In 2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), 4037–44. [https://doi.org/10.1109/IROS55552.2023.10341874](https://doi.org/10.1109/IROS55552.2023.10341874).
+* Wu, Yuning, Jieliang Luo, and Hui Li. 2022. “Learning Dense Reward with Temporal Variant Self-Supervision.” arXiv. [https://doi.org/10.48550/arXiv.2205.10431](https://doi.org/10.48550/arXiv.2205.10431).
+* Fang, Zhihao, Yuning Wu, Ammar Hassonjee, Ardavan Bidgoli, and Daniel Cardoso Llach. 2020. “Towards a Distributed, Robotically Assisted Construction Framework.” In Distributed Proximities. Online + Global.
 
 #### Doctoral Dissertations
 
