@@ -2,27 +2,6 @@
 
 ReAC is a research group at Carnegie Mellon’s Computational Design Laboratory investigating new ways of combining artificial intelligence and robotics techniques to support building construction. The group's focus is on advancing a vision for humane uses of automation in construction through the design and development of "robot in the loop" adaptive systems that enhance and interact with (rather than purporting to replace) human labor on site. Comprising faculty, graduate, and undergraduate students in the School of Architecture and Robotics Institute, the group is currently developing a software framework for robotically-assisted construction based on reinforcement learning methods, investigating human-machine interaction challenges specific to building contexts, and conducting qualitative studies at building sites and modular construction facilities. 
 
-Our current work involves:
-
-* Studying construction practices qualitatively in order to inform the design and development of robotic systems and directly involve builders and their concerns in their design;
-* Developing a reinforcement learning-based framework for social navigation allowing robots to safely move in construction sites; 
-* Engineering of a customized mobile ground robot uniquely suited for construction support.  
-
-<div align="center">
-    <img height=300px    src="./media/rscc/robot2.png">
-    <p style="font-size:12px"> The Fetch robot for prototyping </p>
-</div>
-
-<div align="center">
-    <img width="75%"    src="./media/rscc/architecture.png">
-    <p style="font-size:12px"> The system architecture </p>
-</div>
-
-<div align="center">
-    <img width="75%"    src="./media/rscc/navigation.png">
-    <p style="font-size:12px"> Collision avoidance navigation </p>
-</div>
-
 ## Publications
 
 The ReAC group has contributed to construction robotics, intelligent robotics, and architectural computing literature. Below is a list of selected peer reviewed articles published by the group. 
