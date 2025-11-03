@@ -8,7 +8,7 @@ The team is led by Professors [Daniel Cardoso Llach, Ph.D.](http://dcardo.com) (
 
 ## Publications
 
-The ReAC group has contributed to construction robotics, intelligent robotics, and architectural computing literature. Below is a list of selected peer reviewed articles published by the group. 
+The ReAC group contributes to construction robotics, intelligent robotics, and architectural computing literature. Below is a list of selected publications by the group. 
 
 #### Peer Reviewed Articles
 * Wu, Yuning, Emek Erdolu, Jiaying Wei, Jean Oh, and Daniel Cardoso Llach. 2024. “Robot in the Loop: A Human-Centered Approach to Contextualizing AI and Robotics in Construction.” Construction Robotics 9 (1): 1. https://doi.org/10.1007/s41693-024-00144-8.
