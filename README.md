@@ -2,7 +2,7 @@
 
 ReAC is a research group at Carnegie Mellon’s Computational Design Laboratory investigating new ways of combining artificial intelligence and robotics techniques to support building construction activities. The group’s aim is to advance a humane vision for automation in construction where machines are designed to adaptively support rather than replace or disrupt the work of construction workers. Through qualitative engagements with workers in construction sites and modular factories, and technical research into reinforcement learning and robotics, the group creates “robot in the loop” systems that enhance and interact safely and adaptively with on-site activities. The group comprises faculty, graduate, and undergraduate students in the schools of Architecture, Mechanical Engineering, and the Robotics Institute at Carnegie Mellon University. 
 
-The team is led by Professors [Daniel Cardoso Llach, Ph.D.](http://dcardo.com) (Architecture), and [Jean Oh, Ph.D.](https://www.cs.cmu.edu/~./jeanoh/), (Robotics Institute).
+The team is led by Professors [Daniel Cardoso Llach, Ph.D.](http://dcardo.com) (PI, Architecture), and [Jean Oh, Ph.D.](https://www.cs.cmu.edu/~./jeanoh/), (Co-PI, Robotics Institute).
 
 ## Publications
 
