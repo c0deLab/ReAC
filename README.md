@@ -12,6 +12,20 @@ The ReAC group has contributed to construction robotics, intelligent robotics, a
 * Wu, Yuning, Jieliang Luo, and Hui Li. 2022. “Learning Dense Reward with Temporal Variant Self-Supervision.” arXiv. https://doi.org/10.48550/arXiv.2205.10431.
 * Fang, Zhihao, Yuning Wu, Ammar Hassonjee, Ardavan Bidgoli, and Daniel Cardoso Llach. 2020. “Towards a Distributed, Robotically Assisted Construction Framework.” In Distributed Proximities. Online + Global. link to article.
 
+## Presentations
+
+* STS-Hub Berlin; Poster Session, March 13, 2025, Humboldt Universität, Berlin. Poster presentation by PI Daniel Cardoso Llach;
+* Institute for Computational Design and Construction, University of Stuttgart, January 29, 2025, Stuttgart. Cluster of excellence lecture by PI Daniel Cardoso Llach;
+* TCS Innovation Week; Presidential Fellowship Presentation June 6, 2023, Cornell-Tech Campus, New York City. Presentation by Yuning Wu;
+* Talk at the AIA Build PGH Meeting: April 26, 2023, Pittsburgh Convention Center. Presentation by PI Daniel Cardoso Llach;
+* Invited talk at the Collective Automation Symposium at New York Institute of Technology; April 26, 2023. Presentation by PI Daniel Cardoso Llach;
+* Taubman College of Architecture and Planning Doctoral Symposium Invited guest talk. University of Pennsylvania. March 17, 2023. Discussed ReAC effort among other ongoing and recent research projects. Presentation by PI Daniel Cardoso Llach;
+* MFI Technical Exchange, November 10, 2022. Carnegie Mellon University, Pittsburgh, PA. Presentation by PI Daniel Cardoso Llach;
+* Manufacturing Futures Initiative Meeting, Pittsburgh, PA, Spring 2022. Presentation by PI Daniel Cardoso Llach;
+* Design for Collaborative Robotic Environments symposium at the Center for Design at Northeastern University's College of Arts, Media and Design, alongside Keith Evan Green and Taskin Padir. The panel was convened and moderated by Kristian Kloeckl and introduced by Paolo Ciuccareli. April 21, 2022. Presentation by PI Daniel Cardoso Llach.
+* Manufacturing Futures Initiative Meeting, Pittsburgh, PA, Spring 2022. Presentation by PI Daniel Cardoso Llach;
+* Association for Computer Aided Design in Architecture, ACADIA, Virtual, 2020. Towards a Distributed, Robotically Assisted Construction Framework. In Distributed Proximities. Presentation by team member Ardavan Bidgoli.
+
 
 ## Reseach Team
 
