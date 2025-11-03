@@ -23,60 +23,40 @@ Our current work involves:
     <p style="font-size:12px"> Collision avoidance navigation </p>
 </div>
 
-
-### [Prior work](page/drone.md)
-
-Earlier efforts comprised the development of a framework for distributed robotically-assisted construction using reinforcement learning techniques to allow a variable number of drones to dynamically execute pick and place and spraycoating tasks. RL is a special genre of machine learning well suited to operate in changing environments. We tested the framework via simulations and started to refine a vision for computationally-supported construction processes.
-
-<div align="center">
-    <img width="50%"    src="./media/evaluation_20.gif">
-    <p style="font-size:12px"> Multi-agent collision avoidance with reinforcement learning </p>
-</div>
-
-<div align="center">
-    <img height=150px    src="./media/IMG_7156.jpg">
-    <img height=150px    src="./media/update.jpg">
-    <p style="font-size:12px"> The assembled drone with installed Raspberry Pi at CodeLab </p>
-</div> 
-
-<div  align="center">   
-  <img height=150px    src="./media/b&w1.gif">
-  <img height=150px    src="./media/b&w2.gif">
-  <p style="font-size:12px"> Assembly of fabricated bricks with magnets attached </p>
-</div>
-
-<!-- <div align="center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/oe1T1j5nVqM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div> -->
-
-[![Video thumbnail of multi-drone simulation](https://img.youtube.com/vi/oe1T1j5nVqM/0.jpg)](https://youtu.be/oe1T1j5nVqM)
-
 ## Publications
 
-Yuning Wu, Emek Erdolu, Jean Oh and Daniel Cardoso Llach. Re-Thinking Automation in Construction: Towards Robotically-Supported Cooperative Construction. (Association for Computer Aided Design in Architecture, ACADIA, 2022 under review); 
+The ReAC group has contributed to construction robotics, intelligent robotics, and architectural computing literature. Below is a list of selected peer reviewed articles published by the group. 
 
-Fang, Zhihao, Yuning Wu, Ammar Hassonjee, Ardavan Bidgoli, and Daniel Cardoso Llach. “Towards a Distributed, Robotically Assisted Construction Framework.” In Distributed Proximities (Association for Computer Aided Design in Architecture, ACADIA, Virtual, 2020). 
+* Wu, Yuning, Emek Erdolu, Jiaying Wei, Jean Oh, and Daniel Cardoso Llach. 2024. “Robot in the Loop: A Human-Centered Approach to Contextualizing AI and Robotics in Construction.” Construction Robotics 9 (1): 1. https://doi.org/10.1007/s41693-024-00144-8.
+* Wu, Yuning, Jiaying Wei, Jean Oh, and Daniel Cardoso Llach. 2024. “Towards Human-Centered Construction Robotics: A Reinforcement Learning-Driven Companion Robot for Contextually Assisting Carpentry Workers.” In 2024 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), 90–97. https://doi.org/10.1109/IROS58592.2024.10802698.
+* Stoler, Benjamin, Meghdeep Jana, Soonmin Hwang, and Jean Oh. 2023. “T2FPV: Dataset and Method for Correcting First-Person View Errors in Pedestrian Trajectory Prediction.” In 2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS), 4037–44. https://doi.org/10.1109/IROS55552.2023.10341874.
+* Wu, Yuning, Jieliang Luo, and Hui Li. 2022. “Learning Dense Reward with Temporal Variant Self-Supervision.” arXiv. https://doi.org/10.48550/arXiv.2205.10431.
+* Fang, Zhihao, Yuning Wu, Ammar Hassonjee, Ardavan Bidgoli, and Daniel Cardoso Llach. 2020. “Towards a Distributed, Robotically Assisted Construction Framework.” In Distributed Proximities. Online + Global. link to article.
 
-Wu, Yuning, Jieliang Luo, and Hui Li. "Learning Dense Reward with Temporal Variant Self-Supervision." arXiv preprint arXiv:2205.10431 (2022). 
 
 ## Reseach Team
 
 * [Daniel Cardoso Llach, Ph.D.](http://dcardo.com), Associate Professor, School of Architecture, Carnegie Mellon University (PI);
 * [Jean Oh, Ph.D.](https://www.cs.cmu.edu/~./jeanoh/), Senior Systems Scientist, Robotics Institute, Carnegie Mellon University (Co-PI);
-* [Yuning Wu](https://ice-5.github.io), Ph.D. Student, Computational Design / M.S., Machine Learning;
-* Emek Erdolu, Ph.D. Candidate, School of Architecture, Computational Design;
-* Jiaying Li, M.S. Candidate, School of Architecture, Computational Design;
-* Abhishek Singh, Masters of Information Systems Candidate, School of Engineering;
-* Yuchen Liu, M.S. Candidate, School of Architecture, Computational Design. 
+
+
+## Faculty Collaborators
+
+* Dina El Zanfaly, Assistant Professor, School of Design, Carnegie Mellon University 
 
 
 ## Alumni
 
-* [Zhihao Fang](https://github.com/SakuraiSatoru), M.S., Computational Design.
-* [Ardavan Bidgoli](https://www.ardavan.io/), Ph.D. Candidate, Computational Design. 
+* [Yuning Wu](https://ice-5.github.io), Ph.D. 2024, Computational Design / M.S., Machine Learning;
+* Emek Erdolu, Ph.D. 2024, School of Architecture, Computational Design;
+* Jiaying Wei, Ph.D. Candidate, School of Architecture, Computational Design;
+* Abhishek Singh, Masters of Information Systems Candidate, School of Engineering;
+* Yuchen Liu, M.S. Candidate, School of Architecture, Computational Design. 
+* [Zhihao Fang](https://github.com/SakuraiSatoru), M.S. 2022, Computational Design.
+* [Ardavan Bidgoli](https://www.ardavan.io/), Ph.D. 2023, Computational Design. 
 * [Ammar Hassonjee](https://github.com/ahassonj), B.Arch. Student.
-* Willa Yang M.S. Student, Computational Design.
-* Yanwen Dong, M.S. Student, Computational Design.
+* Willa Yang M.S. Computational Design 2023.
+* Yanwen Dong, M.S. Computational Design 2023.
 
 ## Industry Partners
 
@@ -88,6 +68,7 @@ Wu, Yuning, Jieliang Luo, and Hui Li. "Learning Dense Reward with Temporal Varia
 * Manufacturing Futures Initiative (2022-2023);
 * Pennsylvania Agency for Economic Development - PAMIP (2021-2022);
 * Google's Artist + Machine Intelligence Program (2021-2022).
+* Autodesk
 
 
 
