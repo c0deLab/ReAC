@@ -46,7 +46,7 @@ The ReAC group contributes to construction robotics, intelligent robotics, and a
 ## Team
 
 * [Daniel Cardoso Llach, Ph.D.](http://dcardo.com), Associate Professor, School of Architecture, Carnegie Mellon University (PI);
-* [Jean Oh, Ph.D.](https://www.cs.cmu.edu/~./jeanoh/), Senior Systems Scientist, Robotics Institute, Carnegie Mellon University (Co-PI);
+* [Jean Oh, Ph.D.](https://www.cs.cmu.edu/~./jeanoh/), Associate Research Professor, Robotics Institute, Carnegie Mellon University (Co-PI);
 
 #### Graduate Students (including alumni)
 
